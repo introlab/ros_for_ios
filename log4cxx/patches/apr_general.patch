@@ -1,0 +1,4 @@
+79c79
+< #if defined(CRAY) || (defined(__arm) && !defined(LINUX))
+---
+> #if defined(CRAY) || (defined(__arm) && !(defined(LINUX) || defined(__APPLE__)))

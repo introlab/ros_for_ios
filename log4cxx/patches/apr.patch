@@ -1,0 +1,12 @@
+334c334
+< #ifdef DARWIN_10
+---
+> #ifdef __APPLE__
+540c540
+< #ifdef DARWIN_10
+---
+> #ifdef __APPLE__
+572c572
+< #endif /* DARWIN_10 */
+---
+> #endif /* __APPLE__ */

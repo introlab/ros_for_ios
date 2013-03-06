@@ -1,0 +1,4 @@
+15c15
+< #ifdef HAVE_EXPAT_CONFIG_H
+---
+> #if defined(HAVE_EXPAT_CONFIG_H) || defined(__APPLE__)

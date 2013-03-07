@@ -2,10 +2,6 @@
 
 #===============================================================================
 
-: ${IPHONE_SDKVERSION:=6.0}
-: ${OSX_SDKVERSION:=10.8}
-: ${XCODE_ROOT:=`xcode-select -print-path`}
-
 : ${APR:="apr-1.4.6"}
 : ${APR_UTIL:="apr-util-1.5.1"}
 : ${LOG4CXX:="apache-log4cxx-0.10.0"}
@@ -17,15 +13,19 @@
 : ${SIMULATOR_BUILDDIR=`pwd`/iPhoneSimulator_build}
 
 #===============================================================================
+curl http://mirror.csclub.uwaterloo.ca/apache//apr/$APR.tar.gz -o ./$APR.tar.gz
+curl http://mirror.csclub.uwaterloo.ca/apache//apr/$APR_UTIL.tar.gz -o ./$APR_UTIL.tar.gz
+curl http://mirror.csclub.uwaterloo.ca/apache/logging/log4cxx/0.10.0/$LOG4CXX.tar.gz -o ./$LOG4CXX.tar.gz
+
 echo "Extracting ..."
 
 [[ -d $APR ]] && rm -rf $APR
 [[ -d $APR_UTIL ]] && rm -rf $APR_UTIL
 [[ -d $LOG4CXX ]] && rm -rf $LOG4CXX
 
-tar xvf $APR.tar
-tar xvf $APR_UTIL.tar
-tar xvf $LOG4CXX.tar
+tar xvzf $APR.tar.gz
+tar xvzf $APR_UTIL.tar.gz
+tar xvzf $LOG4CXX.tar.gz
 
 #===============================================================================
 echo "Configuring ..."

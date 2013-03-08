@@ -1,0 +1,12 @@
+29c29
+< #include "rospack/rospack.h"
+---
+> //#include "rospack/rospack.h"
+49c49
+<   boost::mutex::scoped_lock lock(librospack_mutex);
+---
+>   /*boost::mutex::scoped_lock lock(librospack_mutex);
+67c67
+<   }
+---
+>   }*/

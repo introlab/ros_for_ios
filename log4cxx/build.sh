@@ -79,6 +79,7 @@ add_library($LOG4CXX STATIC
 $(find ./$APR -name \*.c | grep -v 'test' | grep 'unix\|tables\|string\|passwd')
 
 $(find ./$APR_UTIL -name \*.c ! -name xmltok_impl.c ! -name xmltok_ns.c | grep -v 'test')
+
 $(find ./$LOG4CXX -name \*.cpp | grep -v 'test' | grep -v 'examples')
 )
 EOF

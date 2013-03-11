@@ -23,7 +23,7 @@ The script will download the latest version of Boost for your iOS SDK.
 
 ```
 git://gitorious.org/~galbraithjoseph/boostoniphone/galbraithjosephs-boostoniphone.git
-OR
+or
 git://gitorious.org/~d16/boostoniphone/d16s-boost-iphone.git
 Run the script boost.sh
 ```
@@ -109,5 +109,5 @@ The second one allows the visualization of the images coming from the Kinect
 camera (RGB, depth and disparity).
 
 IntRolab
-http;//introlab.3it.usherbrooke.ca
+http://introlab.3it.usherbrooke.ca
 Université de Sherbrooke, Québec, Canada

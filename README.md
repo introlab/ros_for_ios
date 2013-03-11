@@ -72,7 +72,7 @@ Main package
         on iOS)
 
 The headers of the common messages are put into a specific framework. By this
-way, they can be added with an usual include (#include <package/header.h>).
+way, they can be added with an usual include `#include <package/header.h>`.
 In order to generate these frameworks you need a valid install of ROS on your
 computer (the header are copied from the installation directory).
 
@@ -108,3 +108,6 @@ making a request (service).
 The second one allows the visualization of the images coming from the Kinect
 camera (RGB, depth and disparity).
 
+IntRolab
+http;//introlab.3it.usherbrooke.ca
+Université de Sherbrooke, Québec, Canada

@@ -14,23 +14,27 @@ ROS base system depends of two main libraries :
 External libraries
 ------------------
 
-*The first step before build the ROS tree is to get an iOS framework of these
-two libraries*
+**The first step before build the ROS tree is to get an iOS framework of these
+two libraries**
 
 * Boost is already available for iOS :
 The script will download the latest version of Boost for your iOS SDK.
 (To configure the script set BOOST_LIBS, IPHONE_SDKVERSION and OSX_SDKVERSION)
+
+```
+git://gitorious.org/~galbraithjoseph/boostoniphone/galbraithjosephs-boostoniphone.git
+OR
+git://gitorious.org/~d16/boostoniphone/d16s-boost-iphone.git
+```
  
-	git://gitorious.org/~galbraithjoseph/boostoniphone/galbraithjosephs-boostoniphone.git
-	OR
-	git://gitorious.org/~d16/boostoniphone/d16s-boost-iphone.git
-   
 * log4cxx is not available for iOS and depends of the APR library (Apache
 runtime library), and more precisely apr and apr-utils.
 
-	git clone https://github.com/Ronan0912/ros_for_ios.git
-	Move to the "log4cxx" directory
-	Run the script build.sh
+```
+git clone https://github.com/Ronan0912/ros_for_ios.git
+Move to the "log4cxx" directory
+Run the script build.sh
+```
 
 An log4cxx.framework is now available for the ios arm7, arm7s and simulator in
 the directory where you had run the script.
@@ -38,7 +42,7 @@ the directory where you had run the script.
 ROS
 ---
 
-*The catkin build system available with the ROS groovy release is not used*
+**The catkin build system available with the ROS groovy release is not used**
 
 Here is the principal parts that has been built (for arm7, arm7s and i386
 simulator) from the sources available on the ROS GitHub 
@@ -81,9 +85,11 @@ computer (the header are copied from the installation directory).
 	- sensor_msgs
 	- ... the one you need ...
 
-	git clone https://github.com/Ronan0912/ros_for_ios.git
-	Move to the "ros" directory
-	Run the script build.sh
+```
+git clone https://github.com/Ronan0912/ros_for_ios.git
+Move to the "ros" directory
+Run the script build.sh
+```
 
 iOS demo applications
 ---------------------

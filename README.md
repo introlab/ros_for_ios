@@ -25,6 +25,7 @@ The script will download the latest version of Boost for your iOS SDK.
 git://gitorious.org/~galbraithjoseph/boostoniphone/galbraithjosephs-boostoniphone.git
 OR
 git://gitorious.org/~d16/boostoniphone/d16s-boost-iphone.git
+Run the script boost.sh
 ```
  
 * log4cxx is not available for iOS and depends of the APR library (Apache
@@ -86,7 +87,7 @@ computer (the header are copied from the installation directory).
 	- ... the one you need ...
 
 ```
-git clone https://github.com/Ronan0912/ros_for_ios.git
+Move the boost framework in the ros_for_ios directory (with log4cxx.framework)
 Move to the "ros" directory
 Run the script build.sh
 ```

@@ -114,7 +114,7 @@ FILES=$SRCDIR/ros_comm/clients/roscpp/srv/*
 for f in $FILES
     do
         python $SRCDIR/gencpp/scripts/gen_cpp.py $f -Iroscpp:$SRCDIR/ros_comm/clients/roscpp/msg/ -Istd_msgs:$SRCDIR/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/gencpp/scripts/
-    done
+done
 
 echo "- std_msgs -"
 
@@ -123,7 +123,7 @@ FILES=$SRCDIR/std_msgs/msg/*
 for f in $FILES
     do
         python $SRCDIR/gencpp/scripts/gen_cpp.py $f -Istd_msgs:$SRCDIR/std_msgs/msg/ -p std_msgs -o $SRCDIR/std_msgs -e $SRCDIR/gencpp/scripts/
-    done
+done
 
 #===============================================================================
 echo "Generating CMakeLists.txt ..."
@@ -131,8 +131,7 @@ echo "Generating CMakeLists.txt ..."
 cat > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 2.8.0)
 
-set (CMAKE_SYSTEM_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH}
-	$SRCDIR)
+set (CMAKE_SYSTEM_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH} $SRCDIR/../)
 	
 project(ros_for_ios)
 
@@ -254,7 +253,7 @@ FRAMEWORK_VERSION=A
 FRAMEWORK_CURRENT_VERSION=1.0
 FRAMEWORK_COMPATIBILITY_VERSION=1.0
 
-FRAMEWORK_BUNDLE=$SRCDIR/$FRAMEWORK_NAME.framework
+FRAMEWORK_BUNDLE=$SRCDIR/../$FRAMEWORK_NAME.framework
 echo "Framework: Building $FRAMEWORK_BUNDLE ..."
 
 [[ -d $FRAMEWORK_BUNDLE ]] && rm -rf $FRAMEWORK_BUNDLE

@@ -25,7 +25,7 @@ EOF
 if [ $SOURCES_FILES_SIZE -ne 0 ]
     then
         cat >> $PACKAGE_NAME.cmake <<EOF
-add_library($2 STATIC
+add_library($PACKAGE_NAME STATIC
 $SOURCE_FILES
 )
 

@@ -14,24 +14,22 @@ ROS base system depends of two main libraries :
 External libraries
 ------------------
 
-!! The first step before build the ROS tree is to get an iOS framework of these
-two libraries !!
+*The first step before build the ROS tree is to get an iOS framework of these
+two libraries*
 
 * Boost is already available for iOS :
 The script will download the latest version of Boost for your iOS SDK.
 (To configure the script set BOOST_LIBS, IPHONE_SDKVERSION and OSX_SDKVERSION)
  
-	- git://gitorious.org/~galbraithjoseph/boostoniphone/galbraithjosephs-boostoniphone.git
+	git://gitorious.org/~galbraithjoseph/boostoniphone/galbraithjosephs-boostoniphone.git
 	OR
-	- git://gitorious.org/~d16/boostoniphone/d16s-boost-iphone.git
+	git://gitorious.org/~d16/boostoniphone/d16s-boost-iphone.git
    
 * log4cxx is not available for iOS and depends of the APR library (Apache
 runtime library), and more precisely apr and apr-utils.
 
 	git clone https://github.com/Ronan0912/ros_for_ios.git
-    
-	Move to log4cxx directory
-
+	Move to the "log4cxx" directory
 	Run the script build.sh
 
 An log4cxx.framework is now available for the ios arm7, arm7s and simulator in
@@ -40,7 +38,7 @@ the directory where you had run the script.
 ROS
 ---
 
-!! The catkin build system available with the ROS groovy release is not used !!
+*The catkin build system available with the ROS groovy release is not used*
 
 Here is the principal parts that has been built (for arm7, arm7s and i386
 simulator) from the sources available on the ROS GitHub 
@@ -49,23 +47,22 @@ simulator) from the sources available on the ROS GitHub
 * roscpp_core (https://github.com/ros/roscpp_core.git) :
 roscpp_core is an underlying library for support roscpp message data types. It is a 
 lightweight/minimal library that can easily be used in non-ROS-based projects.
- 
 	- roscpp_core/cpp_common
 	- roscpp_core/roscpp_serialization
 	- roscpp_core/roscpp_traits
 	- roscpp_core/ros_time
 
+
 * ros_comm (https://github.com/ros/ros_comm.git) :
 ROS communications-related packages, including core client libraries (roscpp, rospy,
 roslisp) and graph introspection tools (rostopic, rosnode, rosservice, rosparam).
-  
     - ros_comm/utilities/xmlrpcpp (Xml-RCP modifiied for ROS)
     - ros_comm/client/roscpp
     - ros_comm/tools/rosconsole
 
+
 * ros (https://github.com/ros/ros.git)
 Main package
-
     - ros/roslib (removal of the rospack dependancy because no Python support
         on iOS)
 
@@ -74,21 +71,19 @@ way, they can be added with an usual include (#include <package/header.h>).
 In order to generate these frameworks you need a valid install of ROS on your
 computer (the header are copied from the installation directory).
 
-- rosgraph_msgs
-- std_srvs
-- roscpp 
-- std_msgs
-- common_msgs :
+- rosgraph_msgs (included in ros_comm/messages/rosgraph_msgs/)
+- std_srvs (included in ros_comm/messages/std_srvs/)
+- roscpp (included in ros_comm/clients/roscpp/)
+- std_msgs (https://github.com/ros/std_msgs.git)
+- common_msgs (https://github.com/ros/common_msgs.git) :
 	- nav_msgs
 	- geometry_msgs
 	- sensor_msgs
 	- ... the one you need ...
 
 	git clone https://github.com/Ronan0912/ros_for_ios.git
-
-    Move to ros directory
-
-    Run the script build.sh
+	Move to the "ros" directory
+	Run the script build.sh
 
 iOS demo applications
 ---------------------

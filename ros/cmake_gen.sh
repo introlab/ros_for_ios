@@ -1,8 +1,10 @@
 #!/bin/sh -x
 
-[[ -f ./$2.cmake ]] && rm -f ./$2.cmake
+PACKAGE_NAME=`basename $1`
 
-SOURCE_FILES=$(find ./$1/$2/src -name \*.cpp)
+[[ -f $PACKAGE_NAME.cmake ]] && rm -f $PACKAGE_NAME.cmake
+
+SOURCE_FILES=$(find ./$1/src -name \*.cpp)
 
 if [[ $? -ne 0 ]]
     then
@@ -11,18 +13,18 @@ else
     SOURCES_FILES_SIZE=${#SOURCE_FILES[@]}
 fi
 
-cat > ./$2.cmake <<EOF
+cat > $PACKAGE_NAME.cmake <<EOF
 cmake_minimum_required(VERSION 2.8.0)
 
 include_directories(
-./$1/$2/include
+./$1/include
 )
 
 EOF
 
 if [ $SOURCES_FILES_SIZE -ne 0 ]
     then
-        cat >> ./$2.cmake <<EOF
+        cat >> $PACKAGE_NAME.cmake <<EOF
 add_library($2 STATIC
 $SOURCE_FILES
 )
@@ -32,10 +34,10 @@ EOF
         echo "Dependencies:"
         for ARG in $*
             do
-                if [ $ARG != $1 -a $ARG != $2 ]
+                if [ $ARG != $1 ]
                     then
                         echo $ARG
-                        cat >> ./$2.cmake <<EOF
+                        cat >> $PACKAGE_NAME.cmake <<EOF
 #find_library(FRAMEWORK_$ARG
 #    NAMES $ARG
 #    PATH_SUFFIXES Frameworks)

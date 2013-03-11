@@ -1,0 +1,10 @@
+31,34c31,34
+< namespace std
+< {
+< template<typename T> class allocator;
+< }
+---
+> //namespace std
+> //{
+> //template<typename T> class allocator;
+> //}

@@ -3,6 +3,9 @@
 #===============================================================================
 
 SRCDIR=`pwd`
+OS_BUILDDIR=$SRCDIR/iPhoneOS_build
+SIMULATOR_BUILDDIR=$SRCDIR/iPhoneSimulator_build
+
 ROS_BRANCH=groovy-devel
 
 #===============================================================================
@@ -17,31 +20,44 @@ echo "Cloning git repositories ..."
 #git clone -b $ROS_BRANCH https://github.com/ros/std_msgs.git
 #git clone -b $ROS_BRANCH https://github.com/ros/common_msgs.git
 
+#curl http://www.alcyone.com/software/empy/empy-latest.tar.gz -o ./empy.tar.gz
+
 #===============================================================================
 echo "Generating cmake submodules ..."
 
-#$SRCDIR/cmake_gen.sh roscpp_core cpp_common
-#$SRCDIR/cmake_gen.sh roscpp_core roscpp_serialization boost
-#$SRCDIR/cmake_gen.sh roscpp_core roscpp_traits boost
-#$SRCDIR/cmake_gen.sh roscpp_core rostime boost
+PACKAGES=("roscpp_core/cpp_common"
+        "roscpp_core/roscpp_serialization"
+        "roscpp_core/roscpp_traits"
+        "roscpp_core/rostime"
+        "ros_comm/utilities/xmlrpcpp"
+        "ros_comm/clients/roscpp"
+        "ros_comm/tools/rosconsole"
+        "ros/core/roslib")
 
-#$SRCDIR/cmake_gen.sh ros_comm/utilities xmlrpcpp 
-#$SRCDIR/cmake_gen.sh ros_comm/clients roscpp boost log4cxx
-#$SRCDIR/cmake_gen.sh ros_comm/tools rosconsole boost log4cxx
-
-#$SRCDIR/cmake_gen.sh ros/core roslib boost
+$SRCDIR/cmake_gen.sh ${PACKAGES[0]}
+$SRCDIR/cmake_gen.sh ${PACKAGES[1]} boost
+$SRCDIR/cmake_gen.sh ${PACKAGES[2]} boost
+$SRCDIR/cmake_gen.sh ${PACKAGES[3]} boost
+$SRCDIR/cmake_gen.sh ${PACKAGES[4]}
+$SRCDIR/cmake_gen.sh ${PACKAGES[5]} boost log4cxx
+$SRCDIR/cmake_gen.sh ${PACKAGES[6]} boost log4cxx
+$SRCDIR/cmake_gen.sh ${PACKAGES[7]} boost
 
 #===============================================================================
 echo "Patching ..."
 
-#patch $SRCDIR/ros/core/roslib/src/package.cpp patches/package.patch
+patch -N $SRCDIR/ros/core/roslib/src/package.cpp patches/package.patch
+patch -N $SRCDIR/roscpp_core/roscpp_traits/include/ros/message_forward.h patches/message_forward.patch
+patch -N $SRCDIR/ros_comm/utilities/xmlrpcpp/include/base64.h patches/base64.patch
 
 #===============================================================================
 echo "Setuping genmsg and gencpp ..."
 
 # www.alcyone.com/pyos/empy/ :
 # A powerful and robust templating system for Python.
-#
+
+[[ -d empy ]] && rm -rf empy
+tar xvf empy.tar.gz
 
 # genmsg
 
@@ -64,31 +80,47 @@ echo "Generating ROS messages ..."
 # -e /path/to/templates
 # Find empy templates in this directory
 
+echo "- rosgraph_msgs -"
+
 [ ! -d $SRCDIR/rosgraph_msgs ] && mkdir $SRCDIR/rosgraph_msgs
-python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/rosgraph_msgs/msg/Clock.msg -p rosgraph_msgs -o $SRCDIR/rosgraph_msgs -e $SRCDIR/gencpp/scripts/
-	
+
+python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/rosgraph_msgs/msg/Clock.msg -p rosgraph_msgs -o $SRCDIR/rosgraph_msgs -e $SRCDIR/gencpp/scripts/	
 python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/rosgraph_msgs/msg/Log.msg -Istd_msgs:$SRCDIR/std_msgs/msg/ -p rosgraph_msgs -o $SRCDIR/rosgraph_msgs -e $SRCDIR/gencpp/scripts/
-	
+
+echo "- std_srvs -"
+
 [ ! -d $SRCDIR/std_srvs ] && mkdir $SRCDIR/std_srvs
 python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/std_srvs/srv/Empty.srv -p std_srvs -o $SRCDIR/std_srvs -e $SRCDIR/gencpp/scripts/
 
+echo "- roscpp -"
+
 [ ! -d $SRCDIR/roscpp ] && mkdir $SRCDIR/roscpp
-python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/clients/roscpp/msg/Logger.msg -Istd_msgs:$SRCDIR/std_msgs/msg/ -p roscpp -o $SRCDIR/rosgraph_msgs -e $SRCDIR/gencpp/scripts/
-python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/clients/roscpp/srv/Empty.srv -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/gencpp/scripts/
-python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/clients/roscpp/srv/GetLoggers.srv -Iroscpp:$SRCDIR/ros_comm/clients/roscpp/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/gencpp/scripts/
-python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/clients/roscpp/srv/SetLoggerLevel.srv -Istd_msgs:$SRCDIR/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/gencpp/scripts/
+python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/clients/roscpp/msg/Logger.msg -Istd_msgs:$SRCDIR/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/gencpp/scripts/
+
+FILES=$SRCDIR/ros_comm/clients/roscpp/srv/*
+
+for f in $FILES
+    do
+        python $SRCDIR/gencpp/scripts/gen_cpp.py $f -Iroscpp:$SRCDIR/ros_comm/clients/roscpp/msg/ -Istd_msgs:$SRCDIR/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/gencpp/scripts/
+    done
+
+echo "- std_msgs -"
+
+FILES=$SRCDIR/std_msgs/msg/*
+
+for f in $FILES
+    do
+        python $SRCDIR/gencpp/scripts/gen_cpp.py $f -Istd_msgs:$SRCDIR/std_msgs/msg/ -p std_msgs -o $SRCDIR/std_msgs -e $SRCDIR/gencpp/scripts/
+    done
 
 #===============================================================================
 echo "Generating CMakeLists.txt ..."
 
-cat > ./CMakeLists.txt <<EOF
+cat > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 2.8.0)
 
-set(CMAKE_TOOLCHAIN_FILE 
-	\${CMAKE_CURRENT_SOURCE_DIR}/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake)
-
-#set (CMAKE_SYSTEM_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH}
-#	/Users/Ronan/Documents/Xcode_workspace/frameworks)
+set (CMAKE_SYSTEM_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH}
+	$SRCDIR)
 	
 project(ros_for_ios)
 
@@ -96,10 +128,10 @@ include(CheckIncludeFile)
 include(CheckFunctionExists)
 include(CheckCXXSourceCompiles)
 
+# for the ros messages
 include_directories(\${CMAKE_CURRENT_SOURCE_DIR})
 
 # cpp_common
-
 # execinfo.h is needed for backtrace on glibc systems
 CHECK_INCLUDE_FILE(execinfo.h HAVE_EXECINFO_H)
 if(HAVE_EXECINFO_H)
@@ -116,22 +148,7 @@ if(HAVE_GLIBC_BACKTRACE)
   add_definitions(-DHAVE_GLIBC_BACKTRACE)
 endif(HAVE_GLIBC_BACKTRACE)
 
-include(cpp_common.cmake)
-
-# roscpp_serialization
-include(roscpp_serialization.cmake)
-
-# roscpp_traits
-include(roscpp_traits.cmake)
-
-# rostime
-include(rostime.cmake)
-
-# xmlrpcpp
-include(xmlrpcpp.cmake)
-
 # roscpp
-
 set(roscpp_VERSION 1.0.41)
 # split version in parts and pass to extra file
 string(REPLACE "." ";" roscpp_VERSION_LIST "\${roscpp_VERSION}")
@@ -151,11 +168,143 @@ configure_file(\${CMAKE_CURRENT_SOURCE_DIR}/ros_comm/clients/roscpp/include/ros/
 configure_file(\${CMAKE_CURRENT_SOURCE_DIR}/ros_comm/clients/roscpp/src/libros/config.h.in
 	\${CMAKE_CURRENT_SOURCE_DIR}/ros_comm/clients/roscpp/src/libros/config.h)
 
-include(roscpp.cmake)
-
-# rosconsole
-include(rosconsole.cmake)
-
-# roslib
-include(roslib.cmake)
 EOF
+
+for package in ${PACKAGES[@]}
+    do
+        PACKAGE_NAME=`basename $package`
+        cat >> CMakeLists.txt <<EOF
+include($PACKAGE_NAME.cmake)
+
+EOF
+done
+
+#===============================================================================
+echo "Building ..."
+
+#[[ -d $OS_BUILDDIR ]] && rm -rf $OS_BUILDDIR
+#[[ -d $SIMULATOR_BUILDDIR ]] && rm -rf $SIMULATOR_BUILDDIR
+
+#mkdir $OS_BUILDDIR
+#mkdir $SIMULATOR_BUILDDIR
+
+#cd $OS_BUILDDIR
+
+#cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenOS -GXcode ..
+
+#xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD
+
+#cd $SIMULATOR_BUILDDIR
+
+#cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenSimulator -GXcode ..
+
+#xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
+
+#===============================================================================
+echo "Scrunch all libs together in one lib per platform ..."
+
+mkdir -p $OS_BUILDDIR/armv7/obj
+mkdir -p $SIMULATOR_BUILDDIR/i386/obj
+
+echo "Splitting all existing fat binaries..."
+
+for f in $OS_BUILDDIR/Release-iphoneos/*.a
+    do
+        lipo "$f" -thin armv7 -o $OS_BUILDDIR/armv7/$(basename "$f")
+done
+
+cp $SIMULATOR_BUILDDIR/Release-iphonesimulator/*.a $SIMULATOR_BUILDDIR/i386/
+
+echo "Decomposing each architecture's .a files"
+
+for f in $OS_BUILDDIR/armv7/*.a
+    do
+        (cd $OS_BUILDDIR/armv7/obj; ar -x $f);
+done
+
+for f in $SIMULATOR_BUILDDIR/i386/*.a
+    do
+        (cd $SIMULATOR_BUILDDIR/i386/obj; ar -x $f);
+done
+
+echo "Linking each architecture into an uberlib (libros.a) ..."
+
+(cd $OS_BUILDDIR/armv7/; ar crus libros.a obj/*.o; )
+(cd $SIMULATOR_BUILDDIR/i386/; ar crus libros.a obj/*.o; )
+
+#===============================================================================
+cd $SRCDIR
+
+VERSION_TYPE=Alpha
+FRAMEWORK_NAME=ros
+FRAMEWORK_VERSION=A
+
+FRAMEWORK_CURRENT_VERSION=1.0
+FRAMEWORK_COMPATIBILITY_VERSION=1.0
+
+FRAMEWORK_BUNDLE=$SRCDIR/$FRAMEWORK_NAME.framework
+echo "Framework: Building $FRAMEWORK_BUNDLE ..."
+
+[[ -d $FRAMEWORK_BUNDLE ]] && rm -rf $FRAMEWORK_BUNDLE
+
+echo "Framework: Setting up directories..."
+mkdir -p $FRAMEWORK_BUNDLE
+mkdir -p $FRAMEWORK_BUNDLE/Versions
+mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION
+mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Resources
+mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Headers
+mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Documentation
+
+echo "Framework: Creating symlinks..."
+ln -s $FRAMEWORK_VERSION               $FRAMEWORK_BUNDLE/Versions/Current
+ln -s Versions/Current/Headers         $FRAMEWORK_BUNDLE/Headers
+ln -s Versions/Current/Resources       $FRAMEWORK_BUNDLE/Resources
+ln -s Versions/Current/Documentation   $FRAMEWORK_BUNDLE/Documentation
+ln -s Versions/Current/$FRAMEWORK_NAME $FRAMEWORK_BUNDLE/$FRAMEWORK_NAME
+
+FRAMEWORK_INSTALL_NAME=$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME
+
+echo "Lipoing library into $FRAMEWORK_INSTALL_NAME..."
+lipo -create $OS_BUILDDIR/armv7/libros.a $SIMULATOR_BUILDDIR/i386/libros.a -o $FRAMEWORK_INSTALL_NAME
+
+echo "Framework: Copying includes..."
+
+# main packages
+for package in ${PACKAGES[@]}
+    do
+        find $SRCDIR/$package/include -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+done
+
+# for the ros messages
+find $SRCDIR/std_srvs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+find $SRCDIR/rosgraph_msgs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+find $SRCDIR/roscpp -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+find $SRCDIR/std_msgs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+
+echo "Framework: Creating plist..."
+
+cat > $FRAMEWORK_BUNDLE/Resources/Info.plist <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>CFBundleDevelopmentRegion</key>
+<string>English</string>
+<key>CFBundleExecutable</key>
+<string>${FRAMEWORK_NAME}</string>
+<key>CFBundleIdentifier</key>
+<string>org.boost</string>
+<key>CFBundleInfoDictionaryVersion</key>
+<string>6.0</string>
+<key>CFBundlePackageType</key>
+<string>FMWK</string>
+<key>CFBundleSignature</key>
+<string>????</string>
+<key>CFBundleVersion</key>
+<string>${FRAMEWORK_CURRENT_VERSION}</string>
+</dict>
+</plist>
+EOF
+
+echo "Done !"
+

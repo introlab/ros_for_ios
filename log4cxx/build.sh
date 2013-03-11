@@ -45,9 +45,9 @@ cd $SRCDIR/$LOG4CXX
 #===============================================================================
 echo "Patching ..."
 
-patch $SRCDIR/$APR/include/apr_general.h $SRCDIR/patches/apr_general.patch
-patch $SRCDIR/$APR/include/apr.h $SRCDIR/patches/apr.patch
-patch $SRCDIR/$APR_UTIL/xml/expat/lib/xmlparse.c $SRCDIR/patches/xmlparse.patch
+patch -N $SRCDIR/$APR/include/apr_general.h $SRCDIR/patches/apr_general.patch
+patch -N $SRCDIR/$APR/include/apr.h $SRCDIR/patches/apr.patch
+patch -N $SRCDIR/$APR_UTIL/xml/expat/lib/xmlparse.c $SRCDIR/patches/xmlparse.patch
 
 #===============================================================================
 echo "Generating CMakeLists.txt ..."
@@ -56,7 +56,7 @@ cd $SRCDIR
 
 [[ -f CMakeLists.txt ]] && rm -f CMakeLists.txt
 
-cat > ./CMakeLists.txt <<EOF
+cat > CMakeLists.txt <<EOF
 
 cmake_minimum_required(VERSION 2.8.0)
 
@@ -97,15 +97,15 @@ cd $OS_BUILDDIR
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoenOS -GXcode ..
 
-codebuild -sdk iphoneos -configuration Release -target ALL_BUILD
-xcodebuild -sdk iphoneos -configuration Release -target $LOG4CXX install
+xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD
+#xcodebuild -sdk iphoneos -configuration Release -target $LOG4CXX install
 
 cd $SIMULATOR_BUILDDIR
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoenSimulator -GXcode ..
 
-codebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
-xcodebuild -sdk iphonesimulator -configuration Release -target $LOG4CXX install
+xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
+#xcodebuild -sdk iphonesimulator -configuration Release -target $LOG4CXX install
 
 #===============================================================================
 cd $SRCDIR
@@ -145,8 +145,8 @@ lipo -create $OS_BUILDDIR/Release-iphoneos/lib$LOG4CXX.a $SIMULATOR_BUILDDIR/Rel
 echo "Framework: Copying includes..."
 
 find ./$APR/include/arch/unix -maxdepth 1 -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
-find ./$APR/include/arch/ -maxdepth 1 -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
-find ./$APR/include/ -maxdepth 1 -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+find ./$APR/include/arch -maxdepth 1 -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+find ./$APR/include -maxdepth 1 -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
 find ./$APR_UTIL/include -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
 find ./$APR_UTIL/xml -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
 find ./$LOG4CXX/src/main/include -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;

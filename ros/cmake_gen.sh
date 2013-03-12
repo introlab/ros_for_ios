@@ -31,23 +31,23 @@ $SOURCE_FILES
 
 EOF
 
-        echo "Dependencies:"
         for ARG in $*
             do
                 if [ $ARG != $1 ]
                     then
-                        echo $ARG
                         cat >> $PACKAGE_NAME.cmake <<EOF
-#find_library(FRAMEWORK_$ARG
-#    NAMES $ARG
-#    PATH_SUFFIXES Frameworks)
+find_library(FRAMEWORK_$ARG
+    NAMES $ARG
+    PATHS \${CMAKE_SYSTEM_FRAMEWORK_PATH}
+    PATH_SUFFIXES Frameworks
+    NO_DEFAULT_PATH)
 
-#    if(\${FRAMEWORK_$ARG} STREQUAL FRAMEWORK_$ARG-NOTFOUND)
-#        message(ERROR ": Framework $ARG not found")
-#    else()
-#        target_link_libraries($2 "\${FRAMEWORK_$ARG}/$ARG")
-#        message(STATUS "Framework $ARG found at \${FRAMEWORK_$ARG}")
-#    endif()
+    if(\${FRAMEWORK_$ARG} STREQUAL FRAMEWORK_$ARG-NOTFOUND)
+        message(ERROR ": Framework $ARG not found")
+    else()
+        target_link_libraries($2 "\${FRAMEWORK_$ARG}/$ARG")
+        message(STATUS "Framework $ARG found at \${FRAMEWORK_$ARG}")
+    endif()
     
 EOF
                 fi

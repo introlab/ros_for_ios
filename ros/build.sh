@@ -129,7 +129,7 @@ echo "Generating CMakeLists.txt ..."
 cat > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 2.8.0)
 
-#set (CMAKE_SYSTEM_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH} $SRCDIR/../)
+set (CMAKE_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH} $SRCDIR)
 
 project(ros_for_ios)
 
@@ -281,16 +281,20 @@ echo "Framework: Copying includes..."
 # main packages
 for package in ${PACKAGES[@]}
     do
-        find $SRCDIR/$package/include -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+        cp -r $SRCDIR/$package/include/* $FRAMEWORK_BUNDLE/Headers
 done
 
 # for the ros messages
-find $SRCDIR/std_srvs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
-find $SRCDIR/rosgraph_msgs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
-find $SRCDIR/roscpp -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+mkdir $FRAMEWORK_BUNDLE/Headers/std_srvs
+find $SRCDIR/std_srvs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/std_srvs \;
+mkdir $FRAMEWORK_BUNDLE/Headers/rosgraph_msgs
+find $SRCDIR/rosgraph_msgs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/rosgraph_msgs \;
+mkdir $FRAMEWORK_BUNDLE/Headers/roscpp
+find $SRCDIR/roscpp -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/roscpp \;
 
 #TODO : speciic framework
-find $SRCDIR/std_msgs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+mkdir $FRAMEWORK_BUNDLE/Headers/std_msgs
+find $SRCDIR/std_msgs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/std_msgs \;
 
 echo "Framework: Creating plist..."
 

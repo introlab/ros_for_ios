@@ -37,20 +37,18 @@ EOF
                     then
                         cat >> $PACKAGE_NAME.cmake <<EOF
 
-#find_library(FRAMEWORK_$ARG
-#    NAMES $ARG
-#    PATHS \${CMAKE_SYSTEM_FRAMEWORK_PATH}
-#    PATH_SUFFIXES Frameworks
-#    NO_DEFAULT_PATH)
+find_library(FRAMEWORK_$ARG
+    NAMES $ARG
+    PATHS \${CMAKE_FRAMEWORK_PATH}
+    PATH_SUFFIXES Frameworks
+    NO_CMAKE_FIND_ROOT_PATH)
 
-#    if(\${FRAMEWORK_$ARG} STREQUAL FRAMEWORK_$ARG-NOTFOUND)
-#        message(ERROR ": Framework $ARG not found")
-#    else()
-#        target_link_libraries($2 "\${FRAMEWORK_$ARG}/$ARG")
-#        message(STATUS "Framework $ARG found at \${FRAMEWORK_$ARG}")
-#    endif()
-
-#set(CMAKE_EXE_LINKER_FLAGS \${CMAKE_EXE_LINKER_FLAGS} "-framework $ARG")
+    if(\${FRAMEWORK_$ARG} STREQUAL FRAMEWORK_$ARG-NOTFOUND)
+        message(ERROR ": Framework $ARG not found")
+    else()
+        include_directories(\${FRAMEWORK_$ARG})
+        message(STATUS "Framework $ARG found at \${FRAMEWORK_$ARG}")
+    endif()
 
 EOF
                 fi

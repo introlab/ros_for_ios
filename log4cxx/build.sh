@@ -117,7 +117,7 @@ FRAMEWORK_VERSION=A
 FRAMEWORK_CURRENT_VERSION=$LOG4CXX
 FRAMEWORK_COMPATIBILITY_VERSION=$LOG4CXX
 
-FRAMEWORK_BUNDLE=$SRCDIR/../$FRAMEWORK_NAME.framework
+FRAMEWORK_BUNDLE=$SRCDIR/$FRAMEWORK_NAME.framework
 echo "Framework: Building $FRAMEWORK_BUNDLE ..."
 
 [[ -d $FRAMEWORK_BUNDLE ]] && rm -rf $FRAMEWORK_BUNDLE
@@ -144,12 +144,21 @@ lipo -create $OS_BUILDDIR/Release-iphoneos/lib$LOG4CXX.a $SIMULATOR_BUILDDIR/Rel
 
 echo "Framework: Copying includes..."
 
-find ./$APR/include/arch/unix -maxdepth 1 -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
-find ./$APR/include/arch -maxdepth 1 -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
-find ./$APR/include -maxdepth 1 -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
-find ./$APR_UTIL/include -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
-find ./$APR_UTIL/xml -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
-find ./$LOG4CXX/src/main/include -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers \;
+cp $SRCDIR/$APR/include/*.h $FRAMEWORK_BUNDLE/Headers/
+mkdir $FRAMEWORK_BUNDLE/Headers/arch
+cp $SRCDIR/$APR/include/arch/*.h $FRAMEWORK_BUNDLE/Headers/arch
+mkdir $FRAMEWORK_BUNDLE/Headers/arch/unix
+cp $SRCDIR/$APR/include/arch/unix/*.h $FRAMEWORK_BUNDLE/Headers/arch/unix
+
+cp $SRCDIR/$APR_UTIL/include/*.h $FRAMEWORK_BUNDLE/Headers/
+mkdir $FRAMEWORK_BUNDLE/Headers/private
+cp $SRCDIR/$APR_UTIL/include/private/*.h $FRAMEWORK_BUNDLE/Headers/private
+mkdir $FRAMEWORK_BUNDLE/Headers/expat
+cp $SRCDIR/$APR_UTIL/xml/expat/*.h $FRAMEWORK_BUNDLE/Headers/expat
+mkdir $FRAMEWORK_BUNDLE/Headers/expat/lib
+cp $SRCDIR/$APR_UTIL/xml/expat/lib/*.h $FRAMEWORK_BUNDLE/Headers/expat/lib
+
+cp -r $SRCDIR/$LOG4CXX/src/main/include/log4cxx $FRAMEWORK_BUNDLE/Headers/
 
 echo "Framework: Creating plist..."
 

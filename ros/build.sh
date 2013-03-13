@@ -72,7 +72,7 @@ patch -N $SRCDIR/genmsg/setup.py $SRCDIR/patches/setup_genmsg.patch
 (cd genmsg; python setup.py install --prefix=$SRCDIR/genmsg/);
 # gencpp
 patch -N $SRCDIR/gencpp/setup.py $SRCDIR/patches/setup_gencpp.patch
-(cd gencpp; python setup.py install -prefix=$SRCDIR/gencpp/);
+(cd gencpp; python setup.py install --prefix=$SRCDIR/gencpp/);
 
 #===============================================================================
 echo "Generating ROS messages ..."

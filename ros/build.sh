@@ -66,15 +66,13 @@ echo "Setuping genmsg and gencpp ..."
 tar xvf empy.tar.gz
 
 # empy
-(cd empy-3.3; sudo python setup.py install);
+(cd empy-3.3; python setup.py install --prefix=$SRCDIR/empy/);
 # genmsg
 patch -N $SRCDIR/genmsg/setup.py $SRCDIR/patches/setup_genmsg.patch
-(cd genmsg; sudo python setup.py install);
-(cd genmsg; sudo rm -rf build);
+(cd genmsg; python setup.py install --prefix=$SRCDIR/genmsg/);
 # gencpp
 patch -N $SRCDIR/gencpp/setup.py $SRCDIR/patches/setup_gencpp.patch
-(cd gencpp; sudo python setup.py install);
-(cd gencpp; sudo rm -rf build);
+(cd gencpp; python setup.py install -prefix=$SRCDIR/gencpp/);
 
 #===============================================================================
 echo "Generating ROS messages ..."
@@ -131,8 +129,8 @@ echo "Generating CMakeLists.txt ..."
 cat > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 2.8.0)
 
-set (CMAKE_SYSTEM_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH} $SRCDIR/../)
-	
+#set (CMAKE_SYSTEM_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH} $SRCDIR/../)
+
 project(ros_for_ios)
 
 include(CheckIncludeFile)

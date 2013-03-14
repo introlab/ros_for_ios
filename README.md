@@ -3,13 +3,21 @@ ros_for_ios
 
 How to build the Robot Operating System for the iOS platform.
 
+ROS base system depends of two main libraries :
+- Boost (useful c++ library)
+- log4cxx (log system with levels)
+
 First of all, you need to be on a MacOSX system with the Xcode and the iOS tool
 chain installed. You also need to have the command line tools installed (svn,
  git ... see Xcode options). 
 
-ROS base system depends of two main libraries :
-- Boost (useful c++ library)
-- log4cxx (log system with levels)
+```
+git clone https://github.com/Ronan0912/ros_for_ios.git
+sh build.sh
+```
+
+After some minutes a ros framework is available for the ios arm7, arm7s and
+simulator in the ros/frameworks directory.
 
 External libraries
 ------------------
@@ -25,20 +33,11 @@ The script will download the latest version of Boost for your iOS SDK.
 git://gitorious.org/~galbraithjoseph/boostoniphone/galbraithjosephs-boostoniphone.git
 or
 git://gitorious.org/~d16/boostoniphone/d16s-boost-iphone.git
-Run the script boost.sh
 ```
  
 * log4cxx is not available for iOS and depends of the APR library (Apache
 runtime library), and more precisely apr and apr-utils.
 
-```
-git clone https://github.com/Ronan0912/ros_for_ios.git
-Move to the "log4cxx" directory
-Run the script build.sh
-```
-
-An log4cxx.framework is now available for the ios arm7, arm7s and simulator in
-the directory where you had run the script.
 
 ROS
 ---
@@ -57,7 +56,6 @@ lightweight/minimal library that can easily be used in non-ROS-based projects.
 	- roscpp_core/roscpp_traits
 	- roscpp_core/ros_time
 
-
 * ros_comm (https://github.com/ros/ros_comm.git) :
 ROS communications-related packages, including core client libraries (roscpp, rospy,
 roslisp) and graph introspection tools (rostopic, rosnode, rosservice, rosparam).
@@ -65,16 +63,13 @@ roslisp) and graph introspection tools (rostopic, rosnode, rosservice, rosparam)
     - ros_comm/client/roscpp
     - ros_comm/tools/rosconsole
 
-
 * ros (https://github.com/ros/ros.git)
 Main package
     - ros/roslib (removal of the rospack dependancy because no Python support
         on iOS)
 
-The headers of the common messages are put into a specific framework. By this
-way, they can be added with an usual include `#include <package/header.h>`.
-In order to generate these frameworks you need a valid install of ROS on your
-computer (the header are copied from the installation directory).
+The headers of the ros messages are put into a specific directory. By this
+way, they can be added with `#include <message_package/header.h>`.
 
 - rosgraph_msgs (included in ros_comm/messages/rosgraph_msgs/)
 - std_srvs (included in ros_comm/messages/std_srvs/)
@@ -86,11 +81,10 @@ computer (the header are copied from the installation directory).
 	- sensor_msgs
 	- ... the one you need ...
 
-```
-Move the boost framework in the ros_for_ios directory (with log4cxx.framework)
-Move to the "ros" directory
-Run the script build.sh
-```
+You can use the script message_gen.sh to generate the messages you need.
+
+For example, `sh message_gen.sh nav_msgs geometry_msgs` will build nav_msgs
+which depends of geometry_msgs.
 
 iOS demo applications
 ---------------------

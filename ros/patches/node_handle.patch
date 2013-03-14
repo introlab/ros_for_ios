@@ -1,0 +1,4 @@
+51c51
+< #include <XmlRpcValue.h>
+---
+> #include "XmlRpcValue.h"

@@ -55,6 +55,7 @@ echo "Patching ..."
 patch -N $SRCDIR/ros/core/roslib/src/package.cpp $SRCDIR/patches/package.patch
 patch -N $SRCDIR/roscpp_core/roscpp_traits/include/ros/message_forward.h $SRCDIR/patches/message_forward.patch
 patch -N $SRCDIR/ros_comm/utilities/xmlrpcpp/include/base64.h $SRCDIR/patches/base64.patch
+patch -N $SRCDIR/ros_comm/clients/roscpp/include/ros/node_handle.h $SRCDIR/patches/node_handle.patch
 
 #===============================================================================
 echo "Setuping genmsg and gencpp ..."

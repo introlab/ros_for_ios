@@ -15,7 +15,7 @@ External libraries
 ------------------
 
 **The first step before build the ROS tree is to get an iOS framework of these
-two libraries**
+two libraries.**
 
 * Boost is already available for iOS :
 The script will download the latest version of Boost for your iOS SDK.
@@ -43,7 +43,7 @@ the directory where you had run the script.
 ROS
 ---
 
-**The catkin build system available with the ROS groovy release is not used**
+**The catkin build system available with the ROS groovy release is not used.**
 
 Here is the principal parts that has been built (for arm7, arm7s and i386
 simulator) from the sources available on the ROS GitHub 
@@ -61,7 +61,7 @@ lightweight/minimal library that can easily be used in non-ROS-based projects.
 * ros_comm (https://github.com/ros/ros_comm.git) :
 ROS communications-related packages, including core client libraries (roscpp, rospy,
 roslisp) and graph introspection tools (rostopic, rosnode, rosservice, rosparam).
-    - ros_comm/utilities/xmlrpcpp (Xml-RCP modifiied for ROS)
+    - ros_comm/utilities/xmlrpcpp (Xml-RCP modified for ROS)
     - ros_comm/client/roscpp
     - ros_comm/tools/rosconsole
 

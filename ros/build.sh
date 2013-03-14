@@ -11,21 +11,21 @@ ROS_BRANCH=groovy-devel
 #===============================================================================
 echo "Cloning git repositories ..."
 
-[[ -d roscpp_core ]] && rm -rf roscpp_core
+[ -d roscpp_core ] && rm -rf roscpp_core
 git clone -b $ROS_BRANCH https://github.com/ros/roscpp_core.git
-[[ -d ros_comm ]] && rm -rf ros_comm
+[ -d ros_comm ] && rm -rf ros_comm
 git clone -b $ROS_BRANCH https://github.com/ros/ros_comm.git
-[[ -d ros ]] && rm -rf ros
+[ -d ros ] && rm -rf ros
 git clone -b $ROS_BRANCH https://github.com/ros/ros.git
-[[ -d genmsg ]] && rm -rf genmsg
+[ -d genmsg ] && rm -rf genmsg
 git clone -b $ROS_BRANCH https://github.com/ros/genmsg.git
-[[ -d gencpp ]] && rm -rf gencpp
+[ -d gencpp ] && rm -rf gencpp
 git clone -b $ROS_BRANCH https://github.com/ros/gencpp.git
-[[ -d std_msgs ]] && rm -rf std_msgs
+[ -d std_msgs ] && rm -rf std_msgs
 git clone -b $ROS_BRANCH https://github.com/ros/std_msgs.git
-[[ -d common_msgs ]] && rm -rf common_msgs
+[ -d common_msgs ] && rm -rf common_msgs
 git clone -b $ROS_BRANCH https://github.com/ros/common_msgs.git
-[[ -d empy.tar.gz ]] && rm -rf empy.tar.gz
+[ -d empy.tar.gz ] && rm -rf empy.tar.gz
 curl http://www.alcyone.com/software/empy/empy-latest.tar.gz -o ./empy.tar.gz
 
 #===============================================================================
@@ -62,7 +62,7 @@ echo "Setuping genmsg and gencpp ..."
 # www.alcyone.com/pyos/empy/ :
 # A powerful and robust templating system for Python.
 
-[[ -d empy-3.3 ]] && rm -rf empy-3.3
+[ -d empy-3.3 ] && rm -rf empy-3.3
 tar xvf empy.tar.gz
 
 # empy
@@ -129,7 +129,7 @@ echo "Generating CMakeLists.txt ..."
 cat > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 2.8.0)
 
-set (CMAKE_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH} $SRCDIR)
+set (CMAKE_FRAMEWORK_PATH \${CMAKE_SYSTEM_FRAMEWORK_PATH} $SRCDIR/frameworks)
 
 project(ros_for_ios)
 
@@ -251,7 +251,7 @@ FRAMEWORK_VERSION=A
 FRAMEWORK_CURRENT_VERSION=1.0
 FRAMEWORK_COMPATIBILITY_VERSION=1.0
 
-FRAMEWORK_BUNDLE=$SRCDIR/../$FRAMEWORK_NAME.framework
+FRAMEWORK_BUNDLE=$SRCDIR/frameworks/$FRAMEWORK_NAME.framework
 echo "Framework: Building $FRAMEWORK_BUNDLE ..."
 
 [[ -d $FRAMEWORK_BUNDLE ]] && rm -rf $FRAMEWORK_BUNDLE
@@ -281,8 +281,20 @@ echo "Framework: Copying includes..."
 # main packages
 for package in ${PACKAGES[@]}
     do
-        cp -r $SRCDIR/$package/include/* $FRAMEWORK_BUNDLE/Headers
+        if [ $package == ros_comm/tools/rosconsole ]
+            then
+                cp -r $SRCDIR/ros_comm/utilities/xmlrpcpp/include/* $FRAMEWORK_BUNDLE/Headers
+        else
+            cp -r $SRCDIR/$package/include/ros/* $FRAMEWORK_BUNDLE/Headers
+        fi
+
+        if [ $package == ros_comm/tools/rosconsole ]
+            then
+                mkdir $FRAMEWORK_BUNDLE/Headers/rosconsole
+                cp -r $SRCDIR/ros_comm/tools/rosconsole/include/rosconsole/*.h $FRAMEWORK_BUNDLE/Headers/rosconsole
+        fi
 done
+
 
 # for the ros messages
 mkdir $FRAMEWORK_BUNDLE/Headers/std_srvs

@@ -158,7 +158,7 @@ cp $SRCDIR/$APR_UTIL/xml/expat/*.h $FRAMEWORK_BUNDLE/Headers/expat
 mkdir $FRAMEWORK_BUNDLE/Headers/expat/lib
 cp $SRCDIR/$APR_UTIL/xml/expat/lib/*.h $FRAMEWORK_BUNDLE/Headers/expat/lib
 
-cp -r $SRCDIR/$LOG4CXX/src/main/include/log4cxx $FRAMEWORK_BUNDLE/Headers/
+cp -r $SRCDIR/$LOG4CXX/src/main/include/log4cxx/* $FRAMEWORK_BUNDLE/Headers/
 
 echo "Framework: Creating plist..."
 

@@ -11,20 +11,55 @@ ROS_BRANCH=groovy-devel
 #===============================================================================
 echo "Cloning git repositories ..."
 
-[ -d roscpp_core ] && rm -rf roscpp_core
-git clone -b $ROS_BRANCH https://github.com/ros/roscpp_core.git
-[ -d ros_comm ] && rm -rf ros_comm
-git clone -b $ROS_BRANCH https://github.com/ros/ros_comm.git
-[ -d ros ] && rm -rf ros
-git clone -b $ROS_BRANCH https://github.com/ros/ros.git
-[ -d genmsg ] && rm -rf genmsg
-git clone -b $ROS_BRANCH https://github.com/ros/genmsg.git
-[ -d gencpp ] && rm -rf gencpp
-git clone -b $ROS_BRANCH https://github.com/ros/gencpp.git
-[ -d std_msgs ] && rm -rf std_msgs
-git clone -b $ROS_BRANCH https://github.com/ros/std_msgs.git
-[ -d common_msgs ] && rm -rf common_msgs
-git clone -b $ROS_BRANCH https://github.com/ros/common_msgs.git
+if [ -d roscpp_core ]
+    then
+        (cd $SRCDIR/roscpp_core; git pull)
+else
+    git clone -b $ROS_BRANCH https://github.com/ros/roscpp_core.git
+fi
+
+if [ -d ros_comm ]
+    then
+        (cd $SRCDIR/ros_comm; git pull)
+else
+    git clone -b $ROS_BRANCH https://github.com/ros/ros_comm.git
+fi
+
+if [ -d ros ]
+    then
+        (cd $SRCDIR/ros; git pull)
+else
+    git clone -b $ROS_BRANCH https://github.com/ros/ros.git
+fi
+
+if [ -d genmsg ]
+    then
+        (cd $SRCDIR/genmsg; git pull)
+else
+    git clone -b $ROS_BRANCH https://github.com/ros/genmsg.git
+fi
+
+if [ -d gencpp ]
+    then
+        (cd $SRCDIR/gencpp; git pull)
+else
+    git clone -b $ROS_BRANCH https://github.com/ros/gencpp.git
+fi
+
+if [ -d std_msgs ]
+    then
+    (cd $SRCDIR/std_msgs; git pull)
+else
+    git clone -b $ROS_BRANCH https://github.com/ros/std_msgs.git
+fi
+
+if [ -d common_msgs ]
+    then
+        (cd $SRCDIR/common_msgs; git pull)
+else
+    git clone -b $ROS_BRANCH https://github.com/ros/common_msgs.git
+fi
+
 [ -d empy.tar.gz ] && rm -rf empy.tar.gz
 curl http://www.alcyone.com/software/empy/empy-latest.tar.gz -o ./empy.tar.gz
 

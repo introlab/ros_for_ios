@@ -12,7 +12,7 @@ chain installed. You also need to have the command line tools installed (svn,
  git ... see Xcode options). 
 
 ```
-git clone https://github.com/Ronan0912/ros_for_ios.git
+git clone https://github.com/introlab/ros_for_ios.git
 sh build.sh
 ```
 

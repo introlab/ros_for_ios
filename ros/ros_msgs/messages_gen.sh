@@ -57,11 +57,25 @@ PACKAGE_NAME=`basename $1`
 
 for ARG in $*
     do
-        DEPENDENCIES=${DEPENDENCIES}" -I$PACKAGE_NAME:$ARG/msg/"
+        DEPENDENCY_NAME=`basename $ARG`
+        DEPENDENCIES=${DEPENDENCIES}" -I $DEPENDENCY_NAME:$ARG/msg/"
 done
 
 #===============================================================================
 echo "Generating $PACKAGE_NAME messages ..."
+
+# From : ros.org/rosdoclite/groovy/api/genmsg/html/developer.html
+# Python script gen_cpp.py
+# /path/to/Some.msg
+# The flagless argument is the path to the input .msg file.
+# -I NAMESPACE:/some/path
+# find messages in NAMESPACE in directory /some/path
+# -p THIS_NAMESPACE
+# put generated message into namespace THIS_NAMESPACE
+# -o /output/dir
+# Generate code into directory /output/dir
+# -e /path/to/templates
+# Find empy templates in this directory
 
 FILES=$1/msg/*.msg
 

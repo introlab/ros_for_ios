@@ -67,7 +67,7 @@ fi
 echo "Building ROS common_msgs"
 
 (
-if [ -d common_msgs ]
+if [ -d $SRCDIR/ros/ros_msgs/common_msgs ]
     then
         (cd $SRCDIR/ros/ros_msgs/common_msgs; git pull)
 else

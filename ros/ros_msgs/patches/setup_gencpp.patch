@@ -1,0 +1,8 @@
+4d3
+< from catkin_pkg.python_setup import generate_distutils_setup
+6c5
+< d = generate_distutils_setup(
+---
+> setup(name='gencpp',
+12d10
+< setup(**d)

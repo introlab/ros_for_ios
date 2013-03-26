@@ -81,24 +81,24 @@ echo "- rosgraph_msgs -"
 
 [ ! -d $SRCDIR/rosgraph_msgs ] && mkdir $SRCDIR/rosgraph_msgs
 
-python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/rosgraph_msgs/msg/Clock.msg -p rosgraph_msgs -o $SRCDIR/rosgraph_msgs -e $SRCDIR/gencpp/scripts/	
-python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/rosgraph_msgs/msg/Log.msg -Istd_msgs:$SRCDIR/std_msgs/msg/ -p rosgraph_msgs -o $SRCDIR/rosgraph_msgs -e $SRCDIR/gencpp/scripts/
+python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/rosgraph_msgs/msg/Clock.msg -p rosgraph_msgs -o $SRCDIR/rosgraph_msgs -e $SRCDIR/ros_msgs/gencpp/scripts/
+python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/rosgraph_msgs/msg/Log.msg -Istd_msgs:$SRCDIR/ros_msgs/std_msgs/msg/ -p rosgraph_msgs -o $SRCDIR/rosgraph_msgs -e $SRCDIR/ros_msgs/gencpp/scripts/
 
 echo "- std_srvs -"
 
 [ ! -d $SRCDIR/std_srvs ] && mkdir $SRCDIR/std_srvs
-python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/std_srvs/srv/Empty.srv -p std_srvs -o $SRCDIR/std_srvs -e $SRCDIR/gencpp/scripts/
+python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/std_srvs/srv/Empty.srv -p std_srvs -o $SRCDIR/std_srvs -e $SRCDIR/ros_msgs/gencpp/scripts/
 
 echo "- roscpp -"
 
 [ ! -d $SRCDIR/roscpp ] && mkdir $SRCDIR/roscpp
-python $SRCDIR/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/clients/roscpp/msg/Logger.msg -Istd_msgs:$SRCDIR/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/gencpp/scripts/
+python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/clients/roscpp/msg/Logger.msg -Istd_msgs:$SRCDIR/ros_msgs/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/ros_msgs/gencpp/scripts/
 
 FILES=$SRCDIR/ros_comm/clients/roscpp/srv/*
 
 for f in $FILES
     do
-        python $SRCDIR/gencpp/scripts/gen_cpp.py $f -Iroscpp:$SRCDIR/ros_comm/clients/roscpp/msg/ -Istd_msgs:$SRCDIR/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/gencpp/scripts/
+        python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $f -Iroscpp:$SRCDIR/ros_comm/clients/roscpp/msg/ -Istd_msgs:$SRCDIR/ros_msgs/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/ros_msgs/gencpp/scripts/
 done
 
 echo "- std_msgs -"
@@ -107,7 +107,7 @@ FILES=$SRCDIR/std_msgs/msg/*
 
 for f in $FILES
     do
-        python $SRCDIR/gencpp/scripts/gen_cpp.py $f -Istd_msgs:$SRCDIR/std_msgs/msg/ -p std_msgs -o $SRCDIR/std_msgs -e $SRCDIR/gencpp/scripts/
+        python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $f -Istd_msgs:$SRCDIR/std_msgs/msg/ -p std_msgs -o $SRCDIR/std_msgs -e $SRCDIR/ros_msgs/gencpp/scripts/
 done
 
 #===============================================================================
@@ -186,13 +186,13 @@ mkdir $SIMULATOR_BUILDDIR
 
 cd $OS_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/../ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenOS -GXcode ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenOS -GXcode ..
 
 xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD
 
 cd $SIMULATOR_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/../ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenSimulator -GXcode ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenSimulator -GXcode ..
 
 xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
 

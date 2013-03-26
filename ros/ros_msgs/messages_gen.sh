@@ -67,7 +67,7 @@ FILES=$1/msg/*.msg
 
 for f in $FILES
     do
-        python $SRCDIR/gencpp/scripts/gen_cpp.py $f $DEPENDENCIES -p $1 -o $1 -e $SRCDIR/gencpp/scripts/
+        python $SRCDIR/gencpp/scripts/gen_cpp.py $f $DEPENDENCIES -p $PACKAGE_NAME -o $1 -e $SRCDIR/gencpp/scripts/
 done
 
 #===============================================================================
@@ -105,13 +105,13 @@ mkdir $SIMULATOR_BUILDDIR
 
 cd $OS_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/../ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoenOS -GXcode ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoenOS -GXcode ..
 
 xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD
 
 cd $SIMULATOR_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/../ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoenSimulator -GXcode ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoenSimulator -GXcode ..
 
 xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
 

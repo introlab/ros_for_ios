@@ -2,84 +2,96 @@
 
 #===============================================================================
 
-: ${APR:="apr-1.4.6"}
-: ${APR_UTIL:="apr-util-1.5.1"}
-: ${LOG4CXX:="apache-log4cxx-0.10.0"}
+SRCDIR=`pwd`
+OS_BUILDDIR=$SRCDIR/iPhoneOS_build
+SIMULATOR_BUILDDIR=$SRCDIR/iPhoneSimulator_build
+
+ROS_BRANCH=groovy-devel
+
+#===============================================================================
+if [ -d genmsg ]
+    then
+        (cd $SRCDIR/genmsg; git pull)
+else
+    git clone -b $ROS_BRANCH https://github.com/ros/genmsg.git
+fi
+
+if [ -d gencpp ]
+    then
+        (cd $SRCDIR/gencpp; git pull)
+else
+    git clone -b $ROS_BRANCH https://github.com/ros/gencpp.git
+fi
+
+#===============================================================================
+echo "Setuping genmsg and gencpp ..."
+
+# empy
+# www.alcyone.com/pyos/empy/
+# A powerful and robust templating system for Python.
+if ! $(python -c "import em")
+	then
+		[ -d empy.tar.gz ] && rm -rf empy.tar.gz
+		curl http://www.alcyone.com/software/empy/empy-latest.tar.gz -o ./empy.tar.gz
+		tar xvf empy.tar.gz
+		(cd empy*; python setup.py install --prefix=$SRCDIR/empy/);
+fi
+
+# genmsg
+if ! $(python -c "import genmsg")
+	then
+		patch -N $SRCDIR/genmsg/setup.py $SRCDIR/patches/setup_genmsg.patch
+		(cd genmsg; python setup.py install --prefix=$SRCDIR/genmsg/);
+fi
+
+# gencpp
+if ! $(python -c "import gencpp")
+	then
+		patch -N $SRCDIR/gencpp/setup.py $SRCDIR/patches/setup_gencpp.patch
+		(cd gencpp; python setup.py install --prefix=$SRCDIR/gencpp/);
+fi
 
 #===============================================================================
 
-: ${SRCDIR:=`pwd`}
-: ${OS_BUILDDIR=`pwd`/iPhoneOS_build}
-: ${SIMULATOR_BUILDDIR=`pwd`/iPhoneSimulator_build}
+PACKAGE_NAME=`basename $1`
+
+for ARG in $*
+    do
+        DEPENDENCIES=${DEPENDENCIES}" -I$PACKAGE_NAME:$ARG/msg/"
+done
 
 #===============================================================================
-curl http://mirror.csclub.uwaterloo.ca/apache//apr/$APR.tar.gz -o ./$APR.tar.gz
-curl http://mirror.csclub.uwaterloo.ca/apache//apr/$APR_UTIL.tar.gz -o ./$APR_UTIL.tar.gz
-curl http://mirror.csclub.uwaterloo.ca/apache/logging/log4cxx/0.10.0/$LOG4CXX.tar.gz -o ./$LOG4CXX.tar.gz
+echo "Generating $PACKAGE_NAME messages ..."
 
-echo "Extracting ..."
+FILES=$1/msg/*.msg
 
-[ -d $APR ] && rm -rf $APR
-[ -d $APR_UTIL ] && rm -rf $APR_UTIL
-[ -d $LOG4CXX ] && rm -rf $LOG4CXX
-
-tar xvzf $APR.tar.gz
-tar xvzf $APR_UTIL.tar.gz
-tar xvzf $LOG4CXX.tar.gz
+for f in $FILES
+    do
+        python $SRCDIR/gencpp/scripts/gen_cpp.py $f $DEPENDENCIES -p $1 -o $1 -e $SRCDIR/gencpp/scripts/
+done
 
 #===============================================================================
-echo "Configuring ..."
+echo "Generating fake C++ file ..."
 
-cd $SRCDIR/$APR
-./configure --without-sendfile
+cat > $PACKAGE_NAME.cpp <<EOF
+void foo()
+{
 
-cd $SRCDIR/$APR_UTIL
-./configure --with-apr="../$APR/" --without-pgsql --without-mysql --without-sqlite2 --without-sqlite3 --without-oracle --without-freetds --without-odbc
+}
 
-cd $SRCDIR/$APR_UTIL/xml/expat/
-./configure
-
-cd $SRCDIR/$LOG4CXX
-./configure --with-apr="../$APR/"
-
-#===============================================================================
-echo "Patching ..."
-
-patch -N $SRCDIR/$APR/include/apr_general.h $SRCDIR/patches/apr_general.patch
-patch -N $SRCDIR/$APR/include/apr.h $SRCDIR/patches/apr.patch
-patch -N $SRCDIR/$APR_UTIL/xml/expat/lib/xmlparse.c $SRCDIR/patches/xmlparse.patch
+EOF
 
 #===============================================================================
 echo "Generating CMakeLists.txt ..."
-
-cd $SRCDIR
 
 cat > CMakeLists.txt <<EOF
 
 cmake_minimum_required(VERSION 2.8.0)
 
-project($LOG4CXX)
+project($PACKAGE_NAME)
 
-include_directories(
-    ./$APR/include/
-    ./$APR/include/arch
-    ./$APR/include/arch/unix
+add_library($PACKAGE_NAME STATIC $PACKAGE_NAME.cpp)
 
-    ./$APR_UTIL/include
-    ./$APR_UTIL/include/private
-    ./$APR_UTIL/xml/expat
-    ./$APR_UTIL/xml/expat/lib
-
-    ./$LOG4CXX/src/main/include
-)
-
-add_library($LOG4CXX STATIC
-$(find ./$APR -name \*.c | grep -v 'test' | grep 'unix\|tables\|string\|passwd')
-
-$(find ./$APR_UTIL -name \*.c ! -name xmltok_impl.c ! -name xmltok_ns.c | grep -v 'test')
-
-$(find ./$LOG4CXX -name \*.cpp | grep -v 'test' | grep -v 'examples')
-)
 EOF
 
 #===============================================================================
@@ -107,16 +119,14 @@ xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
 cd $SRCDIR
 
 VERSION_TYPE=Alpha
-FRAMEWORK_NAME=log4cxx
+FRAMEWORK_NAME=$PACKAGE_NAME
 FRAMEWORK_VERSION=A
 
-FRAMEWORK_CURRENT_VERSION=$LOG4CXX
-FRAMEWORK_COMPATIBILITY_VERSION=$LOG4CXX
+FRAMEWORK_CURRENT_VERSION=1.0
+FRAMEWORK_COMPATIBILITY_VERSION=1.0
 
 FRAMEWORK_BUNDLE=$SRCDIR/$FRAMEWORK_NAME.framework
 echo "Framework: Building $FRAMEWORK_BUNDLE ..."
-
-[ -d $FRAMEWORK_BUNDLE ] && rm -rf $FRAMEWORK_BUNDLE
 
 echo "Framework: Setting up directories..."
 mkdir -p $FRAMEWORK_BUNDLE
@@ -136,25 +146,11 @@ ln -s Versions/Current/$FRAMEWORK_NAME $FRAMEWORK_BUNDLE/$FRAMEWORK_NAME
 FRAMEWORK_INSTALL_NAME=$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME
 
 echo "Lipoing library into $FRAMEWORK_INSTALL_NAME..."
-lipo -create $OS_BUILDDIR/Release-iphoneos/lib$LOG4CXX.a $SIMULATOR_BUILDDIR/Release-iphonesimulator/lib$LOG4CXX.a -o $FRAMEWORK_INSTALL_NAME
+lipo -create $OS_BUILDDIR/Release-iphoneos/lib$PACKAGE_NAME.a $SIMULATOR_BUILDDIR/Release-iphonesimulator/lib$PACKAGE_NAME.a -o $FRAMEWORK_INSTALL_NAME
 
 echo "Framework: Copying includes..."
 
-cp $SRCDIR/$APR/include/*.h $FRAMEWORK_BUNDLE/Headers/
-mkdir $FRAMEWORK_BUNDLE/Headers/arch
-cp $SRCDIR/$APR/include/arch/*.h $FRAMEWORK_BUNDLE/Headers/arch
-mkdir $FRAMEWORK_BUNDLE/Headers/arch/unix
-cp $SRCDIR/$APR/include/arch/unix/*.h $FRAMEWORK_BUNDLE/Headers/arch/unix
-
-cp $SRCDIR/$APR_UTIL/include/*.h $FRAMEWORK_BUNDLE/Headers/
-mkdir $FRAMEWORK_BUNDLE/Headers/private
-cp $SRCDIR/$APR_UTIL/include/private/*.h $FRAMEWORK_BUNDLE/Headers/private
-mkdir $FRAMEWORK_BUNDLE/Headers/expat
-cp $SRCDIR/$APR_UTIL/xml/expat/*.h $FRAMEWORK_BUNDLE/Headers/expat
-mkdir $FRAMEWORK_BUNDLE/Headers/expat/lib
-cp $SRCDIR/$APR_UTIL/xml/expat/lib/*.h $FRAMEWORK_BUNDLE/Headers/expat/lib
-
-cp -r $SRCDIR/$LOG4CXX/src/main/include/log4cxx/* $FRAMEWORK_BUNDLE/Headers/
+cp -r $1/*.h $FRAMEWORK_BUNDLE/Headers/
 
 echo "Framework: Creating plist..."
 
@@ -168,7 +164,7 @@ cat > $FRAMEWORK_BUNDLE/Resources/Info.plist <<EOF
         <key>CFBundleExecutable</key>
         <string>${FRAMEWORK_NAME}</string>
         <key>CFBundleIdentifier</key>
-        <string>apache</string>
+        <string>ros.org</string>
         <key>CFBundleInfoDictionaryVersion</key>
         <string>6.0</string>
         <key>CFBundlePackageType</key>

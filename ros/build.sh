@@ -32,37 +32,6 @@ else
     git clone -b $ROS_BRANCH https://github.com/ros/ros.git
 fi
 
-if [ -d genmsg ]
-    then
-        (cd $SRCDIR/genmsg; git pull)
-else
-    git clone -b $ROS_BRANCH https://github.com/ros/genmsg.git
-fi
-
-if [ -d gencpp ]
-    then
-        (cd $SRCDIR/gencpp; git pull)
-else
-    git clone -b $ROS_BRANCH https://github.com/ros/gencpp.git
-fi
-
-if [ -d std_msgs ]
-    then
-    (cd $SRCDIR/std_msgs; git pull)
-else
-    git clone -b $ROS_BRANCH https://github.com/ros/std_msgs.git
-fi
-
-if [ -d common_msgs ]
-    then
-        (cd $SRCDIR/common_msgs; git pull)
-else
-    git clone -b $ROS_BRANCH https://github.com/ros/common_msgs.git
-fi
-
-[ -d empy.tar.gz ] && rm -rf empy.tar.gz
-curl http://www.alcyone.com/software/empy/empy-latest.tar.gz -o ./empy.tar.gz
-
 #===============================================================================
 echo "Generating cmake submodules ..."
 
@@ -80,7 +49,7 @@ sh $SRCDIR/cmake_gen.sh ${PACKAGES[1]} boost
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[2]} boost
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[3]} boost
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[4]}
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[5]} boost log4cxx
+sh $SRCDIR/cmake_gen.sh ${PACKAGES[5]} boost log4cxx std_msgs
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[6]} boost log4cxx
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[7]} boost
 
@@ -91,24 +60,6 @@ patch -N $SRCDIR/ros/core/roslib/src/package.cpp $SRCDIR/patches/package.patch
 patch -N $SRCDIR/roscpp_core/roscpp_traits/include/ros/message_forward.h $SRCDIR/patches/message_forward.patch
 patch -N $SRCDIR/ros_comm/utilities/xmlrpcpp/include/base64.h $SRCDIR/patches/base64.patch
 patch -N $SRCDIR/ros_comm/clients/roscpp/include/ros/node_handle.h $SRCDIR/patches/node_handle.patch
-
-#===============================================================================
-echo "Setuping genmsg and gencpp ..."
-
-# www.alcyone.com/pyos/empy/ :
-# A powerful and robust templating system for Python.
-
-[ -d empy-3.3 ] && rm -rf empy-3.3
-tar xvf empy.tar.gz
-
-# empy
-(cd empy-3.3; python setup.py install --prefix=$SRCDIR/empy/);
-# genmsg
-patch -N $SRCDIR/genmsg/setup.py $SRCDIR/patches/setup_genmsg.patch
-(cd genmsg; python setup.py install --prefix=$SRCDIR/genmsg/);
-# gencpp
-patch -N $SRCDIR/gencpp/setup.py $SRCDIR/patches/setup_gencpp.patch
-(cd gencpp; python setup.py install --prefix=$SRCDIR/gencpp/);
 
 #===============================================================================
 echo "Generating ROS messages ..."
@@ -227,21 +178,21 @@ done
 #===============================================================================
 echo "Building ..."
 
-[[ -d $OS_BUILDDIR ]] && rm -rf $OS_BUILDDIR
-[[ -d $SIMULATOR_BUILDDIR ]] && rm -rf $SIMULATOR_BUILDDIR
+[ -d $OS_BUILDDIR ] && rm -rf $OS_BUILDDIR
+[ -d $SIMULATOR_BUILDDIR ] && rm -rf $SIMULATOR_BUILDDIR
 
 mkdir $OS_BUILDDIR
 mkdir $SIMULATOR_BUILDDIR
 
 cd $OS_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenOS -GXcode ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/../ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenOS -GXcode ..
 
 xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD
 
 cd $SIMULATOR_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenSimulator -GXcode ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/../ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenSimulator -GXcode ..
 
 xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
 
@@ -287,7 +238,7 @@ FRAMEWORK_VERSION=A
 FRAMEWORK_CURRENT_VERSION=1.0
 FRAMEWORK_COMPATIBILITY_VERSION=1.0
 
-FRAMEWORK_BUNDLE=$SRCDIR/frameworks/$FRAMEWORK_NAME.framework
+FRAMEWORK_BUNDLE=$SRCDIR/$FRAMEWORK_NAME.framework
 echo "Framework: Building $FRAMEWORK_BUNDLE ..."
 
 [[ -d $FRAMEWORK_BUNDLE ]] && rm -rf $FRAMEWORK_BUNDLE
@@ -317,32 +268,19 @@ echo "Framework: Copying includes..."
 # main packages
 for package in ${PACKAGES[@]}
     do
-        if [ $package == ros_comm/tools/rosconsole ]
-            then
-                cp -r $SRCDIR/ros_comm/utilities/xmlrpcpp/include/* $FRAMEWORK_BUNDLE/Headers
-        else
-            cp -r $SRCDIR/$package/include/ros/* $FRAMEWORK_BUNDLE/Headers
-        fi
-
-        if [ $package == ros_comm/tools/rosconsole ]
-            then
-                mkdir $FRAMEWORK_BUNDLE/Headers/rosconsole
-                cp -r $SRCDIR/ros_comm/tools/rosconsole/include/rosconsole/*.h $FRAMEWORK_BUNDLE/Headers/rosconsole
-        fi
+        cp -r $SRCDIR/$package/include/* $FRAMEWORK_BUNDLE/Headers
 done
+	
+mv $FRAMEWORK_BUNDLE/Headers/ros/*.h $FRAMEWORK_BUNDLE/Headers/
+rm -r $FRAMEWORK_BUNDLE/Headers/ros/
 
-
-# for the ros messages
+# ros core messages
 mkdir $FRAMEWORK_BUNDLE/Headers/std_srvs
 find $SRCDIR/std_srvs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/std_srvs \;
 mkdir $FRAMEWORK_BUNDLE/Headers/rosgraph_msgs
 find $SRCDIR/rosgraph_msgs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/rosgraph_msgs \;
 mkdir $FRAMEWORK_BUNDLE/Headers/roscpp
 find $SRCDIR/roscpp -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/roscpp \;
-
-#TODO : speciic framework
-mkdir $FRAMEWORK_BUNDLE/Headers/std_msgs
-find $SRCDIR/std_msgs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/std_msgs \;
 
 echo "Framework: Creating plist..."
 
@@ -356,7 +294,7 @@ cat > $FRAMEWORK_BUNDLE/Resources/Info.plist <<EOF
 <key>CFBundleExecutable</key>
 <string>${FRAMEWORK_NAME}</string>
 <key>CFBundleIdentifier</key>
-<string>org.boost</string>
+<string>ros.org</string>
 <key>CFBundleInfoDictionaryVersion</key>
 <string>6.0</string>
 <key>CFBundlePackageType</key>

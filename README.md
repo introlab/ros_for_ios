@@ -19,9 +19,9 @@ External libraries
 ------------------
 
 ROS base system depends of two main libraries :
-- Boost (useful c++ library)
-- log4cxx (log system with levels)
-- 
+* Boost (useful c++ library)
+* log4cxx (log system with levels)
+
 **The first step before build the ROS tree is to get an iOS framework of these
 two libraries.**
 

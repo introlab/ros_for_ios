@@ -34,7 +34,8 @@ if ! $(python -c "import em")
 		[ -d empy.tar.gz ] && rm -rf empy.tar.gz
 		curl http://www.alcyone.com/software/empy/empy-latest.tar.gz -o ./empy.tar.gz
 		tar xvf empy.tar.gz
-		(cd empy*; python setup.py install --prefix=$SRCDIR/empy/);
+		(cd empy*; python setup.py install --prefix=$SRCDIR/empy*/);
+        export PYTHONPATH=$SRCDIR/empy*/lib/python2.7/site-packages/:$PYTHONPATH
 fi
 
 # genmsg
@@ -42,6 +43,7 @@ if ! $(python -c "import genmsg")
 	then
 		patch -N $SRCDIR/genmsg/setup.py $SRCDIR/patches/setup_genmsg.patch
 		(cd genmsg; python setup.py install --prefix=$SRCDIR/genmsg/);
+        export PYTHONPATH=$SRCDIR/genmsg/lib/python2.7/site-packages/:$PYTHONPATH
 fi
 
 # gencpp
@@ -49,6 +51,7 @@ if ! $(python -c "import gencpp")
 	then
 		patch -N $SRCDIR/gencpp/setup.py $SRCDIR/patches/setup_gencpp.patch
 		(cd gencpp; python setup.py install --prefix=$SRCDIR/gencpp/);
+        export PYTHONPATH=$SRCDIR/gencpp/lib/python2.7/site-packages/:$PYTHONPATH
 fi
 
 #===============================================================================

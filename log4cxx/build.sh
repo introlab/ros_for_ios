@@ -47,7 +47,10 @@ echo "Patching ..."
 
 patch -N $SRCDIR/$APR/include/apr_general.h $SRCDIR/patches/apr_general.patch
 patch -N $SRCDIR/$APR/include/apr.h $SRCDIR/patches/apr.patch
+patch -N $SRCDIR/$APR_UTIL/xml/expat/expat_config.h $SRCDIR/patches/expat_config.patch
 patch -N $SRCDIR/$APR_UTIL/xml/expat/lib/xmlparse.c $SRCDIR/patches/xmlparse.patch
+patch -N $SRCDIR/$LOG4CXX/src/main/include/log4cxx/helpers/simpledateformat.h $SRCDIR/patches/simpledateformat.patch
+patch -N $SRCDIR/$LOG4CXX/src/main/cpp/stringhelper.cpp $SRCDIR/patches/stringhelper.patch
 
 #===============================================================================
 echo "Generating CMakeLists.txt ..."

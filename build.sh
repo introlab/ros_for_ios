@@ -12,7 +12,7 @@ echo "It will take some minutes. Grab a glass of your favorite drink ..."
 #===============================================================================
 #CMake Toolchain
 
-echo "Copying the cmake ios toolchain ..."
+echo "Copying the cmake ios toolchain"
 
 (
 [ ! -d $SRCDIR/log4cxx/ios_cmake ] && cp -r $SRCDIR/ios_cmake $SRCDIR/log4cxx/
@@ -85,7 +85,7 @@ fi
 #===============================================================================
 #ROS
 
-echo "Building ROS"
+echo "Building ROS core"
 
 (
 [ -d $SRCDIR/ros/frameworks ] && rm -rf $SRCDIR/ros/frameworks
@@ -106,9 +106,9 @@ mv $SRCDIR/ros/ros.framework $SRCDIR/ros/frameworks/
 echo "Cleaning ..."
 
 (
-(cd $SRCDIR/log4cxx; rm CMakeLists.txt);
+(cd $SRCDIR/log4cxx; rm CMakeLists.txt; rm *.tar.gz);
 (cd $SRCDIR/ros/ros_msgs; rm *.cpp; rm CMakeLists.txt);
 (cd $SRCDIR/ros; rm *.cmake; rm CMakeLists.txt);
 ) >> $LOGFILE 2>&1
 
-echo "Finished"
+echo "Finished !"

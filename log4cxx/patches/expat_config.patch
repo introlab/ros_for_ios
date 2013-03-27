@@ -1,0 +1,8 @@
+91c91
+< #define XML_DTD 1
+---
+> /* #define XML_DTD 1 */
+94c94
+< #define XML_NS 1
+---
+> /* #define XML_NS 1 */

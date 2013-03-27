@@ -77,12 +77,26 @@ echo "Generating $PACKAGE_NAME messages ..."
 # -e /path/to/templates
 # Find empy templates in this directory
 
-FILES=$1/msg/*.msg
+if [ -d $1/msg ]
+    then
 
-for f in $FILES
-    do
-        python $SRCDIR/gencpp/scripts/gen_cpp.py $f $DEPENDENCIES -p $PACKAGE_NAME -o $1 -e $SRCDIR/gencpp/scripts/
-done
+    FILES=$1/msg/*.msg
+
+    for f in $FILES
+        do
+            python $SRCDIR/gencpp/scripts/gen_cpp.py $f $DEPENDENCIES -p $PACKAGE_NAME -o $1 -e $SRCDIR/gencpp/scripts/
+    done
+fi
+
+if [ -d $1/srv ]
+    then
+        FILES=$1/srv/*.srv
+
+        for f in $FILES
+            do
+                python $SRCDIR/gencpp/scripts/gen_cpp.py $f $DEPENDENCIES -p $PACKAGE_NAME -o $1 -e $SRCDIR/gencpp/scripts/
+        done
+fi
 
 #===============================================================================
 echo "Generating fake C++ file ..."
@@ -165,6 +179,7 @@ lipo -create $OS_BUILDDIR/Release-iphoneos/lib$PACKAGE_NAME.a $SIMULATOR_BUILDDI
 echo "Framework: Copying includes..."
 
 cp -r $1/*.h $FRAMEWORK_BUNDLE/Headers/
+[ -d $1/include ] && cp -r $1/include/$PACKAGE_NAME/*.h $FRAMEWORK_BUNDLE/Headers/
 
 echo "Framework: Creating plist..."
 

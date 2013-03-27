@@ -68,13 +68,13 @@ Main package
     - ros/roslib (removal of the rospack dependancy because no Python support
         on iOS)
 
-* Core messages
+* core messages
     - rosgraph_msgs (included in ros_comm/messages/rosgraph_msgs/)
     - std_srvs (included in ros_comm/messages/std_srvs/)
     - roscpp (included in ros_comm/clients/roscpp/)
 
-The headers of the ros messages are put into a specific framework. By this
-way, they can be added with `#include <message_package/header.h>`.
+The headers of the ros messages are put into a specific framework. By this way, they
+can be added with `#include <message_package/header.h>`.
 
 - std_msgs (https://github.com/ros/std_msgs.git)
 - common_msgs (https://github.com/ros/common_msgs.git) :

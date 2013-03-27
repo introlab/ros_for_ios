@@ -17,13 +17,6 @@
 		340DB90516F79D8C0021CE62 /* LoggerPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340DB90416F79D8C0021CE62 /* LoggerPreferencesViewController.m */; };
 		340E32F616D58D300094ABB7 /* JoyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F516D58D300094ABB7 /* JoyViewController.mm */; };
 		340E32F916D5DD130094ABB7 /* ros_joy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F816D5DD130094ABB7 /* ros_joy.mm */; };
-		340E513417021927006BAC31 /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340E512D17021927006BAC31 /* boost.framework */; };
-		340E513517021927006BAC31 /* geometry_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340E512E17021927006BAC31 /* geometry_msgs.framework */; };
-		340E513617021927006BAC31 /* log4cxx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340E512F17021927006BAC31 /* log4cxx.framework */; };
-		340E513717021927006BAC31 /* nav_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340E513017021927006BAC31 /* nav_msgs.framework */; };
-		340E513817021927006BAC31 /* ros.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340E513117021927006BAC31 /* ros.framework */; };
-		340E513917021927006BAC31 /* sensor_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340E513217021927006BAC31 /* sensor_msgs.framework */; };
-		340E513A17021927006BAC31 /* std_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340E513317021927006BAC31 /* std_msgs.framework */; };
 		3413FA3A16FA0CD5000FC5A7 /* LoggerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3413FA3916FA0CD4000FC5A7 /* LoggerTableViewCell.m */; };
 		346F2BD816CBEB1B0018FC3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BD716CBEB1B0018FC3B /* UIKit.framework */; };
 		346F2BDA16CBEB1B0018FC3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BD916CBEB1B0018FC3B /* Foundation.framework */; };
@@ -43,6 +36,14 @@
 		34BFC1D716F7BA1600B1FEC6 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */; };
 		34BFC1DA16F7BFF800B1FEC6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */; };
 		34BFC1DC16F7C2DD00B1FEC6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1DB16F7C2DD00B1FEC6 /* MessageUI.framework */; };
+		34CE7CE617029E6000C4C33F /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34CE7CDF17029E5F00C4C33F /* boost.framework */; };
+		34CE7CE717029E6000C4C33F /* geometry_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34CE7CE017029E6000C4C33F /* geometry_msgs.framework */; };
+		34CE7CE817029E6000C4C33F /* log4cxx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34CE7CE117029E6000C4C33F /* log4cxx.framework */; };
+		34CE7CE917029E6000C4C33F /* nav_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34CE7CE217029E6000C4C33F /* nav_msgs.framework */; };
+		34CE7CEA17029E6000C4C33F /* ros.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34CE7CE317029E6000C4C33F /* ros.framework */; };
+		34CE7CEB17029E6000C4C33F /* sensor_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34CE7CE417029E6000C4C33F /* sensor_msgs.framework */; };
+		34CE7CEC17029E6000C4C33F /* std_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34CE7CE517029E6000C4C33F /* std_msgs.framework */; };
+		34CE7CEE17029ED000C4C33F /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 34CE7CED17029ED000C4C33F /* libiconv.dylib */; };
 		34CF3FCF16D82AD300FD4758 /* ros_ios-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF3FCE16D82AD300FD4758 /* ros_ios-Info.plist */; };
 		34D49EAE16F65DE60089D0AD /* ros_enabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 34D49EAD16F65DE60089D0AD /* ros_enabled.png */; };
 		34D49EB116F6AAF70089D0AD /* AccJoyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 34D49EB016F6AAF70089D0AD /* AccJoyViewController.mm */; };
@@ -71,13 +72,6 @@
 		340E32F416D58D300094ABB7 /* JoyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoyViewController.h; sourceTree = "<group>"; };
 		340E32F516D58D300094ABB7 /* JoyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JoyViewController.mm; sourceTree = "<group>"; };
 		340E32F816D5DD130094ABB7 /* ros_joy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_joy.mm; sourceTree = "<group>"; };
-		340E512D17021927006BAC31 /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../ros/frameworks/boost.framework; sourceTree = "<group>"; };
-		340E512E17021927006BAC31 /* geometry_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = geometry_msgs.framework; path = ../../ros/frameworks/geometry_msgs.framework; sourceTree = "<group>"; };
-		340E512F17021927006BAC31 /* log4cxx.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = log4cxx.framework; path = ../../ros/frameworks/log4cxx.framework; sourceTree = "<group>"; };
-		340E513017021927006BAC31 /* nav_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nav_msgs.framework; path = ../../ros/frameworks/nav_msgs.framework; sourceTree = "<group>"; };
-		340E513117021927006BAC31 /* ros.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ros.framework; path = ../../ros/frameworks/ros.framework; sourceTree = "<group>"; };
-		340E513217021927006BAC31 /* sensor_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sensor_msgs.framework; path = ../../ros/frameworks/sensor_msgs.framework; sourceTree = "<group>"; };
-		340E513317021927006BAC31 /* std_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = std_msgs.framework; path = ../../ros/frameworks/std_msgs.framework; sourceTree = "<group>"; };
 		3413FA3816FA0CD4000FC5A7 /* LoggerLevelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerLevelTableViewCell.h; sourceTree = "<group>"; };
 		3413FA3916FA0CD4000FC5A7 /* LoggerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerTableViewCell.m; sourceTree = "<group>"; };
 		341F1B7616D554F70013D217 /* CheckGoalOnMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckGoalOnMap.h; sourceTree = "<group>"; };
@@ -107,6 +101,14 @@
 		34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
 		34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		34BFC1DB16F7C2DD00B1FEC6 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		34CE7CDF17029E5F00C4C33F /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../ros/frameworks/boost.framework; sourceTree = "<group>"; };
+		34CE7CE017029E6000C4C33F /* geometry_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = geometry_msgs.framework; path = ../../ros/frameworks/geometry_msgs.framework; sourceTree = "<group>"; };
+		34CE7CE117029E6000C4C33F /* log4cxx.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = log4cxx.framework; path = ../../ros/frameworks/log4cxx.framework; sourceTree = "<group>"; };
+		34CE7CE217029E6000C4C33F /* nav_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nav_msgs.framework; path = ../../ros/frameworks/nav_msgs.framework; sourceTree = "<group>"; };
+		34CE7CE317029E6000C4C33F /* ros.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ros.framework; path = ../../ros/frameworks/ros.framework; sourceTree = "<group>"; };
+		34CE7CE417029E6000C4C33F /* sensor_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sensor_msgs.framework; path = ../../ros/frameworks/sensor_msgs.framework; sourceTree = "<group>"; };
+		34CE7CE517029E6000C4C33F /* std_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = std_msgs.framework; path = ../../ros/frameworks/std_msgs.framework; sourceTree = "<group>"; };
+		34CE7CED17029ED000C4C33F /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		34CF3FCE16D82AD300FD4758 /* ros_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ros_ios-Info.plist"; sourceTree = "<group>"; };
 		34D49EAD16F65DE60089D0AD /* ros_enabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ros_enabled.png; sourceTree = "<group>"; };
 		34D49EAF16F6AAF70089D0AD /* AccJoyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccJoyViewController.h; sourceTree = "<group>"; };
@@ -124,13 +126,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				340E513417021927006BAC31 /* boost.framework in Frameworks */,
-				340E513517021927006BAC31 /* geometry_msgs.framework in Frameworks */,
-				340E513617021927006BAC31 /* log4cxx.framework in Frameworks */,
-				340E513717021927006BAC31 /* nav_msgs.framework in Frameworks */,
-				340E513817021927006BAC31 /* ros.framework in Frameworks */,
-				340E513917021927006BAC31 /* sensor_msgs.framework in Frameworks */,
-				340E513A17021927006BAC31 /* std_msgs.framework in Frameworks */,
+				34CE7CEE17029ED000C4C33F /* libiconv.dylib in Frameworks */,
+				34CE7CE617029E6000C4C33F /* boost.framework in Frameworks */,
+				34CE7CE717029E6000C4C33F /* geometry_msgs.framework in Frameworks */,
+				34CE7CE817029E6000C4C33F /* log4cxx.framework in Frameworks */,
+				34CE7CE917029E6000C4C33F /* nav_msgs.framework in Frameworks */,
+				34CE7CEA17029E6000C4C33F /* ros.framework in Frameworks */,
+				34CE7CEB17029E6000C4C33F /* sensor_msgs.framework in Frameworks */,
+				34CE7CEC17029E6000C4C33F /* std_msgs.framework in Frameworks */,
 				34BFC1DC16F7C2DD00B1FEC6 /* MessageUI.framework in Frameworks */,
 				34BFC1DA16F7BFF800B1FEC6 /* QuartzCore.framework in Frameworks */,
 				340C70E116F21BA1006DA856 /* AudioToolbox.framework in Frameworks */,
@@ -146,13 +149,14 @@
 		346F2BCB16CBEB1B0018FC3B = {
 			isa = PBXGroup;
 			children = (
-				340E512D17021927006BAC31 /* boost.framework */,
-				340E512E17021927006BAC31 /* geometry_msgs.framework */,
-				340E512F17021927006BAC31 /* log4cxx.framework */,
-				340E513017021927006BAC31 /* nav_msgs.framework */,
-				340E513117021927006BAC31 /* ros.framework */,
-				340E513217021927006BAC31 /* sensor_msgs.framework */,
-				340E513317021927006BAC31 /* std_msgs.framework */,
+				34CE7CED17029ED000C4C33F /* libiconv.dylib */,
+				34CE7CDF17029E5F00C4C33F /* boost.framework */,
+				34CE7CE017029E6000C4C33F /* geometry_msgs.framework */,
+				34CE7CE117029E6000C4C33F /* log4cxx.framework */,
+				34CE7CE217029E6000C4C33F /* nav_msgs.framework */,
+				34CE7CE317029E6000C4C33F /* ros.framework */,
+				34CE7CE417029E6000C4C33F /* sensor_msgs.framework */,
+				34CE7CE517029E6000C4C33F /* std_msgs.framework */,
 				346F2BDD16CBEB1B0018FC3B /* ros_ios */,
 				346F2BD616CBEB1B0018FC3B /* Frameworks */,
 				346F2BD516CBEB1B0018FC3B /* Products */,
@@ -374,7 +378,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -406,7 +410,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -430,12 +434,13 @@
 		346F2BFB16CBEB1B0018FC3B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../frameworks\"",
-					"\"$(SRCROOT)/../../ros_for_ios/ros\"",
 					"\"$(SRCROOT)/../../ros/frameworks\"",
 				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ros_ios/ros_ios-Prefix.pch";
 				INFOPLIST_FILE = "ros_ios/ros_ios-Info.plist";
@@ -447,12 +452,13 @@
 		346F2BFC16CBEB1B0018FC3B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../frameworks\"",
-					"\"$(SRCROOT)/../../ros_for_ios/ros\"",
 					"\"$(SRCROOT)/../../ros/frameworks\"",
 				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ros_ios/ros_ios-Prefix.pch";
 				INFOPLIST_FILE = "ros_ios/ros_ios-Info.plist";

@@ -80,7 +80,7 @@ echo "Generating ROS messages ..."
 echo "- rosgraph_msgs -"
 
 (cd $SRCDIR/ros_msgs; sh messages_gen.sh -f $SRCDIR/ros_comm/messages/rosgraph_msgs $SRCDIR/ros_msgs/std_msgs);
-mv $SRCDIR/ros_msgs/rosgraph_msgs.framework $SRCDIR/ros/frameworks/
+mv $SRCDIR/ros_msgs/rosgraph_msgs.framework $SRCDIR/frameworks/
 
 echo "- std_srvs -"
 

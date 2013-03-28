@@ -41,6 +41,7 @@
 		34782C2B170385B5001D271F /* ros.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C24170385B5001D271F /* ros.framework */; };
 		34782C2C170385B5001D271F /* sensor_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C25170385B5001D271F /* sensor_msgs.framework */; };
 		34782C2D170385B5001D271F /* std_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C26170385B5001D271F /* std_msgs.framework */; };
+		34A2B5C3170493BD00C53723 /* rosgraph_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */; };
 		34BFC1D716F7BA1600B1FEC6 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */; };
 		34BFC1DA16F7BFF800B1FEC6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */; };
 		34BFC1DC16F7C2DD00B1FEC6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1DB16F7C2DD00B1FEC6 /* MessageUI.framework */; };
@@ -105,6 +106,7 @@
 		34782C24170385B5001D271F /* ros.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ros.framework; path = ../../ros/frameworks/ros.framework; sourceTree = "<group>"; };
 		34782C25170385B5001D271F /* sensor_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sensor_msgs.framework; path = ../../ros/frameworks/sensor_msgs.framework; sourceTree = "<group>"; };
 		34782C26170385B5001D271F /* std_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = std_msgs.framework; path = ../../ros/frameworks/std_msgs.framework; sourceTree = "<group>"; };
+		34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rosgraph_msgs.framework; path = ../../../Documents/Xcode_workspace/frameworks/rosgraph_msgs.framework; sourceTree = "<group>"; };
 		34BFC1D316F7BA1600B1FEC6 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
 		34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
 		34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -126,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34A2B5C3170493BD00C53723 /* rosgraph_msgs.framework in Frameworks */,
 				34782C27170385B5001D271F /* boost.framework in Frameworks */,
 				34782C28170385B5001D271F /* geometry_msgs.framework in Frameworks */,
 				34782C29170385B5001D271F /* log4cxx.framework in Frameworks */,
@@ -149,6 +152,7 @@
 		346F2BCB16CBEB1B0018FC3B = {
 			isa = PBXGroup;
 			children = (
+				34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */,
 				34782C20170385B5001D271F /* boost.framework */,
 				34782C21170385B5001D271F /* geometry_msgs.framework */,
 				34782C22170385B5001D271F /* log4cxx.framework */,

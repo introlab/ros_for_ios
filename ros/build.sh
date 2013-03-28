@@ -49,7 +49,7 @@ sh $SRCDIR/cmake_gen.sh ${PACKAGES[1]} boost
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[2]} boost
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[3]} boost
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[4]}
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[5]} boost log4cxx std_msgs
+sh $SRCDIR/cmake_gen.sh ${PACKAGES[5]} boost log4cxx rosgraph_msgs std_msgs
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[6]} boost log4cxx
 sh $SRCDIR/cmake_gen.sh ${PACKAGES[7]} boost
 
@@ -79,36 +79,16 @@ echo "Generating ROS messages ..."
 
 echo "- rosgraph_msgs -"
 
-[ ! -d $SRCDIR/rosgraph_msgs ] && mkdir $SRCDIR/rosgraph_msgs
-
-python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/rosgraph_msgs/msg/Clock.msg -p rosgraph_msgs -o $SRCDIR/rosgraph_msgs -e $SRCDIR/ros_msgs/gencpp/scripts/
-python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/rosgraph_msgs/msg/Log.msg -Istd_msgs:$SRCDIR/ros_msgs/std_msgs/msg/ -p rosgraph_msgs -o $SRCDIR/rosgraph_msgs -e $SRCDIR/ros_msgs/gencpp/scripts/
+sh messages_gen.sh -f $SRCDIR/ros_comm/messages/rosgraph_msgs $SRCDIR/ros_msgs/std_msgs
+mv $SRCDIR/ros_msgs/rosgraph_msgs.framework $SRCDIR/ros/frameworks/
 
 echo "- std_srvs -"
 
-[ ! -d $SRCDIR/std_srvs ] && mkdir $SRCDIR/std_srvs
-python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/messages/std_srvs/srv/Empty.srv -p std_srvs -o $SRCDIR/std_srvs -e $SRCDIR/ros_msgs/gencpp/scripts/
+sh messages_gen.sh -d $SRCDIR/ros_comm/messages/std_srvs $SRCDIR/ros_msgs/std_msgs
 
 echo "- roscpp -"
 
-[ ! -d $SRCDIR/roscpp ] && mkdir $SRCDIR/roscpp
-python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $SRCDIR/ros_comm/clients/roscpp/msg/Logger.msg -Istd_msgs:$SRCDIR/ros_msgs/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/ros_msgs/gencpp/scripts/
-
-FILES=$SRCDIR/ros_comm/clients/roscpp/srv/*
-
-for f in $FILES
-    do
-        python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $f -Iroscpp:$SRCDIR/ros_comm/clients/roscpp/msg/ -Istd_msgs:$SRCDIR/ros_msgs/std_msgs/msg/ -p roscpp -o $SRCDIR/roscpp -e $SRCDIR/ros_msgs/gencpp/scripts/
-done
-
-echo "- std_msgs -"
-
-FILES=$SRCDIR/std_msgs/msg/*
-
-for f in $FILES
-    do
-        python $SRCDIR/ros_msgs/gencpp/scripts/gen_cpp.py $f -Istd_msgs:$SRCDIR/std_msgs/msg/ -p std_msgs -o $SRCDIR/std_msgs -e $SRCDIR/ros_msgs/gencpp/scripts/
-done
+sh messages_gen.sh -d $SRCDIR/ros_comm/clients/roscpp
 
 #===============================================================================
 echo "Generating CMakeLists.txt ..."
@@ -276,11 +256,9 @@ rm -r $FRAMEWORK_BUNDLE/Headers/ros/
 
 # ros core messages
 mkdir $FRAMEWORK_BUNDLE/Headers/std_srvs
-find $SRCDIR/std_srvs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/std_srvs \;
-mkdir $FRAMEWORK_BUNDLE/Headers/rosgraph_msgs
-find $SRCDIR/rosgraph_msgs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/rosgraph_msgs \;
+find $SRCDIR/ros_msgs/std_srvs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/std_srvs \;
 mkdir $FRAMEWORK_BUNDLE/Headers/roscpp
-find $SRCDIR/roscpp -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/roscpp \;
+find $SRCDIR/ros_msgs/roscpp -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/roscpp \;
 
 echo "Framework: Creating plist..."
 

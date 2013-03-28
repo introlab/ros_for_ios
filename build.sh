@@ -58,7 +58,7 @@ else
     (cd $SRCDIR/ros/ros_msgs; git clone -b $ROS_BRANCH https://github.com/ros/std_msgs.git)
 fi
 
-(cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh $SRCDIR/ros/ros_msgs/std_msgs);
+(cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh -f $SRCDIR/ros/ros_msgs/std_msgs);
 ) >> $LOGFILE 2>&1
 
 #===============================================================================
@@ -74,11 +74,11 @@ else
     (cd $SRCDIR/ros/ros_msgs; git clone -b $ROS_BRANCH https://github.com/ros/common_msgs.git)
 fi
 
-(cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh $SRCDIR/ros/ros_msgs/common_msgs/geometry_msgs $SRCDIR/ros/ros_msgs/std_msgs);
+(cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh -f $SRCDIR/ros/ros_msgs/common_msgs/geometry_msgs $SRCDIR/ros/ros_msgs/std_msgs);
 
-(cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh $SRCDIR/ros/ros_msgs/common_msgs/nav_msgs $SRCDIR/ros/ros_msgs/std_msgs $SRCDIR/ros/ros_msgs/common_msgs/geometry_msgs);
+(cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh -f $SRCDIR/ros/ros_msgs/common_msgs/nav_msgs $SRCDIR/ros/ros_msgs/std_msgs $SRCDIR/ros/ros_msgs/common_msgs/geometry_msgs);
 
-(cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh $SRCDIR/ros/ros_msgs/common_msgs/sensor_msgs $SRCDIR/ros/ros_msgs/std_msgs $SRCDIR/ros/ros_msgs/common_msgs/geometry_msgs);
+(cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh -f $SRCDIR/ros/ros_msgs/common_msgs/sensor_msgs $SRCDIR/ros/ros_msgs/std_msgs $SRCDIR/ros/ros_msgs/common_msgs/geometry_msgs);
 
 ) >> $LOGFILE 2>&1
 

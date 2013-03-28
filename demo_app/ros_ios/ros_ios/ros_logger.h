@@ -13,7 +13,7 @@
 #import <ros/node_handle.h>
 #import <ros/subscriber.h>
 #import <ros/service_client.h>
-#import <ros/rosgraph_msgs/Log.h>
+#import <rosgraph_msgs/Log.h>
 #import <boost/thread/thread.hpp>
 
 #include <vector>

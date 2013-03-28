@@ -23,7 +23,7 @@ echo "Copying the cmake ios toolchain"
 #===============================================================================
 #BOOST
 
-echo "Building Boost"
+echo "Building Boost :"
 
 (
 if [ -d $SRCDIR/boostonios ]
@@ -32,23 +32,33 @@ if [ -d $SRCDIR/boostonios ]
 else
     git clone git://gitorious.org/~galbraithjoseph/boostoniphone/galbraithjosephs-boostoniphone.git $SRCDIR/boostonios
 fi
-
-(cd $SRCDIR/boostonios; sh boost.sh)
 ) >> $LOGFILE 2>&1
+
+if (cd $SRCDIR/boostonios; sh boost.sh) >> $LOGFILE 2>&1;
+    then
+        echo "Ok"
+else
+    error_exit "Error ! Aborting."
+fi
+
+
 
 #===============================================================================
 #LOG4CXX
 
-echo "Building Log4cxx"
+echo "Building Log4cxx :"
 
-(
-(cd $SRCDIR/log4cxx; sh build.sh )
-) >> $LOGFILE 2>&1
+if (cd $SRCDIR/log4cxx; sh build.sh) >> $LOGFILE 2>&1;
+    then
+        echo "Ok"
+else
+    error_exit "Error ! Aborting."
+fi
 
 #===============================================================================
 #ROS std_msgs
 
-echo "Building ROS std_msgs"
+echo "Building ROS std_msgs :"
 
 (
 if [ -d $SRCDIR/ros/ros_msgs/std_msgs ]
@@ -57,9 +67,15 @@ if [ -d $SRCDIR/ros/ros_msgs/std_msgs ]
 else
     (cd $SRCDIR/ros/ros_msgs; git clone -b $ROS_BRANCH https://github.com/ros/std_msgs.git)
 fi
-
-(cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh -f $SRCDIR/ros/ros_msgs/std_msgs);
 ) >> $LOGFILE 2>&1
+
+if (cd $SRCDIR/ros/ros_msgs; sh messages_gen.sh -f $SRCDIR/ros/ros_msgs/std_msgs) >> $LOGFILE 2>&1;
+    then
+        echo "Ok"
+else
+    error_exit "Error ! Aborting."
+fi
+
 
 #===============================================================================
 #ROS common_msgs
@@ -112,3 +128,11 @@ echo "Cleaning ..."
 ) >> $LOGFILE 2>&1
 
 echo "Finished !"
+#===============================================================================
+# functions
+
+function error_exit
+{
+    echo "$1"
+    exit 1
+}

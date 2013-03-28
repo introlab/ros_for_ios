@@ -79,16 +79,16 @@ echo "Generating ROS messages ..."
 
 echo "- rosgraph_msgs -"
 
-sh messages_gen.sh -f $SRCDIR/ros_comm/messages/rosgraph_msgs $SRCDIR/ros_msgs/std_msgs
+(cd $SRCDIR/ros_msgs; sh messages_gen.sh -f $SRCDIR/ros_comm/messages/rosgraph_msgs $SRCDIR/ros_msgs/std_msgs);
 mv $SRCDIR/ros_msgs/rosgraph_msgs.framework $SRCDIR/ros/frameworks/
 
 echo "- std_srvs -"
 
-sh messages_gen.sh -d $SRCDIR/ros_comm/messages/std_srvs $SRCDIR/ros_msgs/std_msgs
+(cd $SRCDIR/ros_msgs; sh messages_gen.sh -d $SRCDIR/ros_comm/messages/std_srvs $SRCDIR/ros_msgs/std_msgs);
 
 echo "- roscpp -"
 
-sh messages_gen.sh -d $SRCDIR/ros_comm/clients/roscpp
+(cd $SRCDIR/ros_msgs; sh messages_gen.sh -d $SRCDIR/ros_comm/clients/roscpp);
 
 #===============================================================================
 echo "Generating CMakeLists.txt ..."

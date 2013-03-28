@@ -105,7 +105,7 @@ include(CheckFunctionExists)
 include(CheckCXXSourceCompiles)
 
 # for the ros messages
-include_directories(\${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(\${CMAKE_CURRENT_SOURCE_DIR}/ros_msgs)
 
 # cpp_common
 # execinfo.h is needed for backtrace on glibc systems

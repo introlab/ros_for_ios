@@ -159,7 +159,7 @@ xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
 #===============================================================================
 cd $SRCDIR
 
-if [ $generate_framework ]; then
+if $generate_framework; then
     VERSION_TYPE=Alpha
     FRAMEWORK_NAME=$PACKAGE_NAME
     FRAMEWORK_VERSION=A

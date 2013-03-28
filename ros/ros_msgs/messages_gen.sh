@@ -8,11 +8,11 @@ SIMULATOR_BUILDDIR=$SRCDIR/iPhoneSimulator_build
 
 ROS_BRANCH=groovy-devel
 
-generate_framework=$false
+generate_framework=false
 
 if [ $1 == "-f" ]
     then
-        generate_framework=$true
+        generate_framework=true
 fi
 
 #===============================================================================
@@ -159,7 +159,10 @@ xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
 #===============================================================================
 cd $SRCDIR
 
-if $generate_framework; then
+echo $generate_framework
+
+if [ $generate_framework == true ]; then
+
     VERSION_TYPE=Alpha
     FRAMEWORK_NAME=$PACKAGE_NAME
     FRAMEWORK_VERSION=A

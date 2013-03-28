@@ -106,7 +106,7 @@
 		34782C24170385B5001D271F /* ros.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ros.framework; path = ../../ros/frameworks/ros.framework; sourceTree = "<group>"; };
 		34782C25170385B5001D271F /* sensor_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sensor_msgs.framework; path = ../../ros/frameworks/sensor_msgs.framework; sourceTree = "<group>"; };
 		34782C26170385B5001D271F /* std_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = std_msgs.framework; path = ../../ros/frameworks/std_msgs.framework; sourceTree = "<group>"; };
-		34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rosgraph_msgs.framework; path = ../../../Documents/Xcode_workspace/frameworks/rosgraph_msgs.framework; sourceTree = "<group>"; };
+		34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rosgraph_msgs.framework; path = ../../ros/frameworks/rosgraph_msgs.framework; sourceTree = "<group>"; };
 		34BFC1D316F7BA1600B1FEC6 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
 		34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
 		34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };

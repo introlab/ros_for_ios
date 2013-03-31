@@ -86,8 +86,9 @@ can be added with `#include <message_package/header.h>`.
 You can use the script message_gen.sh to generate the messages framework you need.
 
 For example,
-`sh message_gen.sh path_to_nav_msgs path_to_std_msgs path_to_geometry_msgs`
-will build nav_msgs which depends of std_msgs and geometry_msgs.
+`sh message_gen.sh -f path_to_nav_msgs path_to_std_msgs path_to_geometry_msgs`
+will build nav_msgs.framework which depends of std_msgs and geometry_msgs (it's also 
+possible to generate a simple folder with the -d option instead of the -f).
 
 iOS demo applications
 ---------------------

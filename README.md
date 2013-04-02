@@ -5,15 +5,18 @@ How to build the Robot Operating System for the iOS platform.
 
 First of all, you need to be on a MacOSX system with the Xcode and the iOS tool
 chain installed. You also need to have the command line tools installed (svn,
- git ... see Xcode options). 
+ git ... see Xcode options). The automated script will build all the necessary 
+ libraries for you :
 
 ```
 git clone https://github.com/introlab/ros_for_ios.git
 sh build.sh
 ```
 
-After some minutes a ros for ios framework is available for the ios arm7, arm7s and
-simulator in the ros/frameworks directory.
+After few minutes, a ros for ios framework is available for the ios arm7, arm7s and
+simulator in the ros/frameworks directory and ready for use. A demonstration 
+application is also provided to test the framework. Open demo_app/ros_ios/ros_ios.xcodeproj with Xcode and 
+build the demonstration application. The project should compile without any intervention.
 
 External libraries
 ------------------

@@ -7,7 +7,7 @@ SRCDIR=`pwd`
 ROS_BRANCH=groovy-devel
 LOGFILE=$SRCDIR/log.txt
 
-echo "It will take some minutes. Grab a glass of your favorite drink ..."
+echo "It will take a few minutes. Grab a glass of your favorite drink ..."
 
 #===============================================================================
 #CMake Toolchain

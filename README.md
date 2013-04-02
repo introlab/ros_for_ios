@@ -3,8 +3,8 @@ ros_for_ios
 
 How to build the Robot Operating System for the iOS platform.
 
-First of all, you need to be on a MacOSX system with the Xcode and the iOS tool
-chain installed. You also need to have the command line tools installed (svn,
+First of all, you need to be on a MacOSX system with the Xcode and the iOS toolchain
+installed. You also need to have the command line tools installed (svn,
  git ... see Xcode options). The automated script will build all the necessary 
  libraries for you :
 
@@ -87,7 +87,7 @@ can be added with `#include <message_package/header.h>`.
     - ... the one you need ...
 
 You can use the script message_gen.sh to generate the messages framework you need.
-
+This script uses the genmsg and gencpp packages in order to generate the header files.
 For example,
 `sh message_gen.sh -f path_to_nav_msgs path_to_std_msgs path_to_geometry_msgs`
 will build nav_msgs.framework which depends of std_msgs and geometry_msgs (it's also 

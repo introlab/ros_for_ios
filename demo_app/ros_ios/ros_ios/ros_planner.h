@@ -23,7 +23,7 @@
 class RosPlanner
 {
 public:
-    MapViewController * view_controller_;
+    MapViewController __weak * view_controller_;
     
     RosPlanner();
     ~RosPlanner();

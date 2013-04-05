@@ -23,7 +23,7 @@
 class RosLogger
 {
 public:
-    LoggerViewController * view_controller_;
+    LoggerViewController __weak * view_controller_;
     std::vector<rosgraph_msgs::Log> logs;
     
     RosLogger();

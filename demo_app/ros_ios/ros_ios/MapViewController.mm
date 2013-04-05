@@ -61,7 +61,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     NSLog(@"viewWillDisappear");
-    ros_controller_->view_controller_ = nil;
+    //ros_controller_->view_controller_ = nil;
 }
 
 -(void)dealloc

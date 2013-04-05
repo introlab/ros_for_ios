@@ -22,7 +22,7 @@
 class RosVideo
 {
 public:
-    VideoViewController * view_controller_;
+    VideoViewController __weak * view_controller_;
     
     RosVideo();
     ~RosVideo();

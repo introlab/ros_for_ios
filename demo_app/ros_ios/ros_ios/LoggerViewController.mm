@@ -75,7 +75,7 @@
 {
     NSLog(@"viewWillDisappear");
     [self stopTimer];
-    ros_controller_->view_controller_ = nil;
+    //ros_controller_->view_controller_ = nil;
 }
 
 -(void)dealloc

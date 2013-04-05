@@ -18,6 +18,8 @@ simulator in the ros/frameworks directory and ready for use. A demonstration
 application is also provided to test the framework. Open demo_app/ros_ios/ros_ios.xcodeproj with Xcode and 
 build the demonstration application. The project should compile without any intervention.
 
+**The following is for your information.**
+
 External libraries
 ------------------
 
@@ -106,6 +108,9 @@ Some iOS demonstration apps were realized.
 - ROS Logger
 - Video Feeds
 
+It is needed to export the ROS_HOSTNAME of the computer running the ros master.
+`export ROS_HOSTNAME=IP_COMPUTER`
+ 
 IntRolab
 http://introlab.3it.usherbrooke.ca
 Université de Sherbrooke, Québec, Canada

@@ -41,9 +41,9 @@
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-    //if([ViewController isValidIp:[_ip_text_field.attributedText string]])
-    //{
-        NSString * master_uri = [@"ROS_MASTER_URI=http://" stringByAppendingString:/*[[_ip_text_field.attributedText string] stringByAppendingString:@":11311/"]*/@"10.51.92.37:11311/"];
+    if([ViewController isValidIp:[_ip_text_field.attributedText string]])
+    {
+        NSString * master_uri = [@"ROS_MASTER_URI=http://" stringByAppendingString:[[_ip_text_field.attributedText string] stringByAppendingString:@":11311/"]];
         NSLog(@"%@",master_uri);
         
         NSString * ip = [ViewController getIPAddress];
@@ -69,13 +69,13 @@
             [alert show];
             return NO;
         }
-    //}
-    //else
-    //{
-    //    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error !" message:@"ROS Master's IPv4 address is not valid" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    //    [alert show];
-    //    return NO;
-    //}
+    }
+    else
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error !" message:@"ROS Master's IPv4 address is not valid" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+        return NO;
+    }
     return YES;
 }
 

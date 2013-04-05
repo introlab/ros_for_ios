@@ -33,9 +33,9 @@ void RosVideo::ros_spin()
 void RosVideo::subscribe_to(std::string name)
 {
     if(name.compare("RGB") == 0)
-        sub_.reset(new ros::Subscriber(n_.subscribe(/*"/openni/rgb/image_rect_color"*/"/head_mount_kinect/rgb/image_raw", 10, &RosVideo::imageCB, this)));
+        sub_.reset(new ros::Subscriber(n_.subscribe("/openni/rgb/image_rect_color", 10, &RosVideo::imageCB, this)));
     else if(name.compare("Depth") == 0)
-        sub_.reset(new ros::Subscriber(n_.subscribe(/*"/openni/depth/image_raw"*/"/head_mount_kinect/depth/image_raw", 10, &RosVideo::imageCB, this)));
+        sub_.reset(new ros::Subscriber(n_.subscribe("/openni/depth/image_raw", 10, &RosVideo::imageCB, this)));
     else if(name.compare("IR") == 0)
         sub_.reset(new ros::Subscriber(n_.subscribe("/openni/ir/image_raw", 10, &RosVideo::imageCB, this)));
 }

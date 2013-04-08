@@ -68,12 +68,12 @@ roslisp) and graph introspection tools (rostopic, rosnode, rosservice, rosparam)
     - ros_comm/client/roscpp
     - ros_comm/tools/rosconsole
 
-* ros (https://github.com/ros/ros.git)
+* ros (https://github.com/ros/ros.git) :
 Main package
     - ros/roslib (removal of the rospack dependancy because no Python support
         on iOS)
 
-* core messages
+* core messages :
     - rosgraph_msgs (included in ros_comm/messages/rosgraph_msgs/)
     - std_srvs (included in ros_comm/messages/std_srvs/)
     - roscpp (included in ros_comm/clients/roscpp/)
@@ -106,6 +106,7 @@ Some iOS demonstration apps were realized.
 - Accelerometer Control
 - Planner Control
 - ROS Logger
+- ROS Topics List
 - Video Feeds
 
 It is needed to export the ROS_HOSTNAME of the computer running the ros master.

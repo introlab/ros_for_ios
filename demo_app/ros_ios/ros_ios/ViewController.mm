@@ -57,7 +57,12 @@
         int argc = 0;
         char ** argv = NULL;
         
-        ros::init(argc,argv,"ros_ios_app");
+        if(!ros::isInitialized())
+            ros::init(argc,argv,"ros_ios_app");
+        else
+        {
+            NSLog(@"Impossible to init with another URI ...");
+        }
         
         if(ros::master::check())
         {

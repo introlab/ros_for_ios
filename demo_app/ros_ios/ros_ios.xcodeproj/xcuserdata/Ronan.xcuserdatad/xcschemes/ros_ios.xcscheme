@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "346F2BD316CBEB1B0018FC3B"
-               BuildableName = "ros_ios.app"
+               BuildableName = "ROS4iOS.app"
                BlueprintName = "ros_ios"
                ReferencedContainer = "container:ros_ios.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "346F2BD316CBEB1B0018FC3B"
-            BuildableName = "ros_ios.app"
+            BuildableName = "ROS4iOS.app"
             BlueprintName = "ros_ios"
             ReferencedContainer = "container:ros_ios.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "346F2BD316CBEB1B0018FC3B"
-            BuildableName = "ros_ios.app"
+            BuildableName = "ROS4iOS.app"
             BlueprintName = "ros_ios"
             ReferencedContainer = "container:ros_ios.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "346F2BD316CBEB1B0018FC3B"
-            BuildableName = "ros_ios.app"
+            BuildableName = "ROS4iOS.app"
             BlueprintName = "ros_ios"
             ReferencedContainer = "container:ros_ios.xcodeproj">
          </BuildableReference>

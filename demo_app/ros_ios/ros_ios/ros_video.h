@@ -32,9 +32,9 @@ public:
 private:
     ros::NodeHandle n_;
     boost::scoped_ptr<ros::Subscriber> sub_;
-
+    
     boost::thread * ros_thread_;
-
+    
     void imageCB(const sensor_msgs::ImageConstPtr & msg);
 };
 

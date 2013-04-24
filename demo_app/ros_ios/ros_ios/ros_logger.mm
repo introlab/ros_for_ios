@@ -57,7 +57,7 @@ void RosLogger::loggerCB(const rosgraph_msgs::LogConstPtr & msg)
     
     if(view_controller_ != nil)
     {
-        [view_controller_ performSelectorOnMainThread:@selector(newLogReceived:) withObject:log waitUntilDone:NO];
+        [view_controller_ performSelectorOnMainThread:@selector(newLogReceived:) withObject:log waitUntilDone:YES];
     }
-
+    
 }

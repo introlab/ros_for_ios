@@ -35,6 +35,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"viewWillAppear");
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    NSLog(@"viewWillDisappear");
+}
+
+-(void)dealloc
+{
+    NSLog(@"dealloc");
+}
+
 - (IBAction)switchDebugChanged:(id)sender
 {
     BOOL value = _switchDebug.on;

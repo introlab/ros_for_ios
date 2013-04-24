@@ -15,7 +15,7 @@
 
 @interface LoggerViewController : UITableViewController <LoggerPreferencesViewControllerDelegate, MFMailComposeViewControllerDelegate>
 {
-    @public
+@public
     RosLogger * ros_controller_;
     BOOL isPaused;
     BOOL newData;
@@ -24,8 +24,8 @@
     BOOL warnEnabled;
     BOOL errorEnabled;
     BOOL fatalEnabled;
-
-    @protected
+    
+@protected
     UIBarButtonItem * pause;
     NSTimer * timer;
 }

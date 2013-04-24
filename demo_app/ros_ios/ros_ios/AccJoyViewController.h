@@ -13,10 +13,10 @@
 
 @interface AccJoyViewController : UIViewController <UIAccelerometerDelegate>
 {
-    @public
+@public
     RosJoy * ros_controller_;
     
-    @protected
+@protected
     UIAccelerometer * accelerometer;
     UIBarButtonItem *pause;
     AccelerometerFilter *filter;
@@ -24,6 +24,7 @@
     CGPoint center;
 }
 
+@property (readonly) BOOL isPaused;
 @property (nonatomic, retain) UIAccelerometer * accelerometer;
 @property(nonatomic, retain) IBOutlet UIBarButtonItem *pause;
 @property (strong, nonatomic) IBOutlet UIImageView *image;

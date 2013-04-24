@@ -12,9 +12,9 @@
 
 
 RosVideo::RosVideo()
-{    
+{
     this->subscribe_to("RGB");
-                              
+    
     ros_thread_ = new boost::thread(&RosVideo::ros_spin, this);
 }
 
@@ -43,7 +43,7 @@ void RosVideo::subscribe_to(std::string name)
 void RosVideo::imageCB(const sensor_msgs::ImageConstPtr & msg)
 {
     //ROS_INFO("Image received");
-             
+    
     unsigned int width = msg->width;
     unsigned int height = msg->height;
     unsigned char * data = (unsigned char *) msg->data.data();
@@ -83,9 +83,9 @@ void RosVideo::imageCB(const sensor_msgs::ImageConstPtr & msg)
                                         provider,NULL,NO,renderingIntent);
     
     UIImage * image = [UIImage imageWithCGImage:imageRef];
-
+    
     if(view_controller_ != nil)
     {
-        [view_controller_.imageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
+        [view_controller_.imageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:YES];
     }
 }

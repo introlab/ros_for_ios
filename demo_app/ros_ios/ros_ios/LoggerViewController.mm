@@ -24,7 +24,8 @@
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
 	// Do any additional setup after loading the view, typically from a nib.
-
+    ros_controller_ = new RosLogger();
+    
     isPaused = NO;
     newData = NO;
     
@@ -40,17 +41,15 @@
     logs  = [[NSMutableArray alloc] initWithCapacity:NB_LEVEL];
     for(LogLevel i = 0; i < NB_LEVEL; i++)
         [logs addObject:[[NSMutableArray alloc] init]];
-    
-    ros_controller_ = new RosLogger();
 }
 
 - (void) newLogReceived:(Log*)log
 {
     if((log.level == DEBUG && debugEnabled)
-        || (log.level == INFO && infoEnabled)
-            || (log.level == WARN && warnEnabled)
-                || (log.level == ERROR && errorEnabled)
-                    || (log.level == FATAL && fatalEnabled))
+       || (log.level == INFO && infoEnabled)
+       || (log.level == WARN && warnEnabled)
+       || (log.level == ERROR && errorEnabled)
+       || (log.level == FATAL && fatalEnabled))
     {
         [logs[log.level] addObject:log];
         newData = YES;
@@ -75,14 +74,12 @@
 {
     NSLog(@"viewWillDisappear");
     [self stopTimer];
-    //ros_controller_->view_controller_ = nil;
 }
 
 -(void)dealloc
 {
     NSLog(@"dealloc");
     delete ros_controller_;
-    ros_controller_ = nil;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -132,7 +129,7 @@
     static NSString *CellIdentifier = @"loggerTableCell";
     
     LoggerTableViewCell *cell = [tableView
-                              dequeueReusableCellWithIdentifier:CellIdentifier];
+                                 dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[LoggerTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
@@ -199,7 +196,7 @@
 
 - (void) buttonSavePushed:(LoggerPreferencesViewController *)controller
 {
-
+    
 }
 
 - (IBAction)openMail:(id)sender
@@ -231,7 +228,7 @@
             for(int i = 0; i < levelLogs.count; i++)
             {
                 Log * log = levelLogs[i];
-            
+                
                 emailBody = [emailBody stringByAppendingString:@" "];
                 emailBody = [emailBody stringByAppendingString:log.stamp];
                 emailBody = [emailBody stringByAppendingString:@" "];

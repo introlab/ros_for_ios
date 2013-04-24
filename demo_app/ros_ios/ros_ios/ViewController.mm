@@ -56,12 +56,14 @@
         
         int argc = 0;
         char ** argv = NULL;
-        
+
         if(!ros::isInitialized())
+        {
             ros::init(argc,argv,"ros_ios_app");
+        }
         else
         {
-            NSLog(@"Impossible to init with another URI ...");
+            NSLog(@"ROS already initialised. Can't change the ROS_MASTER_URI");            
         }
         
         if(ros::master::check())

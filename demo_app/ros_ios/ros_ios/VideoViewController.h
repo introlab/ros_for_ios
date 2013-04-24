@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ros_video.h"
 
-@interface VideoViewController :UIViewController
-<UIPickerViewDelegate, UIPickerViewDataSource>
+@interface VideoViewController :UIViewController<UIPickerViewDelegate, UIPickerViewDataSource>
 {
     UIPickerView * pickerView;
     NSMutableArray * imageTypes;

@@ -26,14 +26,13 @@
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
 	// Do any additional setup after loading the view, typically from a nib.
+    ros_controller_ = new RosJoy();
     
     ballView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     [ballView setBackgroundColor:[UIColor redColor]];
     ballView.layer.cornerRadius = 25;
     ballView.userInteractionEnabled = YES;
     [self.view addSubview:ballView];
-    
-    ros_controller_ = new RosJoy();
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,7 +62,6 @@
 {
     NSLog(@"dealloc");
     delete ros_controller_;
-    ros_controller_ = nil;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

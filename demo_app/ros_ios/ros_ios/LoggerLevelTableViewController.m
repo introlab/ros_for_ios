@@ -32,10 +32,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -92,13 +92,13 @@
     static NSString *CellIdentifier = @"loggerLevelTableCell";
     
     LoggerLevelTableViewCell *cell = [tableView
-                                 dequeueReusableCellWithIdentifier:CellIdentifier];
+                                      dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[LoggerLevelTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }
-            
+    
     // Configure the cell...
     
     Log * log = self.levelLogs[[indexPath row]];
@@ -108,7 +108,7 @@
     cell.message.text = log.message;
     
     return cell;
-
+    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -131,9 +131,9 @@
 }
 
 /*- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    [self performSegueWithIdentifier: @"showDetails" sender: [self.tableView cellForRowAtIndexPath: indexPath]];    
-}*/
+ {
+ [self performSegueWithIdentifier: @"showDetails" sender: [self.tableView cellForRowAtIndexPath: indexPath]];
+ }*/
 
 #pragma mark – Refresh the UI
 

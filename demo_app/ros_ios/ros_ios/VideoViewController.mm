@@ -21,6 +21,7 @@
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
 	// Do any additional setup after loading the view, typically from a nib.
+    ros_controller_ = new RosVideo();
     
     imageTypes  = [[NSMutableArray alloc] init];
     [imageTypes addObject:@"RGB"];
@@ -28,8 +29,6 @@
     [imageTypes addObject:@"IR"];
     
     [pickerView selectRow:0 inComponent:0 animated:NO];
-    
-    ros_controller_ = new RosVideo();
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,13 +47,12 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     NSLog(@"viewWillDisappear");
-    //ros_controller_->view_controller_ = nil;
+    delete ros_controller_;
 }
 
 -(void)dealloc
 {
     NSLog(@"dealloc");
-    delete ros_controller_;
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;

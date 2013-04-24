@@ -7,22 +7,17 @@
 //
 
 #import "ros_planner.h"
-#import <ros/time.h>
 #import "MapViewController.h"
-#include <nav_msgs/GetPlan.h>
-#include "CheckGoalOnMap.h"
-#include "ConvertGoalOnMap.h"
+#import <ros/time.h>
+#import <nav_msgs/GetPlan.h>
 
 #include <cmath>
 
 RosPlanner::RosPlanner()
-{    
-    pub_ = n_.advertise<geometry_msgs::PoseStamped>(/*"/planner_goal"*/"/move_base_simple/goal", 1);
-    sub_ = n_.subscribe("/map_to_image/map_image", 10, &RosPlanner::mapCB, this);
-
+{
+    pub_ = n_.advertise<geometry_msgs::PoseStamped>("/planner_goal", 1);
+    sub_ = n_.subscribe("/map", 10, &RosPlanner::mapCB, this);
     c_srv_plan_ = n_.serviceClient<nav_msgs::GetPlan>("make_plan");
-    c_srv_goal_ = n_.serviceClient<image_tools::CheckGoalOnMap>("check_goal_on_map");
-    c_srv_convert_ = n_.serviceClient<image_tools::ConvertGoalOnMap>("convert_goal_on_map");
     
     ros_thread_ = new boost::thread(&RosPlanner::ros_spin, this);
 }
@@ -39,42 +34,9 @@ void RosPlanner::ros_spin()
     ros::spin();
 }
 
-void RosPlanner::mapCB(const sensor_msgs::ImageConstPtr & msg)
+void RosPlanner::mapCB(const nav_msgs::OccupancyGridConstPtr & msg)
 {
-    unsigned int width = msg->width;
-    unsigned int height = msg->height;
-    unsigned char * data = (unsigned char *) msg->data.data();
-    
-    
-    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL,
-                                                              data,
-                                                              msg->data.size(),
-                                                              NULL);
-    
-    int bitsPerComponent = 8;
-    int bitsPerPixel = 24;
-    int bytesPerRow = 3 * width;
-    
-    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
-    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-    
-    CGImageRef imageRef = CGImageCreate(width,
-                                        height,
-                                        bitsPerComponent,
-                                        bitsPerPixel,
-                                        bytesPerRow,
-                                        colorSpaceRef,
-                                        bitmapInfo,
-                                        provider,NULL,NO,renderingIntent);
-    
-    UIImage * image = [UIImage imageWithCGImage:imageRef];
-    
-    [view_controller_.mapView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:NO];
-    
-    //[view_controller_.mapView performSelectorOnMainThread:@selector(sizeToFit:) withObject:nil waitUntilDone:NO];
-    
-    //[view_controller_.mapView performSelectorOnMainThread:@selector(setNeedsDisplay:) withObject:nil waitUntilDone:NO];
+    map = *msg;
 }
 
 std::vector<CGPoint> RosPlanner::getPlan(CGPoint goal)
@@ -128,19 +90,7 @@ std::vector<CGPoint> RosPlanner::getPlan(CGPoint goal)
 
 bool RosPlanner::checkGoal(CGPoint goal)
 {
-    image_tools::CheckGoalOnMap srv;
-    srv.request.x = (int)round(goal.x);
-    srv.request.y = (int)round(goal.y);
-             
-    if (c_srv_goal_.call(srv))
-    {
-        return srv.response.valid != 0;
-    }
-    else
-    {
-        ROS_ERROR("Failed to call service check_goal_on_map");
-        return false;
-    }
+    return true;
 }
 
 void RosPlanner::sendGoal(CGPoint goal)
@@ -152,17 +102,4 @@ void RosPlanner::sendGoal(CGPoint goal)
     pose.header.frame_id = "/map";
     pose.header.seq = 0;
     
-    image_tools::ConvertGoalOnMap srv;
-    srv.request.x = (int)round(goal.x);
-    srv.request.y = (int)round(goal.y);
-    
-    if (c_srv_convert_.call(srv))
-    {
-        pose.pose = srv.response.goal;
-        pub_.publish(pose);
-    }
-    else
-    {
-        ROS_ERROR("Failed to call service convert_goal_on_map");
-    }
 }

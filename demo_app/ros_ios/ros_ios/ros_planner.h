@@ -14,7 +14,7 @@
 #import <ros/subscriber.h>
 #import <ros/service_client.h>
 #import <geometry_msgs/PoseStamped.h>
-#import <sensor_msgs/Image.h>
+#import <nav_msgs/OccupancyGrid.h>
 #import <boost/thread/thread.hpp>
 #import <vector>
 
@@ -29,7 +29,6 @@ public:
     ~RosPlanner();
     void ros_spin();
     std::vector<CGPoint> getPlan(CGPoint goal);
-    UIImage * getMapImage();
     bool checkGoal(CGPoint goal);
     void sendGoal(CGPoint goal);
     
@@ -38,11 +37,11 @@ private:
     ros::Publisher pub_;
     ros::Subscriber sub_;
     ros::ServiceClient c_srv_plan_;
-    ros::ServiceClient c_srv_goal_;
-    ros::ServiceClient c_srv_convert_;
     boost::thread * ros_thread_;
     
-    void mapCB(const sensor_msgs::ImageConstPtr & msg);
+    nav_msgs::OccupancyGrid map;
+    
+    void mapCB(const nav_msgs::OccupancyGridConstPtr & msg);
 };
 
 #endif

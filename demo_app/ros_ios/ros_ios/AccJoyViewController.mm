@@ -15,23 +15,22 @@
 
 @end
 
-@implementation AccJoyViewController 
+@implementation AccJoyViewController
 
-@synthesize accelerometer, pause;
+@synthesize isPaused, accelerometer, pause;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
 	// Do any additional setup after loading the view, typically from a nib.
+    ros_controller_ = new RosJoy();
     
 	isPaused = NO;
-
+    
 	[self changeFilter:[LowpassFilter class]];
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
 	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
-    
-    ros_controller_ = new RosJoy();
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,8 +55,8 @@
 -(void)dealloc
 {
     NSLog(@"dealloc");
+    [[UIAccelerometer sharedAccelerometer] setDelegate:nil];
     delete ros_controller_;
-    ros_controller_ = nil;
 }
 
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
@@ -73,7 +72,6 @@
 		[filter addAcceleration:acceleration];
         
         ros_controller_->sendCmds(k_x*filter.y, k_y*0.0, k_theta*filter.x);
-        NSLog(@"X; %f Y: %f", k_x*filter.y, k_theta*filter.x);
         
         UIGraphicsBeginImageContext(self.view.frame.size);
         [self.image.image drawInRect:self.view.frame];

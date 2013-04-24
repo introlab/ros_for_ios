@@ -33,9 +33,9 @@ public:
 private:
     ros::NodeHandle n_;
     ros::Subscriber sub_;
-
+    
     boost::thread * ros_thread_;
-
+    
     void loggerCB(const rosgraph_msgs::LogConstPtr & msg);
 };
 

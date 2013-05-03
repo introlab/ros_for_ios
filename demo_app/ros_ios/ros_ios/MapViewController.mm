@@ -8,8 +8,6 @@
 
 #import "MapViewController.h"
 
-#import <vector>
-
 typedef struct {
     float Position[3];
     float Color[4];
@@ -17,87 +15,28 @@ typedef struct {
 } Vertex;
 
 const Vertex Vertices[] = {
-    // Front
-    {{1, -1, 1}, {1, 0, 0, 1}, {1, 0}},
-    {{1, 1, 1}, {0, 1, 0, 1}, {1, 1}},
-    {{-1, 1, 1}, {0, 0, 1, 1}, {0, 1}},
-    {{-1, -1, 1}, {0, 0, 0, 1}, {0, 0}},
-    // Back
-    {{1, 1, -1}, {1, 0, 0, 1}, {0, 1}},
-    {{-1, -1, -1}, {0, 1, 0, 1}, {1, 0}},
-    {{1, -1, -1}, {0, 0, 1, 1}, {0, 0}},
-    {{-1, 1, -1}, {0, 0, 0, 1}, {1, 1}},
-    // Left
-    {{-1, -1, 1}, {1, 0, 0, 1}, {1, 0}},
-    {{-1, 1, 1}, {0, 1, 0, 1}, {1, 1}},
-    {{-1, 1, -1}, {0, 0, 1, 1}, {0, 1}},
-    {{-1, -1, -1}, {0, 0, 0, 1}, {0, 0}},
-    // Right
-    {{1, -1, -1}, {1, 0, 0, 1}, {1, 0}},
-    {{1, 1, -1}, {0, 1, 0, 1}, {1, 1}},
-    {{1, 1, 1}, {0, 0, 1, 1}, {0, 1}},
-    {{1, -1, 1}, {0, 0, 0, 1}, {0, 0}},
-    // Top
-    {{1, 1, 1}, {1, 0, 0, 1}, {1, 0}},
-    {{1, 1, -1}, {0, 1, 0, 1}, {1, 1}},
-    {{-1, 1, -1}, {0, 0, 1, 1}, {0, 1}},
-    {{-1, 1, 1}, {0, 0, 0, 1}, {0, 0}},
-    // Bottom
-    {{1, -1, -1}, {1, 0, 0, 1}, {1, 0}},
-    {{1, -1, 1}, {0, 1, 0, 1}, {1, 1}},
-    {{-1, -1, 1}, {0, 0, 1, 1}, {0, 1}},
-    {{-1, -1, -1}, {0, 0, 0, 1}, {0, 0}}
+    {{1, -1, 0}, {1, 1, 1, 1}, {1, 0}},
+    {{1, 1, 0}, {1, 1, 1, 1}, {1, 1}},
+    {{-1, 1, 0}, {1, 1, 1, 1}, {0, 1}},
+    {{-1, -1, 0}, {1, 1, 1, 1}, {0, 0}}
 };
 
 const GLubyte Indices[] = {
-    // Front
     0, 1, 2,
-    2, 3, 0,
-    // Back
-    4, 6, 5,
-    4, 5, 7,
-    // Left
-    8, 9, 10,
-    10, 11, 8,
-    // Right
-    12, 13, 14,
-    14, 15, 12,
-    // Top
-    16, 17, 18,
-    18, 19, 16,
-    // Bottom
-    20, 21, 22,
-    22, 23, 20
+    2, 3, 0
 };
 
 @interface MapViewController () {
-    float _curRed;
-    BOOL _increasing;
-    GLuint _vertexBuffer;
-    GLuint _indexBuffer;
-    GLuint _vertexArray;
-    float _rotation;
-    GLKMatrix4 _rotMatrix;
-    GLKVector3 _anchor_position;
-    GLKVector3 _current_position;
-    GLKQuaternion _quatStart;
-    GLKQuaternion _quat;
     
-    BOOL _slerping;
-    float _slerpCur;
-    float _slerpMax;
-    GLKQuaternion _slerpStart;
-    GLKQuaternion _slerpEnd;
 }
-@property (strong, nonatomic) EAGLContext *context;
-@property (strong, nonatomic) GLKBaseEffect *effect;
 
 @end
 
 @implementation MapViewController
-@synthesize context = _context;
-@synthesize effect = _effect;
-// Rest of file...
+
+@synthesize glContext = _glContext;
+@synthesize glLayer = _glLayer;
+@synthesize texture = _texture;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -112,99 +51,7 @@ const GLubyte Indices[] = {
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
     // Release any cached data, images, etc that aren't in use.
-}
-
-//- (void)viewWillAppear:(BOOL)animated
-//{
-//    NSLog(@"viewWillAppear");
-//    //ros_controller_->view_controller_ = self;
-//}
-
-//- (void)viewWillDisappear:(BOOL)animated
-//{
-//    NSLog(@"viewWillDisappear");
-//}
-
--(void)dealloc
-{
-    NSLog(@"dealloc");
-    delete ros_controller_;
-}
-
-#pragma mark - View lifecycle
-
-/*
- // Implement loadView to create a view hierarchy programmatically, without using a nib.
- - (void)loadView
- {
- }
- */
-
-- (void)setupGL {
-    
-    [EAGLContext setCurrentContext:self.context];
-    glEnable(GL_CULL_FACE);
-    
-    self.effect = [[GLKBaseEffect alloc] init];
-    
-    //NSDictionary * options = [NSDictionary dictionaryWithObjectsAndKeys:
-    //                          [NSNumber numberWithBool:YES],
-    //                          GLKTextureLoaderOriginBottomLeft,
-    //                          nil];
-    
-    //NSError * error;
-    //NSString *path = [[NSBundle mainBundle] pathForResource:@"tile_floor" ofType:@"png"];
-    //GLKTextureInfo * info = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
-    // (info == nil) {
-    //    NSLog(@"Error loading file: %@", [error localizedDescription]);
-    //}
-    //self.effect.texture2d0.name = info.name;
-    //self.effect.texture2d0.enabled = true;
-    
-    // New lines
-    glGenVertexArraysOES(1, &_vertexArray);
-    glBindVertexArrayOES(_vertexArray);
-    
-    // Old stuff
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
-    
-    // New lines (were previously in draw)
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Position));
-    glEnableVertexAttribArray(GLKVertexAttribColor);
-    glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Color));
-    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, TexCoord));
-    
-    // New line
-    glBindVertexArrayOES(0);
-    
-    _rotMatrix = GLKMatrix4Identity;
-    _quat = GLKQuaternionMake(0, 0, 0, 1);
-    _quatStart = GLKQuaternionMake(0, 0, 0, 1);
-    
-    UITapGestureRecognizer * dtRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
-    dtRec.numberOfTapsRequired = 2;
-    [self.view addGestureRecognizer:dtRec];
-}
-
-- (void)tearDownGL {
-    
-    [EAGLContext setCurrentContext:self.context];
-    
-    glDeleteBuffers(1, &_vertexBuffer);
-    glDeleteBuffers(1, &_indexBuffer);
-    //glDeleteVertexArraysOES(1, &_vertexArray);
-    
-    self.effect = nil;
     
 }
 
@@ -213,91 +60,251 @@ const GLubyte Indices[] = {
     [super viewDidLoad];
     
     ros_controller_ = new RosPlanner();
+    ros_controller_->view_controller_ = self;
     
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    _texture = [[MapImage alloc] init];
+    _texture.displayed = YES;
     
-    if (!self.context) {
-        NSLog(@"Failed to create ES context");
-    }
-    
-    GLKView *view = (GLKView *)self.view;
-    view.context = self.context;
-    view.drawableMultisample = GLKViewDrawableMultisample4X;
     [self setupGL];
+    
+    //GLKView *view = (GLKView *)self.view;
+    //view.context = self.glContext;
 }
 
-- (void)viewDidUnload
+- (void)dealloc
 {
-    [super viewDidUnload];
+    NSLog(@"dealloc");
     
-    [self tearDownGL];
-    
-    if ([EAGLContext currentContext] == self.context) {
+    if ([EAGLContext currentContext] == self.glContext) {
         [EAGLContext setCurrentContext:nil];
     }
-    self.context = nil;
+    self.glContext = nil;
+    
+    delete ros_controller_;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void)setupLayer {
+    
+    self.glLayer = (CAEAGLLayer*) self.view.layer;
+    self.glLayer.opaque = YES;
+}
+
+- (void)setupContext {
+    
+    EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
+    self.glContext = [[EAGLContext alloc] initWithAPI:api];
+    if (!self.glContext) {
+        NSLog(@"Failed to initialize OpenGLES 2.0 context");
+        exit(1);
+    }
+    
+    if (![EAGLContext setCurrentContext:self.glContext]) {
+        NSLog(@"Failed to set current OpenGL context");
+        exit(1);
+    }
+}
+
+- (void)setupRenderBuffer {
+    
+    glGenRenderbuffers(1, &_colorRenderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+    [self.glContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:self.glLayer];
+}
+
+- (void)setupFrameBuffer {
+    
+    GLuint framebuffer;
+    glGenFramebuffers(1, &framebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                              GL_RENDERBUFFER, _colorRenderBuffer);
+}
+
+- (void)render {
+    
+    if(!_texture.displayed)
+    {
+        _floorTexture = [self setupTexture];
+        _texture.displayed = YES;
+    }
+    
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    float scale = 1.0f;
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]) {
+        scale = [[UIScreen mainScreen] scale];
+    }
+    
+    float h = 1 * scale * self.view.bounds.size.height / self.view.bounds.size.width;
+    
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakeFrustum(-1,1,-h/2,h/2,1,10);
+    glUniformMatrix4fv(_projectionUniform, 1, 0, projectionMatrix.m);
+    
+    GLKMatrix4 rotation = GLKMatrix4MakeWithQuaternion(_quat);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4Multiply(_transMatrix, rotation);
+    
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMatrix.m);
+    
+    glViewport(0, 0, self.view.bounds.size.width * scale, self.view.bounds.size.height * scale);
+    
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(Vertex), 0);
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE,
+                          sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _floorTexture);
+    glUniform1i(_textureUniform, 0);
+    
+    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]),
+                   GL_UNSIGNED_BYTE, 0);
+    
+    [self.glContext presentRenderbuffer:GL_RENDERBUFFER];
+}
+
+- (GLuint)compileShader:(NSString*)shaderName withType:(GLenum)shaderType {
+    
+    NSString* shaderPath = [[NSBundle mainBundle] pathForResource:shaderName
+                                                           ofType:@"glsl"];
+    NSError* error;
+    NSString* shaderString = [NSString stringWithContentsOfFile:shaderPath
+                                                       encoding:NSUTF8StringEncoding error:&error];
+    if (!shaderString) {
+        NSLog(@"Error loading shader: %@", error.localizedDescription);
+        exit(1);
+    }
+    
+    GLuint shaderHandle = glCreateShader(shaderType);
+    
+    const char * shaderStringUTF8 = [shaderString UTF8String];
+    int shaderStringLength = [shaderString length];
+    glShaderSource(shaderHandle, 1, &shaderStringUTF8, &shaderStringLength);
+    
+    glCompileShader(shaderHandle);
+    
+    GLint compileSuccess;
+    glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &compileSuccess);
+    if (compileSuccess == GL_FALSE) {
+        GLchar messages[256];
+        glGetShaderInfoLog(shaderHandle, sizeof(messages), 0, &messages[0]);
+        NSString *messageString = [NSString stringWithUTF8String:messages];
+        NSLog(@"%@", messageString);
+        exit(1);
+    }
+    
+    return shaderHandle;
+}
+
+- (void)compileShaders {
+    
+    GLuint vertexShader = [self compileShader:@"SimpleVertex"
+                                     withType:GL_VERTEX_SHADER];
+    GLuint fragmentShader = [self compileShader:@"SimpleFragment"
+                                       withType:GL_FRAGMENT_SHADER];
+    
+    GLuint programHandle = glCreateProgram();
+    glAttachShader(programHandle, vertexShader);
+    glAttachShader(programHandle, fragmentShader);
+    glLinkProgram(programHandle);
+    
+    GLint linkSuccess;
+    glGetProgramiv(programHandle, GL_LINK_STATUS, &linkSuccess);
+    if (linkSuccess == GL_FALSE) {
+        GLchar messages[256];
+        glGetProgramInfoLog(programHandle, sizeof(messages), 0, &messages[0]);
+        NSString *messageString = [NSString stringWithUTF8String:messages];
+        NSLog(@"%@", messageString);
+        exit(1);
+    }
+    
+    glUseProgram(programHandle);
+    
+    _positionSlot = glGetAttribLocation(programHandle, "Position");
+    _colorSlot = glGetAttribLocation(programHandle, "SourceColor");
+    glEnableVertexAttribArray(_positionSlot);
+    glEnableVertexAttribArray(_colorSlot);
+    
+    _projectionUniform = glGetUniformLocation(programHandle, "Projection");
+    _modelViewUniform = glGetUniformLocation(programHandle, "Modelview");
+    
+    _texCoordSlot = glGetAttribLocation(programHandle, "TexCoordIn");
+    glEnableVertexAttribArray(_texCoordSlot);
+    _textureUniform = glGetUniformLocation(programHandle, "Texture");
+}
+
+- (void)setupVBOs {
+    
+    GLuint vertexBuffer;
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+    
+    GLuint indexBuffer;
+    glGenBuffers(1, &indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
+}
+
+- (GLuint)setupTexture {
+    
+    size_t width = _texture.width;
+    size_t height = _texture.height;
+    GLubyte * spriteData = (GLubyte *) malloc(width*height*4);
+    
+    memcpy(spriteData, _texture.data.data(), width*height*4);
+    
+    GLuint texName;
+    glGenTextures(1, &texName);
+    glBindTexture(GL_TEXTURE_2D, texName);
+    
+    // use linear filetring
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    // clamp to edge
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    
+    free(spriteData);
+    
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    
+    return texName;
+}
+
+- (void)setupGL
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    [self setupLayer];
+    [self setupContext];
+    [self setupRenderBuffer];
+    [self setupFrameBuffer];
+    [self compileShaders];
+    [self setupVBOs];
+    [self setupGeometry];
 }
 
-#pragma mark - GLKViewDelegate
+- (void)setupGeometry
+{
+    _transMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -3.0f);
+    _rotMatrix = GLKMatrix4Identity;
+    _quat = GLKQuaternionMake(0, 0, 0, 1);
+    _quatStart = GLKQuaternionMake(0, 0, 0, 1);
+    
+}
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
     
-    glClearColor(_curRed, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    [self.effect prepareToDraw];
-    
-    glBindVertexArrayOES(_vertexArray);
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    
 }
 
-#pragma mark - GLKViewControllerDelegate
-
 - (void)update {
-    if (_increasing) {
-        //_curRed += 1.0 * self.timeSinceLastUpdate;
-    } else {
-        //_curRed -= 1.0 * self.timeSinceLastUpdate;
+
+    if(!_texture.data.empty())
+    {
+        [self render];
     }
-    if (_curRed >= 1.0) {
-        _curRed = 1.0;
-        _increasing = NO;
-    }
-    if (_curRed <= 0.0) {
-        _curRed = 0.0;
-        _increasing = YES;
-    }
-    
-    float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 4.0f, 10.0f);
-    self.effect.transform.projectionMatrix = projectionMatrix;
-    
-    if (_slerping) {
-        
-        _slerpCur += self.timeSinceLastUpdate;
-        float slerpAmt = _slerpCur / _slerpMax;
-        if (slerpAmt > 1.0) {
-            slerpAmt = 1.0;
-            _slerping = NO;
-        }
-        
-        _quat = GLKQuaternionSlerp(_slerpStart, _slerpEnd, slerpAmt);
-    }
-    
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -6.0f);
-    //modelViewMatrix = GLKMatrix4Multiply(modelViewMatrix, _rotMatrix);
-    GLKMatrix4 rotation = GLKMatrix4MakeWithQuaternion(_quat);
-    modelViewMatrix = GLKMatrix4Multiply(modelViewMatrix, rotation);
-    
-    self.effect.transform.modelviewMatrix = modelViewMatrix;
-    
 }
 
 - (GLKVector3) projectOntoSurface:(GLKVector3) touchPoint
@@ -342,8 +349,13 @@ const GLubyte Indices[] = {
     _quat = GLKQuaternionMultiply(Q_rot, _quatStart);
 }
 
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    //self.paused = !self.paused;
+    //NSLog(@"timeSinceLastUpdate: %f", self.timeSinceLastUpdate);
+    //NSLog(@"timeSinceLastDraw: %f", self.timeSinceLastDraw);
+    //NSLog(@"timeSinceFirstResume: %f", self.timeSinceFirstResume);
+    //NSLog(@"timeSinceLastResume: %f", self.timeSinceLastResume);
     
     UITouch * touch = [touches anyObject];
     CGPoint location = [touch locationInView:self.view];
@@ -375,21 +387,10 @@ const GLubyte Indices[] = {
     _current_position = [self projectOntoSurface:_current_position];
     
     [self computeIncremental];
-    
 }
 
-- (void)doubleTap:(UITapGestureRecognizer *)tap {
+- (IBAction)buttonGoPressed:(id)sender {
     
-    _slerping = YES;
-    _slerpCur = 0;
-    _slerpMax = 1.0;
-    _slerpStart = _quat;
-    _slerpEnd = GLKQuaternionMake(0, 0, 0, 1);
-    
-}
-
-- (IBAction)buttonGoPressed:(id)sender
-{
     CGPoint goal;
     
     NSLog(@"%f %f", goal.x, goal.y);
@@ -403,6 +404,27 @@ const GLubyte Indices[] = {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Wrong Goal" message:@"Move the goal to a valid position" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alert show];
     }
+}
+
+- (IBAction)tapDetected:(UITapGestureRecognizer *)sender {
+    NSLog(@"Double tap!");
+    [self setupGeometry];
+}
+
+- (IBAction)pinchDetected:(UIPinchGestureRecognizer *)sender {
+    static CGFloat lastScale;
+    if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
+        lastScale = 1.0;
+         return;
+	}
+    
+    CGFloat scale = 1.0 - (lastScale - [(UIPinchGestureRecognizer*)sender scale]);
+    CGFloat velocity = [(UIPinchGestureRecognizer *)sender velocity];
+    
+    NSLog(@"Pinch - scale = %f, velocity = %f", scale, velocity);
+    
+    _transMatrix = GLKMatrix4Multiply(_transMatrix,GLKMatrix4MakeScale(scale,scale,scale));
+	lastScale = [(UIPinchGestureRecognizer*)sender scale];
 }
 
 @end

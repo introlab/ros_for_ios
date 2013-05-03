@@ -44,7 +44,10 @@ void RosAudio::audioCB(const gstreamer_plugins::AudioStreamConstPtr & msg)
     
     if(view_controller_ != nil && !view_controller_.isPaused)
     {
-        [view_controller_.inputBuffer performSelectorOnMainThread:@selector(addObjectsFromArray:) withObject:buffer waitUntilDone:YES];
+        @synchronized(view_controller_.inputBuffer)
+        {
+            [view_controller_.inputBuffer performSelectorOnMainThread:@selector(addObjectsFromArray:) withObject:buffer waitUntilDone:YES];
+        }
     }
 }
 

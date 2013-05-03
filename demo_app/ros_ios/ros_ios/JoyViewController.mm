@@ -56,12 +56,12 @@
 {
     NSLog(@"viewWillDisappear");
     [self stopTimer];
+    delete ros_controller_;
 }
 
 -(void)dealloc
 {
     NSLog(@"dealloc");
-    delete ros_controller_;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

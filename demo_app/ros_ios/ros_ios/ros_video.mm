@@ -88,4 +88,8 @@ void RosVideo::imageCB(const sensor_msgs::ImageConstPtr & msg)
     {
         [view_controller_.imageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:YES];
     }
+
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpaceRef);
+    CGImageRelease(imageRef);
 }

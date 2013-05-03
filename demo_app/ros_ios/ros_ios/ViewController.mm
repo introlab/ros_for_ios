@@ -109,7 +109,7 @@
                 NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)]; // pdp_ip0
                 NSLog(@"NAME: \"%@\" addr: %@", name, addr); // see for yourself
                 
-                if([name isEqualToString:@"en0"]) {
+                if([name isEqualToString:@"en1"]) {
                     // Interface is the wifi connection on the iPhone
                     wifiAddress = addr;
                 } else

@@ -316,26 +316,52 @@
         <scene sceneID="GqO-6U-Pt9">
             <objects>
                 <glkViewController autoresizesArchivedViewToFullSize="NO" preferredFramesPerSecond="20" id="esZ-aX-AXp" customClass="MapViewController" sceneMemberID="viewController">
-                    <glkView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="MCf-Ph-Qvy">
-                        <rect key="frame" x="0.0" y="64" width="320" height="460"/>
+                    <glkView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="MCf-Ph-Qvy">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8nj-X7-rfr">
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="8lw-fs-7UW"/>
+                                    <barButtonItem title="GO" id="hUX-N1-LtR">
+                                        <connections>
+                                            <action selector="buttonGoPressed:" destination="esZ-aX-AXp" id="1MY-oc-akE"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Cig-jf-G67"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="8nj-X7-rfr" firstAttribute="leading" secondItem="MCf-Ph-Qvy" secondAttribute="leading" type="default" id="Ch1-XS-JZL"/>
+                            <constraint firstItem="8nj-X7-rfr" firstAttribute="bottom" secondItem="MCf-Ph-Qvy" secondAttribute="bottom" type="default" id="Hro-ch-DC8"/>
+                            <constraint firstItem="8nj-X7-rfr" firstAttribute="trailing" secondItem="MCf-Ph-Qvy" secondAttribute="trailing" type="default" id="fom-NV-jij"/>
+                        </constraints>
                         <connections>
                             <outlet property="delegate" destination="esZ-aX-AXp" id="Vop-M1-UQS"/>
+                            <outletCollection property="gestureRecognizers" destination="Tnl-vf-1KD" appends="YES" id="uOI-Pv-vGA"/>
+                            <outletCollection property="gestureRecognizers" destination="dji-sz-lue" appends="YES" id="zPh-YX-i8c"/>
                         </connections>
                     </glkView>
                     <toolbarItems>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="YMG-lJ-G0E"/>
-                        <barButtonItem title="GO" id="gpD-4O-zGB">
-                            <connections>
-                                <action selector="buttonGoPressed:" destination="esZ-aX-AXp" id="VV5-PC-vrI"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="sim-l3-tcg"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="7ly-pW-xFs"/>
+                        <barButtonItem title="GO" id="dd8-1S-yQm"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="VGo-5a-SXA"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Planner Control" id="twi-hr-pla"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </glkViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sGZ-VX-oIj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="dji-sz-lue">
+                    <connections>
+                        <action selector="tapDetected:" destination="esZ-aX-AXp" id="qGf-Dc-d3r"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <pinchGestureRecognizer id="Tnl-vf-1KD">
+                    <connections>
+                        <action selector="pinchDetected:" destination="esZ-aX-AXp" id="8ny-Vu-0Gx"/>
+                    </connections>
+                </pinchGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1738" y="-1055"/>
         </scene>

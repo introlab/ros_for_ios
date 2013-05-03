@@ -9,7 +9,7 @@
 #import "AccJoyViewController.h"
 #import "AccelerometerFilter.h"
 
-#define kUpdateFrequency	60.0
+#define kUpdateFrequency    60.0
 
 @interface AccJoyViewController ()
 
@@ -23,14 +23,14 @@
 {
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
-	// Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view, typically from a nib.
     ros_controller_ = new RosJoy();
     
-	isPaused = NO;
+    isPaused = NO;
     
-	[self changeFilter:[LowpassFilter class]];
-	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
-	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
+    [self changeFilter:[LowpassFilter class]];
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:1.0 / kUpdateFrequency];
+    [[UIAccelerometer sharedAccelerometer] setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,26 +50,26 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     NSLog(@"viewWillDisappear");
+    [[UIAccelerometer sharedAccelerometer] setDelegate:nil];
+    delete ros_controller_;
 }
 
 -(void)dealloc
 {
     NSLog(@"dealloc");
-    [[UIAccelerometer sharedAccelerometer] setDelegate:nil];
-    delete ros_controller_;
 }
 
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
     self.image.image = nil;
     
-	if(!isPaused)
-	{
+    if(!isPaused)
+    {
         double k_x = 0.5;
         double k_y = -0.5;
         double k_theta = -0.5;
         
-		[filter addAcceleration:acceleration];
+        [filter addAcceleration:acceleration];
         
         ros_controller_->sendCmds(k_x*filter.y, k_y*0.0, k_theta*filter.x);
         
@@ -89,32 +89,32 @@
         
         self.image.image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-	}
+    }
 }
 
 - (IBAction)pauseOrResume:(id)sender
 {
     if(isPaused)
-	{
-		isPaused = NO;
-		pause.title = @"Pause";
-	}
-	else
-	{
-		isPaused = YES;
-		pause.title = @"Resume";
-	}
+    {
+        isPaused = NO;
+        pause.title = @"Pause";
+    }
+    else
+    {
+        isPaused = YES;
+        pause.title = @"Resume";
+    }
 }
 
--(void)changeFilter:(Class)filterClass
+- (void)changeFilter:(Class)filterClass
 {
-	// Ensure that the new filter class is different from the current one...
-	if(filterClass != [filter class])
-	{
-		filter = [[filterClass alloc] initWithSampleRate:kUpdateFrequency cutoffFrequency:5.0];
-		// Set the adaptive flag
-		filter.adaptive = YES;
-	}
+    // Ensure that the new filter class is different from the current one...
+    if(filterClass != [filter class])
+    {
+        filter = [[filterClass alloc] initWithSampleRate:kUpdateFrequency cutoffFrequency:5.0];
+        // Set the adaptive flag
+        filter.adaptive = YES;
+    }
 }
 
 @end

@@ -20,7 +20,7 @@
 {
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
-	// Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view, typically from a nib.
     ros_controller_ = new RosVideo();
     
     imageTypes  = [[NSMutableArray alloc] init];

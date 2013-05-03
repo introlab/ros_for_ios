@@ -23,7 +23,7 @@
 {
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
-	// Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view, typically from a nib.
     ros_controller_ = new RosLogger();
     
     isPaused = NO;
@@ -74,12 +74,12 @@
 {
     NSLog(@"viewWillDisappear");
     [self stopTimer];
+    delete ros_controller_;
 }
 
 -(void)dealloc
 {
     NSLog(@"dealloc");
-    delete ros_controller_;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -99,15 +99,15 @@
 - (IBAction)pauseOrResume:(id)sender
 {
     if(isPaused)
-	{
-		isPaused = NO;
-		pause.title = @"Pause";
-	}
-	else
-	{
-		isPaused = YES;
-		pause.title = @"Resume";
-	}
+    {
+        isPaused = NO;
+        pause.title = @"Pause";
+    }
+    else
+    {
+        isPaused = YES;
+        pause.title = @"Resume";
+    }
 }
 
 #pragma mark – Table view data source

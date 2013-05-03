@@ -11,7 +11,7 @@
 #import <ros/time.h>
 #import <nav_msgs/GetPlan.h>
 
-#include <cmath>
+#import "MapImage.h"
 
 RosPlanner::RosPlanner()
 {
@@ -36,7 +36,111 @@ void RosPlanner::ros_spin()
 
 void RosPlanner::mapCB(const nav_msgs::OccupancyGridConstPtr & msg)
 {
-    map = *msg;
+    ros::WallTime start = ros::WallTime::now();
+    
+    last_map_ = *msg;
+    
+    const unsigned int & width = last_map_.info.width;
+    const unsigned int & height = last_map_.info.height;
+    const std::vector<signed char> & map_data = last_map_.data;
+    
+    // Perform a first scan to find out bounds.
+    size_t min_x = width;
+    size_t min_y = height;
+    size_t max_x = 0;
+    size_t max_y = 0;
+    size_t im_width;
+    size_t im_height;
+    
+    for (size_t y = 0; y < height; ++y)
+    {
+        for (size_t x = 0; x < width; ++x)
+        {
+            const signed char c = map_data[y * width + x];
+            if (c >= 0)
+            {
+                if (x < min_x)
+                    min_x = x;
+                if (x > max_x)
+                    max_x = x;
+                if (y < min_y)
+                    min_y = y;
+                if (y > max_y)
+                    max_y = y;
+            }
+        }
+    }
+    
+    im_width = (max_x - min_x);
+    im_height = (max_y - min_y);
+   
+    //Produce a square
+    if(im_width != im_height)
+    {
+        int delta;
+        if(im_width > im_height)
+        {
+            delta = (im_width - im_height)/2;
+            min_y -= delta;
+            max_y += delta;
+            im_height = im_width;
+        }
+        else
+        {
+            delta = (im_height - im_width)/2;
+            min_x -= delta;
+            max_x += delta;
+            im_width = im_height;
+        }
+    }
+    
+    MapImage * map = [[MapImage alloc] init];;
+    map.width = im_width;
+    map.height = im_height;
+    
+    std::vector<unsigned char> image_data;
+    image_data.resize(map.width * map.height * 4);
+    unsigned char * ptr = image_data.data();
+    
+    for(size_t y = min_y; y != max_y; ++y)
+    {
+        for(size_t x = min_x; x != max_x; ++x)
+        {
+            const signed char c = map_data[y * width + x];
+            
+            if(c == 0)
+            {
+                ptr[0] = 255;
+                ptr[1] = 255;
+                ptr[2] = 255;
+            }
+            else if(c > 0)
+            {
+                ptr[0] = 255;
+                ptr[1] = 0;
+                ptr[2] = 0;
+            }
+            else
+            {
+                ptr[0] = 0;
+                ptr[1] = 0;
+                ptr[2] = 0;
+            }
+            
+            ptr[4] = 255;
+            ptr += 4;
+        }
+    }
+    
+    map.displayed = NO;
+    map.data = image_data;
+    
+    ROS_INFO("%ld %ld %ld",(unsigned long)map.width, (unsigned long)map.height, map.data.size());
+    
+    if(view_controller_ != nil)
+    {
+        [view_controller_ performSelectorOnMainThread:@selector(setTexture:) withObject:map waitUntilDone:YES];
+    }
 }
 
 std::vector<CGPoint> RosPlanner::getPlan(CGPoint goal)

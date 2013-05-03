@@ -39,7 +39,7 @@ private:
     ros::ServiceClient c_srv_plan_;
     boost::thread * ros_thread_;
     
-    nav_msgs::OccupancyGrid map;
+    nav_msgs::OccupancyGrid last_map_;
     
     void mapCB(const nav_msgs::OccupancyGridConstPtr & msg);
 };

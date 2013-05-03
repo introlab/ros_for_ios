@@ -10,6 +10,8 @@
 		34073B2C1720734B00CDA05E /* gstreamer_plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34073B2B1720734B00CDA05E /* gstreamer_plugins.framework */; };
 		3408E75E172471F7000B201E /* sound.png in Resources */ = {isa = PBXBuildFile; fileRef = 3408E75D172471F7000B201E /* sound.png */; };
 		3408E76017249676000B201E /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3408E75F17249676000B201E /* GLKit.framework */; };
+		3409421C17282960002143AC /* SimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 3409421A17282960002143AC /* SimpleFragment.glsl */; };
+		3409421D17282960002143AC /* SimpleVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 3409421B17282960002143AC /* SimpleVertex.glsl */; };
 		340A2F2116D7F75500722520 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 340A2F2016D7F75500722520 /* Icon.png */; };
 		340A5E88171E3BCC0094B990 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A5E86171E3BCC0094B990 /* OpenGLES.framework */; };
 		340A915F17173C9700D9D455 /* ros_audio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340A915E17173C9700D9D455 /* ros_audio.mm */; };
@@ -24,6 +26,7 @@
 		340DB90516F79D8C0021CE62 /* LoggerPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340DB90416F79D8C0021CE62 /* LoggerPreferencesViewController.m */; };
 		340E32F616D58D300094ABB7 /* JoyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F516D58D300094ABB7 /* JoyViewController.mm */; };
 		340E32F916D5DD130094ABB7 /* ros_joy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F816D5DD130094ABB7 /* ros_joy.mm */; };
+		343F92EA173178DF00E147A9 /* MapImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 343F92E9173178DF00E147A9 /* MapImage.mm */; };
 		3469F9F8171707A2001AAEA3 /* AudioViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3469F9F7171707A2001AAEA3 /* AudioViewController.mm */; };
 		346F2BD816CBEB1B0018FC3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BD716CBEB1B0018FC3B /* UIKit.framework */; };
 		346F2BDA16CBEB1B0018FC3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BD916CBEB1B0018FC3B /* Foundation.framework */; };
@@ -65,6 +68,8 @@
 		34073B2B1720734B00CDA05E /* gstreamer_plugins.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gstreamer_plugins.framework; path = ../../ros/frameworks/gstreamer_plugins.framework; sourceTree = "<group>"; };
 		3408E75D172471F7000B201E /* sound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sound.png; sourceTree = "<group>"; };
 		3408E75F17249676000B201E /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		3409421A17282960002143AC /* SimpleFragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleFragment.glsl; sourceTree = "<group>"; };
+		3409421B17282960002143AC /* SimpleVertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleVertex.glsl; sourceTree = "<group>"; };
 		340A2F2016D7F75500722520 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		340A2F2216D809AC00722520 /* ros_joy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ros_joy.h; sourceTree = "<group>"; };
 		340A5E86171E3BCC0094B990 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -91,6 +96,8 @@
 		340E32F516D58D300094ABB7 /* JoyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JoyViewController.mm; sourceTree = "<group>"; };
 		340E32F816D5DD130094ABB7 /* ros_joy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_joy.mm; sourceTree = "<group>"; };
 		3413FA3816FA0CD4000FC5A7 /* LoggerLevelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerLevelTableViewCell.h; sourceTree = "<group>"; };
+		343F92E8173178DF00E147A9 /* MapImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapImage.h; sourceTree = "<group>"; };
+		343F92E9173178DF00E147A9 /* MapImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MapImage.mm; sourceTree = "<group>"; };
 		3469F9F6171707A2001AAEA3 /* AudioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioViewController.h; sourceTree = "<group>"; };
 		3469F9F7171707A2001AAEA3 /* AudioViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioViewController.mm; sourceTree = "<group>"; };
 		346F2BD416CBEB1B0018FC3B /* ROS4iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ROS4iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +230,10 @@
 				340E32F516D58D300094ABB7 /* JoyViewController.mm */,
 				340A2F2216D809AC00722520 /* ros_joy.h */,
 				340E32F816D5DD130094ABB7 /* ros_joy.mm */,
+				3409421A17282960002143AC /* SimpleFragment.glsl */,
+				3409421B17282960002143AC /* SimpleVertex.glsl */,
+				343F92E8173178DF00E147A9 /* MapImage.h */,
+				343F92E9173178DF00E147A9 /* MapImage.mm */,
 				346F2C1016CBF3AE0018FC3B /* MapViewController.h */,
 				346F2C1116CBF3AE0018FC3B /* MapViewController.mm */,
 				346F2C0016CBF0F40018FC3B /* ros_planner.h */,
@@ -347,6 +358,8 @@
 				34CF3FCF16D82AD300FD4758 /* ros_ios-Info.plist in Resources */,
 				34D49EAE16F65DE60089D0AD /* ros_enabled.png in Resources */,
 				3408E75E172471F7000B201E /* sound.png in Resources */,
+				3409421C17282960002143AC /* SimpleFragment.glsl in Resources */,
+				3409421D17282960002143AC /* SimpleVertex.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +393,7 @@
 				340B14461713654C00DF6512 /* TopicTableViewCell.m in Sources */,
 				3469F9F8171707A2001AAEA3 /* AudioViewController.mm in Sources */,
 				340A915F17173C9700D9D455 /* ros_audio.mm in Sources */,
+				343F92EA173178DF00E147A9 /* MapImage.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

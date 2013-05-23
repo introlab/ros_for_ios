@@ -112,6 +112,8 @@ if [ -d $2/srv ]
 fi
 
 #===============================================================================
+if [ $generate_framework == true ]; then
+
 echo "Generating fake C++ file ..."
 
 cat > $PACKAGE_NAME.cpp <<EOF
@@ -146,59 +148,57 @@ mkdir $SIMULATOR_BUILDDIR
 
 cd $OS_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoenOS -GXcode ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoneOS -GXcode ..
 
 xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD
 
 cd $SIMULATOR_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoenSimulator -GXcode ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoneSimulator -GXcode ..
 
 xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
 
 #===============================================================================
 cd $SRCDIR
 
-if [ $generate_framework == true ]; then
+VERSION_TYPE=Alpha
+FRAMEWORK_NAME=$PACKAGE_NAME
+FRAMEWORK_VERSION=A
 
-    VERSION_TYPE=Alpha
-    FRAMEWORK_NAME=$PACKAGE_NAME
-    FRAMEWORK_VERSION=A
+FRAMEWORK_CURRENT_VERSION=1.0
+FRAMEWORK_COMPATIBILITY_VERSION=1.0
 
-    FRAMEWORK_CURRENT_VERSION=1.0
-    FRAMEWORK_COMPATIBILITY_VERSION=1.0
+FRAMEWORK_BUNDLE=$SRCDIR/$FRAMEWORK_NAME.framework
+echo "Framework: Building $FRAMEWORK_BUNDLE ..."
 
-    FRAMEWORK_BUNDLE=$SRCDIR/$FRAMEWORK_NAME.framework
-    echo "Framework: Building $FRAMEWORK_BUNDLE ..."
+echo "Framework: Setting up directories..."
+mkdir -p $FRAMEWORK_BUNDLE
+mkdir -p $FRAMEWORK_BUNDLE/Versions
+mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION
+mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Resources
+mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Headers
+mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Documentation
 
-    echo "Framework: Setting up directories..."
-    mkdir -p $FRAMEWORK_BUNDLE
-    mkdir -p $FRAMEWORK_BUNDLE/Versions
-    mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION
-    mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Resources
-    mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Headers
-    mkdir -p $FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Documentation
+echo "Framework: Creating symlinks..."
+ln -s $FRAMEWORK_VERSION               $FRAMEWORK_BUNDLE/Versions/Current
+ln -s Versions/Current/Headers         $FRAMEWORK_BUNDLE/Headers
+ln -s Versions/Current/Resources       $FRAMEWORK_BUNDLE/Resources
+ln -s Versions/Current/Documentation   $FRAMEWORK_BUNDLE/Documentation
+ln -s Versions/Current/$FRAMEWORK_NAME $FRAMEWORK_BUNDLE/$FRAMEWORK_NAME
 
-    echo "Framework: Creating symlinks..."
-    ln -s $FRAMEWORK_VERSION               $FRAMEWORK_BUNDLE/Versions/Current
-    ln -s Versions/Current/Headers         $FRAMEWORK_BUNDLE/Headers
-    ln -s Versions/Current/Resources       $FRAMEWORK_BUNDLE/Resources
-    ln -s Versions/Current/Documentation   $FRAMEWORK_BUNDLE/Documentation
-    ln -s Versions/Current/$FRAMEWORK_NAME $FRAMEWORK_BUNDLE/$FRAMEWORK_NAME
+FRAMEWORK_INSTALL_NAME=$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME
 
-    FRAMEWORK_INSTALL_NAME=$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME
+echo "Lipoing library into $FRAMEWORK_INSTALL_NAME..."
+lipo -create $OS_BUILDDIR/Release-iphoneos/lib$PACKAGE_NAME.a $SIMULATOR_BUILDDIR/Release-iphonesimulator/lib$PACKAGE_NAME.a -o $FRAMEWORK_INSTALL_NAME
 
-    echo "Lipoing library into $FRAMEWORK_INSTALL_NAME..."
-    lipo -create $OS_BUILDDIR/Release-iphoneos/lib$PACKAGE_NAME.a $SIMULATOR_BUILDDIR/Release-iphonesimulator/lib$PACKAGE_NAME.a -o $FRAMEWORK_INSTALL_NAME
+echo "Framework: Copying includes..."
 
-    echo "Framework: Copying includes..."
+cp -r $2/*.h $FRAMEWORK_BUNDLE/Headers/
+[ -d $2/include ] && cp -r $2/include/$PACKAGE_NAME/*.h $FRAMEWORK_BUNDLE/Headers/
 
-    cp -r $2/*.h $FRAMEWORK_BUNDLE/Headers/
-    [ -d $2/include ] && cp -r $2/include/$PACKAGE_NAME/*.h $FRAMEWORK_BUNDLE/Headers/
+echo "Framework: Creating plist..."
 
-    echo "Framework: Creating plist..."
-
-    cat > $FRAMEWORK_BUNDLE/Resources/Info.plist <<EOF
+cat > $FRAMEWORK_BUNDLE/Resources/Info.plist <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -221,9 +221,8 @@ if [ $generate_framework == true ]; then
 </plist>
 EOF
 else
-    mkdir -p $SRCDIR/$PACKAGE_NAME
-    cp -r $2/*.h $SRCDIR/$PACKAGE_NAME
-    [ -d $2/include ] && cp -r $2/include/$PACKAGE_NAME/*.h $FRAMEWORK_BUNDLE/Headers/
+mkdir -p $SRCDIR/$PACKAGE_NAME
+mv -f $2/*.h $SRCDIR/$PACKAGE_NAME
 fi
 
 echo "Done !"

@@ -44,14 +44,14 @@ PACKAGES=("roscpp_core/cpp_common"
         "ros_comm/tools/rosconsole"
         "ros/core/roslib")
 
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[0]}
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[1]} boost
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[2]} boost
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[3]} boost
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[4]}
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[5]} boost log4cxx rosgraph_msgs std_msgs
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[6]} boost log4cxx
-sh $SRCDIR/cmake_gen.sh ${PACKAGES[7]} boost
+sh $SRCDIR/cmake_gen.sh $SRCDIR/${PACKAGES[0]}
+sh $SRCDIR/cmake_gen.sh $SRCDIR/${PACKAGES[1]} boost
+sh $SRCDIR/cmake_gen.sh $SRCDIR/${PACKAGES[2]} boost
+sh $SRCDIR/cmake_gen.sh $SRCDIR/${PACKAGES[3]} boost
+sh $SRCDIR/cmake_gen.sh $SRCDIR/${PACKAGES[4]}
+sh $SRCDIR/cmake_gen.sh $SRCDIR/${PACKAGES[5]} boost log4cxx rosgraph_msgs std_msgs
+sh $SRCDIR/cmake_gen.sh $SRCDIR/${PACKAGES[6]} boost log4cxx
+sh $SRCDIR/cmake_gen.sh $SRCDIR/${PACKAGES[7]} boost
 
 #===============================================================================
 echo "Patching ..."
@@ -241,7 +241,7 @@ ln -s Versions/Current/$FRAMEWORK_NAME $FRAMEWORK_BUNDLE/$FRAMEWORK_NAME
 FRAMEWORK_INSTALL_NAME=$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME
 
 echo "Lipoing library into $FRAMEWORK_INSTALL_NAME..."
-lipo -create $OS_BUILDDIR/armv7/libros.a $SIMULATOR_BUILDDIR/i386/libros.a -o $FRAMEWORK_INSTALL_NAME
+lipo -create $OS_BUILDDIR/armv7/lib$FRAMEWORK_NAME.a $SIMULATOR_BUILDDIR/i386/lib$FRAMEWORK_NAME.a -o $FRAMEWORK_INSTALL_NAME
 
 echo "Framework: Copying includes..."
 

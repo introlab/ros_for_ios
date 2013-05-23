@@ -4,7 +4,7 @@ PACKAGE_NAME=`basename $1`
 
 [[ -f $PACKAGE_NAME.cmake ]] && rm -f $PACKAGE_NAME.cmake
 
-SOURCE_FILES=$(find ./$1/src -name \*.cpp)
+SOURCE_FILES=$(find $1/src -name \*.cpp)
 
 if [[ $? -ne 0 ]]
     then
@@ -13,11 +13,13 @@ else
     SOURCES_FILES_SIZE=${#SOURCE_FILES[@]}
 fi
 
+echo $SOURCES_FILES_SIZE
+
 cat > $PACKAGE_NAME.cmake <<EOF
 cmake_minimum_required(VERSION 2.8.0)
 
 include_directories(
-./$1/include
+$1/include
 )
 
 EOF

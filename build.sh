@@ -7,7 +7,7 @@ SRCDIR=`pwd`
 ROS_BRANCH=groovy-devel
 LOGFILE=$SRCDIR/log.txt
 
-echo "It will take a few minutes. Grab a glass of your favorite drink ..."
+echo "It will take few minutes. Grab a glass of your favorite drink ..."
 
 #===============================================================================
 #CMake Toolchain
@@ -127,7 +127,7 @@ mv $SRCDIR/ros/ros_msgs/geometry_msgs.framework $SRCDIR/ros/frameworks/
 mv $SRCDIR/ros/ros_msgs/nav_msgs.framework $SRCDIR/ros/frameworks/
 mv $SRCDIR/ros/ros_msgs/sensor_msgs.framework $SRCDIR/ros/frameworks/
 
-(cd $SRCDIR/ros; sh build.sh);
+(cd $SRCDIR/ros; sh build_ros.sh);
 mv $SRCDIR/ros/ros.framework $SRCDIR/ros/frameworks/
 ) >> $LOGFILE 2>&1
 echo "Ok"

@@ -15,6 +15,12 @@
 		340A2F2116D7F75500722520 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 340A2F2016D7F75500722520 /* Icon.png */; };
 		340A5E88171E3BCC0094B990 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A5E86171E3BCC0094B990 /* OpenGLES.framework */; };
 		340A915F17173C9700D9D455 /* ros_audio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340A915E17173C9700D9D455 /* ros_audio.mm */; };
+		340A923F174BBE2E00AE22E8 /* libavcodec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A9239174BBE2E00AE22E8 /* libavcodec.framework */; };
+		340A9240174BBE2E00AE22E8 /* libavdevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923A174BBE2E00AE22E8 /* libavdevice.framework */; };
+		340A9241174BBE2E00AE22E8 /* libavfilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923B174BBE2E00AE22E8 /* libavfilter.framework */; };
+		340A9242174BBE2E00AE22E8 /* libavformat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923C174BBE2E00AE22E8 /* libavformat.framework */; };
+		340A9243174BBE2E00AE22E8 /* libavutil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923D174BBE2E00AE22E8 /* libavutil.framework */; };
+		340A9244174BBE2E00AE22E8 /* libswscale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923E174BBE2E00AE22E8 /* libswscale.framework */; };
 		340B14431713609F00DF6512 /* TopicsListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340B14421713609F00DF6512 /* TopicsListViewController.mm */; };
 		340B14461713654C00DF6512 /* TopicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 340B14451713654C00DF6512 /* TopicTableViewCell.m */; };
 		340C70E116F21BA1006DA856 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C70E016F21BA1006DA856 /* AudioToolbox.framework */; };
@@ -26,6 +32,9 @@
 		340DB90516F79D8C0021CE62 /* LoggerPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340DB90416F79D8C0021CE62 /* LoggerPreferencesViewController.m */; };
 		340E32F616D58D300094ABB7 /* JoyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F516D58D300094ABB7 /* JoyViewController.mm */; };
 		340E32F916D5DD130094ABB7 /* ros_joy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F816D5DD130094ABB7 /* ros_joy.mm */; };
+		340FA6881747FFA300A74CFD /* image_transport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340FA67F1747FFA200A74CFD /* image_transport.framework */; };
+		340FA68F1747FFA300A74CFD /* message_filters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340FA6861747FFA300A74CFD /* message_filters.framework */; };
+		340FA6901747FFA300A74CFD /* x264_image_transport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340FA6871747FFA300A74CFD /* x264_image_transport.framework */; };
 		343F92EA173178DF00E147A9 /* MapImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 343F92E9173178DF00E147A9 /* MapImage.mm */; };
 		3469F9F8171707A2001AAEA3 /* AudioViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3469F9F7171707A2001AAEA3 /* AudioViewController.mm */; };
 		346F2BD816CBEB1B0018FC3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BD716CBEB1B0018FC3B /* UIKit.framework */; };
@@ -53,6 +62,9 @@
 		34782C2C170385B5001D271F /* sensor_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C25170385B5001D271F /* sensor_msgs.framework */; };
 		34782C2D170385B5001D271F /* std_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C26170385B5001D271F /* std_msgs.framework */; };
 		34A2B5C3170493BD00C53723 /* rosgraph_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */; };
+		34A6FF66174D6155004F37D8 /* libbz2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6FF65174D6155004F37D8 /* libbz2.1.0.dylib */; };
+		34A6FF68174D6305004F37D8 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6FF67174D6305004F37D8 /* libz.1.2.5.dylib */; };
+		34A6FF6C174D6886004F37D8 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6FF6B174D6886004F37D8 /* libx264.a */; };
 		34BFC1D716F7BA1600B1FEC6 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */; };
 		34BFC1DA16F7BFF800B1FEC6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */; };
 		34BFC1DC16F7C2DD00B1FEC6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1DB16F7C2DD00B1FEC6 /* MessageUI.framework */; };
@@ -75,6 +87,12 @@
 		340A5E86171E3BCC0094B990 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		340A915D17173C9700D9D455 /* ros_audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ros_audio.h; sourceTree = "<group>"; };
 		340A915E17173C9700D9D455 /* ros_audio.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_audio.mm; sourceTree = "<group>"; };
+		340A9239174BBE2E00AE22E8 /* libavcodec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavcodec.framework; path = ../../ros/frameworks/libavcodec.framework; sourceTree = "<group>"; };
+		340A923A174BBE2E00AE22E8 /* libavdevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavdevice.framework; path = ../../ros/frameworks/libavdevice.framework; sourceTree = "<group>"; };
+		340A923B174BBE2E00AE22E8 /* libavfilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavfilter.framework; path = ../../ros/frameworks/libavfilter.framework; sourceTree = "<group>"; };
+		340A923C174BBE2E00AE22E8 /* libavformat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavformat.framework; path = ../../ros/frameworks/libavformat.framework; sourceTree = "<group>"; };
+		340A923D174BBE2E00AE22E8 /* libavutil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavutil.framework; path = ../../ros/frameworks/libavutil.framework; sourceTree = "<group>"; };
+		340A923E174BBE2E00AE22E8 /* libswscale.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswscale.framework; path = ../../ros/frameworks/libswscale.framework; sourceTree = "<group>"; };
 		340B14411713609F00DF6512 /* TopicsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicsListViewController.h; sourceTree = "<group>"; };
 		340B14421713609F00DF6512 /* TopicsListViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TopicsListViewController.mm; sourceTree = "<group>"; };
 		340B14441713654C00DF6512 /* TopicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicTableViewCell.h; sourceTree = "<group>"; };
@@ -95,6 +113,9 @@
 		340E32F416D58D300094ABB7 /* JoyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoyViewController.h; sourceTree = "<group>"; };
 		340E32F516D58D300094ABB7 /* JoyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JoyViewController.mm; sourceTree = "<group>"; };
 		340E32F816D5DD130094ABB7 /* ros_joy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_joy.mm; sourceTree = "<group>"; };
+		340FA67F1747FFA200A74CFD /* image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = image_transport.framework; path = ../../ros/frameworks/image_transport.framework; sourceTree = "<group>"; };
+		340FA6861747FFA300A74CFD /* message_filters.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = message_filters.framework; path = ../../ros/frameworks/message_filters.framework; sourceTree = "<group>"; };
+		340FA6871747FFA300A74CFD /* x264_image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = x264_image_transport.framework; path = ../../ros/frameworks/x264_image_transport.framework; sourceTree = "<group>"; };
 		3413FA3816FA0CD4000FC5A7 /* LoggerLevelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerLevelTableViewCell.h; sourceTree = "<group>"; };
 		343F92E8173178DF00E147A9 /* MapImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapImage.h; sourceTree = "<group>"; };
 		343F92E9173178DF00E147A9 /* MapImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MapImage.mm; sourceTree = "<group>"; };
@@ -132,6 +153,9 @@
 		34782C25170385B5001D271F /* sensor_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sensor_msgs.framework; path = ../../ros/frameworks/sensor_msgs.framework; sourceTree = "<group>"; };
 		34782C26170385B5001D271F /* std_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = std_msgs.framework; path = ../../ros/frameworks/std_msgs.framework; sourceTree = "<group>"; };
 		34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rosgraph_msgs.framework; path = ../../ros/frameworks/rosgraph_msgs.framework; sourceTree = "<group>"; };
+		34A6FF65174D6155004F37D8 /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = usr/lib/libbz2.1.0.dylib; sourceTree = SDKROOT; };
+		34A6FF67174D6305004F37D8 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		34A6FF6B174D6886004F37D8 /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "../../ros/ffmpegc/ffmpeg-1.2.1/x264/libx264.a"; sourceTree = "<group>"; };
 		34BFC1D316F7BA1600B1FEC6 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
 		34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
 		34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -153,6 +177,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34A6FF6C174D6886004F37D8 /* libx264.a in Frameworks */,
+				34A6FF68174D6305004F37D8 /* libz.1.2.5.dylib in Frameworks */,
+				34A6FF66174D6155004F37D8 /* libbz2.1.0.dylib in Frameworks */,
+				340FA6881747FFA300A74CFD /* image_transport.framework in Frameworks */,
+				340FA68F1747FFA300A74CFD /* message_filters.framework in Frameworks */,
+				340FA6901747FFA300A74CFD /* x264_image_transport.framework in Frameworks */,
 				3408E76017249676000B201E /* GLKit.framework in Frameworks */,
 				34073B2C1720734B00CDA05E /* gstreamer_plugins.framework in Frameworks */,
 				340A5E88171E3BCC0094B990 /* OpenGLES.framework in Frameworks */,
@@ -171,25 +201,67 @@
 				346F2BD816CBEB1B0018FC3B /* UIKit.framework in Frameworks */,
 				346F2BDA16CBEB1B0018FC3B /* Foundation.framework in Frameworks */,
 				346F2BDC16CBEB1B0018FC3B /* CoreGraphics.framework in Frameworks */,
+				340A923F174BBE2E00AE22E8 /* libavcodec.framework in Frameworks */,
+				340A9240174BBE2E00AE22E8 /* libavdevice.framework in Frameworks */,
+				340A9241174BBE2E00AE22E8 /* libavfilter.framework in Frameworks */,
+				340A9242174BBE2E00AE22E8 /* libavformat.framework in Frameworks */,
+				340A9243174BBE2E00AE22E8 /* libavutil.framework in Frameworks */,
+				340A9244174BBE2E00AE22E8 /* libswscale.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		340A9245174BBE3200AE22E8 /* ffmpeg */ = {
+			isa = PBXGroup;
+			children = (
+				34A6FF6B174D6886004F37D8 /* libx264.a */,
+				34A6FF67174D6305004F37D8 /* libz.1.2.5.dylib */,
+				34A6FF65174D6155004F37D8 /* libbz2.1.0.dylib */,
+				340A9239174BBE2E00AE22E8 /* libavcodec.framework */,
+				340A923A174BBE2E00AE22E8 /* libavdevice.framework */,
+				340A923B174BBE2E00AE22E8 /* libavfilter.framework */,
+				340A923C174BBE2E00AE22E8 /* libavformat.framework */,
+				340A923D174BBE2E00AE22E8 /* libavutil.framework */,
+				340A923E174BBE2E00AE22E8 /* libswscale.framework */,
+			);
+			name = ffmpeg;
+			sourceTree = "<group>";
+		};
+		340FA6911747FFBB00A74CFD /* roscore */ = {
+			isa = PBXGroup;
+			children = (
+				34782BF217037DA7001D271F /* libiconv.2.4.0.dylib */,
+				34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */,
+				34782C20170385B5001D271F /* boost.framework */,
+				34782C22170385B5001D271F /* log4cxx.framework */,
+				34782C24170385B5001D271F /* ros.framework */,
+			);
+			name = roscore;
+			sourceTree = "<group>";
+		};
+		340FA6921747FFEF00A74CFD /* rosmsgs */ = {
+			isa = PBXGroup;
+			children = (
+				34782C21170385B5001D271F /* geometry_msgs.framework */,
+				34782C23170385B5001D271F /* nav_msgs.framework */,
+				34782C25170385B5001D271F /* sensor_msgs.framework */,
+				34782C26170385B5001D271F /* std_msgs.framework */,
+			);
+			name = rosmsgs;
+			sourceTree = "<group>";
+		};
 		346F2BCB16CBEB1B0018FC3B = {
 			isa = PBXGroup;
 			children = (
+				340A9245174BBE3200AE22E8 /* ffmpeg */,
+				340FA6921747FFEF00A74CFD /* rosmsgs */,
+				340FA6911747FFBB00A74CFD /* roscore */,
+				340FA67F1747FFA200A74CFD /* image_transport.framework */,
+				340FA6861747FFA300A74CFD /* message_filters.framework */,
+				340FA6871747FFA300A74CFD /* x264_image_transport.framework */,
 				34073B2B1720734B00CDA05E /* gstreamer_plugins.framework */,
-				34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */,
-				34782C20170385B5001D271F /* boost.framework */,
-				34782C21170385B5001D271F /* geometry_msgs.framework */,
-				34782C22170385B5001D271F /* log4cxx.framework */,
-				34782C23170385B5001D271F /* nav_msgs.framework */,
-				34782C24170385B5001D271F /* ros.framework */,
-				34782C25170385B5001D271F /* sensor_msgs.framework */,
-				34782C26170385B5001D271F /* std_msgs.framework */,
-				34782BF217037DA7001D271F /* libiconv.2.4.0.dylib */,
 				346F2BDD16CBEB1B0018FC3B /* ros_ios */,
 				346F2BD616CBEB1B0018FC3B /* Frameworks */,
 				346F2BD516CBEB1B0018FC3B /* Products */,
@@ -500,8 +572,15 @@
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ros_ios/ros_ios-Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ros_ios/ros_ios-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../ros/ffmpegc/ffmpeg-1.2.1/x264\"",
+				);
 				PRODUCT_NAME = ROS4iOS;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = "armv7 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -518,8 +597,15 @@
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ros_ios/ros_ios-Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ros_ios/ros_ios-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../ros/ffmpegc/ffmpeg-1.2.1/x264\"",
+				);
 				PRODUCT_NAME = ROS4iOS;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = "armv7 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

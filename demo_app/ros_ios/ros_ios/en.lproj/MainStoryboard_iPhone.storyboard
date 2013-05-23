@@ -1203,6 +1203,18 @@
         <image name="ros_enabled.png" width="640" height="223"/>
         <image name="sound.png" width="640" height="514"/>
     </resources>
+    <classes>
+        <class className="LoggerPreferencesViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerPreferencesViewController.h"/>
+        </class>
+        <class className="VideoViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VideoViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="pickerView" candidateClass="UIPickerView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

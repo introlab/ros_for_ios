@@ -12,10 +12,10 @@
 
 
 RosVideo::RosVideo()
-{
-    this->subscribe_to("RGB");
-    
+{    
     ros_thread_ = new boost::thread(&RosVideo::ros_spin, this);
+    it = new image_transport::ImageTransport(n_);
+    this->subscribe_to("RGB");
 }
 
 RosVideo::~RosVideo()
@@ -23,6 +23,7 @@ RosVideo::~RosVideo()
     ros::shutdown();
     ros_thread_->join();
     delete ros_thread_;
+    delete it;
 }
 
 void RosVideo::ros_spin()
@@ -32,18 +33,27 @@ void RosVideo::ros_spin()
 
 void RosVideo::subscribe_to(std::string name)
 {
+    image_transport::TransportHints hints("x264", ros::TransportHints());
+    it_sub_.shutdown();
+    
     if(name.compare("RGB") == 0)
-        sub_.reset(new ros::Subscriber(n_.subscribe("/openni/rgb/image_rect_color", 10, &RosVideo::imageCB, this)));
+    {
+        it_sub_ = it->subscribe("/openni/rgb/image_rect_color", 1, &RosVideo::imageCB, this, hints);
+    }
     else if(name.compare("Depth") == 0)
-        sub_.reset(new ros::Subscriber(n_.subscribe("/openni/depth/image_raw", 10, &RosVideo::imageCB, this)));
+    {
+        it_sub_ = it->subscribe("/openni/depth/image_raw", 1, &RosVideo::imageCB, this, hints);
+    }
     else if(name.compare("IR") == 0)
-        sub_.reset(new ros::Subscriber(n_.subscribe("/openni/ir/image_raw", 10, &RosVideo::imageCB, this)));
+    {
+        it_sub_ = it->subscribe("/openni/ir/image_raw", 1, &RosVideo::imageCB, this, hints);
+    }
 }
 
 void RosVideo::imageCB(const sensor_msgs::ImageConstPtr & msg)
 {
-    //ROS_INFO("Image received");
-    
+    ROS_INFO("Image Received");
+          
     unsigned int width = msg->width;
     unsigned int height = msg->height;
     unsigned char * data = (unsigned char *) msg->data.data();
@@ -82,13 +92,16 @@ void RosVideo::imageCB(const sensor_msgs::ImageConstPtr & msg)
                                         bitmapInfo,
                                         provider,NULL,NO,renderingIntent);
     
-    UIImage * image = [UIImage imageWithCGImage:imageRef];
-    
-    if(view_controller_ != nil)
+    @autoreleasepool
     {
-        [view_controller_.imageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:YES];
+        UIImage * image = [UIImage imageWithCGImage:imageRef];
+    
+        if(view_controller_ != nil)
+        {
+            [view_controller_.imageView performSelectorOnMainThread:@selector(setImage:) withObject:image waitUntilDone:YES];
+        }
     }
-
+    
     CGDataProviderRelease(provider);
     CGColorSpaceRelease(colorSpaceRef);
     CGImageRelease(imageRef);

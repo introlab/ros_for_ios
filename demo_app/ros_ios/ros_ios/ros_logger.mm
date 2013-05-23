@@ -55,9 +55,11 @@ void RosLogger::loggerCB(const rosgraph_msgs::LogConstPtr & msg)
     log.message = [NSString stringWithUTF8String:msg->msg.c_str()];
     log.node = [NSString stringWithUTF8String:msg->name.c_str()];
     
-    if(view_controller_ != nil)
+    @autoreleasepool
     {
-        [view_controller_ performSelectorOnMainThread:@selector(newLogReceived:) withObject:log waitUntilDone:YES];
+        if(view_controller_ != nil)
+        {
+            [view_controller_ performSelectorOnMainThread:@selector(newLogReceived:) withObject:log waitUntilDone:YES];
+        }
     }
-    
 }

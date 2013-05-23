@@ -15,7 +15,7 @@
 		<string>Icon.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>UdeS.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>ca.usherbrooke.3it.introlab.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

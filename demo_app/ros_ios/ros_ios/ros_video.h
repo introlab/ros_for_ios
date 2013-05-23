@@ -15,7 +15,8 @@
 #import <boost/scoped_ptr.hpp>
 #import <boost/thread/thread.hpp>
 
-#include <string>
+#import <image_transport/image_transport.h>
+#import <string>
 
 @class VideoViewController;
 
@@ -31,9 +32,11 @@ public:
     
 private:
     ros::NodeHandle n_;
-    boost::scoped_ptr<ros::Subscriber> sub_;
     
     boost::thread * ros_thread_;
+    
+    image_transport::ImageTransport * it;
+    image_transport::Subscriber it_sub_;
     
     void imageCB(const sensor_msgs::ImageConstPtr & msg);
 };

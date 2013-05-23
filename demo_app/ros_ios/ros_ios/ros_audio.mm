@@ -41,12 +41,15 @@ void RosAudio::audioCB(const gstreamer_plugins::AudioStreamConstPtr & msg)
     {
         [buffer addObject:[NSNumber numberWithInt:msg->data[i]]];
     }
-    
-    if(view_controller_ != nil && !view_controller_.isPaused)
+
+    @autoreleasepool
     {
-        @synchronized(view_controller_.inputBuffer)
+        if(view_controller_ != nil && !view_controller_.isPaused)
         {
-            [view_controller_.inputBuffer performSelectorOnMainThread:@selector(addObjectsFromArray:) withObject:buffer waitUntilDone:YES];
+            @synchronized(view_controller_.inputBuffer)
+            {
+                [view_controller_.inputBuffer performSelectorOnMainThread:@selector(addObjectsFromArray:) withObject:buffer waitUntilDone:YES];
+            }
         }
     }
 }

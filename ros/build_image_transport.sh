@@ -16,7 +16,7 @@ if [ -d ffmpegc ]
     then
         (cd $SRCDIR/ffmpegc; git pull)
     else
-        git clone -b master https://github.com/lvjian700/ffmpegc.git
+        git clone -b master https://github.com/Ronan0912/ffmpegc.git
 fi
 
 if [ -d introlab-ros-pkg ]
@@ -52,7 +52,7 @@ cp -f $X264_IT_INC_DIR/x264_subscriber.h $IT_INC_DIR
 #===============================================================================
 echo "Building the ffmpeg frameworks ..."
 
-#(cd ffmpegc; sh install-ffmpeg.sh);
+(cd ffmpegc; sh install-ffmpeg.sh);
 
 for f in $SRCDIR/ffmpegc/ffmpeg*/build/*.a
     do
@@ -70,11 +70,11 @@ PACKAGES=("ros_comm/utilities/message_filters"
         "introlab-ros-pkg/x264_image_transport"
         "image_common/image_transport")
 
-#sh $SRCDIR/build_ros_package.sh $SRCDIR/${PACKAGES[0]} boost ros
-#mv -f *.framework $SRCDIR/frameworks/
-#sh $SRCDIR/ros_msgs/messages_gen.sh -f $SRCDIR/${PACKAGES[1]} $SRCDIR/ros_msgs/std_msgs
-#mv -f $SRCDIR/*.framework $SRCDIR/frameworks/
-#sh $SRCDIR/build_ros_package.sh $SRCDIR/${PACKAGES[2]} boost ros message_filters libavcodec libavformat libswscale libavutil sensor_msgs x264_image_transport
-#mv -f *.framework $SRCDIR/frameworks/
+sh $SRCDIR/build_ros_package.sh $SRCDIR/${PACKAGES[0]} boost ros
+mv -f *.framework $SRCDIR/frameworks/
+sh $SRCDIR/ros_msgs/messages_gen.sh -f $SRCDIR/${PACKAGES[1]} $SRCDIR/ros_msgs/std_msgs
+mv -f $SRCDIR/*.framework $SRCDIR/frameworks/
+sh $SRCDIR/build_ros_package.sh $SRCDIR/${PACKAGES[2]} boost ros message_filters libavcodec libavformat libswscale libavutil sensor_msgs x264_image_transport
+mv -f *.framework $SRCDIR/frameworks/
 
 echo "Done !"

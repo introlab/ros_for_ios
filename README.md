@@ -5,7 +5,7 @@ How to build the Robot Operating System for the iOS platform.
 
 First of all, you need to be on a MacOSX system with the Xcode and the iOS toolchain
 installed. You also need to have the command line tools installed (svn,
- git ... see Xcode options). The automated script will build all the necessary 
+ git ... see Xcode options) and the CMake build system. The automated script will build all the necessary 
  libraries for you :
 
 ```

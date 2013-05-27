@@ -51,7 +51,7 @@ cp -rf $X264_IT_INC_DIR/x264_image_transport $IT_INC_DIR
 #===============================================================================
 echo "Building the ffmpeg frameworks ..."
 
-#(cd ffmpegc; sh install-ffmpeg.sh);
+(cd ffmpegc; sh install-ffmpeg.sh);
 
 for f in $SRCDIR/ffmpegc/ffmpeg*/build/*.a
     do

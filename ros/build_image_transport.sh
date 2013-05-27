@@ -16,7 +16,7 @@ if [ -d ffmpegc ]
     then
         (cd $SRCDIR/ffmpegc; git pull)
     else
-        git clone -b master https://github.com/Ronan0912/ffmpegc.git
+        git clone -b master https://github.com/lvjian700/ffmpegc.git
 fi
 
 if [ -d introlab-ros-pkg ]
@@ -34,10 +34,10 @@ else
 fi
 
 IT_SRC_DIR=$SRCDIR/image_common/image_transport/src
-IT_INC_DIR=$SRCDIR/image_common/image_transport/include/image_transport
+IT_INC_DIR=$SRCDIR/image_common/image_transport/include
 
 X264_IT_SRC_DIR=$SRCDIR/introlab-ros-pkg/x264_image_transport/src
-X264_IT_INC_DIR=$SRCDIR/introlab-ros-pkg/x264_image_transport/include/x264_image_transport
+X264_IT_INC_DIR=$SRCDIR/introlab-ros-pkg/x264_image_transport/include
 
 rm -f $IT_SRC_DIR/manifest.cpp
 rm -f $IT_SRC_DIR/list_transports.cpp
@@ -46,13 +46,12 @@ rm -f $IT_SRC_DIR/republish.cpp
 cp -f $X264_IT_SRC_DIR/x264_publisher.cpp $IT_SRC_DIR
 cp -f $X264_IT_SRC_DIR/x264_subscriber.cpp $IT_SRC_DIR
 
-cp -f $X264_IT_INC_DIR/x264_publisher.h $IT_INC_DIR
-cp -f $X264_IT_INC_DIR/x264_subscriber.h $IT_INC_DIR
+cp -rf $X264_IT_INC_DIR/x264_image_transport $IT_INC_DIR
 
 #===============================================================================
 echo "Building the ffmpeg frameworks ..."
 
-(cd ffmpegc; sh install-ffmpeg.sh);
+#(cd ffmpegc; sh install-ffmpeg.sh);
 
 for f in $SRCDIR/ffmpegc/ffmpeg*/build/*.a
     do

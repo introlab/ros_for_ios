@@ -168,13 +168,19 @@ cd $OS_BUILDDIR
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenOS -GXcode ..
 
-xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD
+if (! xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD)
+    then
+        exit 1
+fi
 
 cd $SIMULATOR_BUILDDIR
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenSimulator -GXcode ..
 
-xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
+if (! xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD)
+    then
+        exit 1
+fi
 
 #===============================================================================
 echo "Scrunch all libs together in one lib per platform ..."

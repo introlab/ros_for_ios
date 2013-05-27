@@ -133,6 +133,18 @@ mv $SRCDIR/ros/ros.framework $SRCDIR/ros/frameworks/
 echo "Ok"
 
 #===============================================================================
+#ROS image_transport
+
+echo "Building image_transport :"
+
+if (cd $SRCDIR/ros; sh build_image_transport.sh) >> $LOGFILE 2>&1;
+    then
+        echo "Ok"
+else
+    error_exit "Error ! Aborting."
+fi
+
+#===============================================================================
 
 echo "Cleaning"
 

@@ -61,10 +61,10 @@
 		34782C2B170385B5001D271F /* ros.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C24170385B5001D271F /* ros.framework */; };
 		34782C2C170385B5001D271F /* sensor_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C25170385B5001D271F /* sensor_msgs.framework */; };
 		34782C2D170385B5001D271F /* std_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C26170385B5001D271F /* std_msgs.framework */; };
+		34915046174E65F1002097E1 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34915045174E65F1002097E1 /* libx264.a */; };
 		34A2B5C3170493BD00C53723 /* rosgraph_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */; };
 		34A6FF66174D6155004F37D8 /* libbz2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6FF65174D6155004F37D8 /* libbz2.1.0.dylib */; };
 		34A6FF68174D6305004F37D8 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6FF67174D6305004F37D8 /* libz.1.2.5.dylib */; };
-		34A6FF6C174D6886004F37D8 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6FF6B174D6886004F37D8 /* libx264.a */; };
 		34BFC1D716F7BA1600B1FEC6 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */; };
 		34BFC1DA16F7BFF800B1FEC6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */; };
 		34BFC1DC16F7C2DD00B1FEC6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1DB16F7C2DD00B1FEC6 /* MessageUI.framework */; };
@@ -152,10 +152,10 @@
 		34782C24170385B5001D271F /* ros.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ros.framework; path = ../../ros/frameworks/ros.framework; sourceTree = "<group>"; };
 		34782C25170385B5001D271F /* sensor_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sensor_msgs.framework; path = ../../ros/frameworks/sensor_msgs.framework; sourceTree = "<group>"; };
 		34782C26170385B5001D271F /* std_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = std_msgs.framework; path = ../../ros/frameworks/std_msgs.framework; sourceTree = "<group>"; };
+		34915045174E65F1002097E1 /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "../../ros/ffmpegc/ffmpeg-1.2.1/x264/build/libx264.a"; sourceTree = "<group>"; };
 		34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rosgraph_msgs.framework; path = ../../ros/frameworks/rosgraph_msgs.framework; sourceTree = "<group>"; };
 		34A6FF65174D6155004F37D8 /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = usr/lib/libbz2.1.0.dylib; sourceTree = SDKROOT; };
 		34A6FF67174D6305004F37D8 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
-		34A6FF6B174D6886004F37D8 /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "../../ros/ffmpegc/ffmpeg-1.2.1/x264/libx264.a"; sourceTree = "<group>"; };
 		34BFC1D316F7BA1600B1FEC6 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
 		34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
 		34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -177,7 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34A6FF6C174D6886004F37D8 /* libx264.a in Frameworks */,
+				34915046174E65F1002097E1 /* libx264.a in Frameworks */,
 				34A6FF68174D6305004F37D8 /* libz.1.2.5.dylib in Frameworks */,
 				34A6FF66174D6155004F37D8 /* libbz2.1.0.dylib in Frameworks */,
 				340FA6881747FFA300A74CFD /* image_transport.framework in Frameworks */,
@@ -216,7 +216,7 @@
 		340A9245174BBE3200AE22E8 /* ffmpeg */ = {
 			isa = PBXGroup;
 			children = (
-				34A6FF6B174D6886004F37D8 /* libx264.a */,
+				34915045174E65F1002097E1 /* libx264.a */,
 				34A6FF67174D6305004F37D8 /* libz.1.2.5.dylib */,
 				34A6FF65174D6155004F37D8 /* libbz2.1.0.dylib */,
 				340A9239174BBE2E00AE22E8 /* libavcodec.framework */,
@@ -576,7 +576,7 @@
 				INFOPLIST_FILE = "ros_ios/ros_ios-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../ros/ffmpegc/ffmpeg-1.2.1/x264\"",
+					"\"$(SRCROOT)/../../ros/ffmpegc/ffmpeg-1.2.1/x264/build/\"",
 				);
 				PRODUCT_NAME = ROS4iOS;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -601,7 +601,7 @@
 				INFOPLIST_FILE = "ros_ios/ros_ios-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../ros/ffmpegc/ffmpeg-1.2.1/x264\"",
+					"\"$(SRCROOT)/../../ros/ffmpegc/ffmpeg-1.2.1/x264/build/\"",
 				);
 				PRODUCT_NAME = ROS4iOS;
 				USER_HEADER_SEARCH_PATHS = "";

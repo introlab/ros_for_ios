@@ -31,6 +31,10 @@ public:
     std::vector<CGPoint> getPlan(CGPoint goal);
     bool checkGoal(CGPoint goal);
     void sendGoal(CGPoint goal);
+    size_t new_map_available();
+    size_t get_map_width();
+    size_t get_map_height();
+    unsigned char * get_map_data();
     
 private:
     ros::NodeHandle n_;
@@ -40,6 +44,10 @@ private:
     boost::thread * ros_thread_;
     
     nav_msgs::OccupancyGrid last_map_;
+    bool new_map;
+    size_t im_width;
+    size_t im_height;
+    std::vector<unsigned char> image_data;
     
     void mapCB(const nav_msgs::OccupancyGridConstPtr & msg);
 };

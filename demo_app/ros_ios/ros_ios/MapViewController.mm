@@ -15,10 +15,10 @@ typedef struct {
 } Vertex;
 
 const Vertex Vertices[] = {
-    {{1, -1, 0}, {1, 1, 1, 1}, {1, 0}},
-    {{1, 1, 0}, {1, 1, 1, 1}, {1, 1}},
-    {{-1, 1, 0}, {1, 1, 1, 1}, {0, 1}},
-    {{-1, -1, 0}, {1, 1, 1, 1}, {0, 0}}
+    {{1, -1, 0}, {1, 0}},
+    {{1, 1, 0}, {1, 1}},
+    {{-1, 1, 0}, {0, 1}},
+    {{-1, -1, 0}, {0, 0}}
 };
 
 const GLubyte Indices[] = {
@@ -34,9 +34,8 @@ const GLubyte Indices[] = {
 
 @implementation MapViewController
 
-@synthesize glContext = _glContext;
-@synthesize glLayer = _glLayer;
-@synthesize texture = _texture;
+@synthesize glContext = glContext_;
+@synthesize glLayer = glLayer_;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -62,9 +61,6 @@ const GLubyte Indices[] = {
     ros_controller_ = new RosPlanner();
     ros_controller_->view_controller_ = self;
     
-    _texture = [[MapImage alloc] init];
-    _texture.displayed = YES;
-    
     [self setupGL];
     
     //GLKView *view = (GLKView *)self.view;
@@ -83,14 +79,14 @@ const GLubyte Indices[] = {
     delete ros_controller_;
 }
 
-- (void)setupLayer {
-    
+- (void)setupLayer
+{
     self.glLayer = (CAEAGLLayer*) self.view.layer;
     self.glLayer.opaque = YES;
 }
 
-- (void)setupContext {
-    
+- (void)setupContext
+{
     EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
     self.glContext = [[EAGLContext alloc] initWithAPI:api];
     if (!self.glContext) {
@@ -104,28 +100,27 @@ const GLubyte Indices[] = {
     }
 }
 
-- (void)setupRenderBuffer {
-    
-    glGenRenderbuffers(1, &_colorRenderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+- (void)setupRenderBuffer
+{
+    glGenRenderbuffers(1, &colorRenderBuffer_);
+    glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer_);
     [self.glContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:self.glLayer];
 }
 
-- (void)setupFrameBuffer {
-    
+- (void)setupFrameBuffer
+{
     GLuint framebuffer;
     glGenFramebuffers(1, &framebuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                              GL_RENDERBUFFER, _colorRenderBuffer);
+                              GL_RENDERBUFFER, colorRenderBuffer_);
 }
 
-- (void)render {
-    
-    if(!_texture.displayed)
+- (void)render
+{
+    if(ros_controller_->new_map_available())
     {
-        _floorTexture = [self setupTexture];
-        _texture.displayed = YES;
+        [self updateTexture];
     }
     
     glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -139,24 +134,19 @@ const GLubyte Indices[] = {
     float h = 1 * scale * self.view.bounds.size.height / self.view.bounds.size.width;
     
     GLKMatrix4 projectionMatrix = GLKMatrix4MakeFrustum(-1,1,-h/2,h/2,1,10);
-    glUniformMatrix4fv(_projectionUniform, 1, 0, projectionMatrix.m);
+    glUniformMatrix4fv(projectionUniform_, 1, 0, projectionMatrix.m);
     
-    GLKMatrix4 rotation = GLKMatrix4MakeWithQuaternion(_quat);
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Multiply(_transMatrix, rotation);
+    GLKMatrix4 rotation = GLKMatrix4MakeWithQuaternion(quat_);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4Multiply(transMatrix_, rotation);
     
-    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelViewMatrix.m);
+    glUniformMatrix4fv(modelViewUniform_, 1, 0, modelViewMatrix.m);
     
     glViewport(0, 0, self.view.bounds.size.width * scale, self.view.bounds.size.height * scale);
     
-    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(positionSlot_, 3, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), 0);
-    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
-    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
-    
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _floorTexture);
-    glUniform1i(_textureUniform, 0);
+    glVertexAttribPointer( texCoordSlot_, 2, GL_FLOAT, GL_FALSE,
+                          sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
     
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]),
                    GL_UNSIGNED_BYTE, 0);
@@ -164,8 +154,8 @@ const GLubyte Indices[] = {
     [self.glContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-- (GLuint)compileShader:(NSString*)shaderName withType:(GLenum)shaderType {
-    
+- (GLuint)compileShader:(NSString*)shaderName withType:(GLenum)shaderType
+{
     NSString* shaderPath = [[NSBundle mainBundle] pathForResource:shaderName
                                                            ofType:@"glsl"];
     NSError* error;
@@ -197,8 +187,8 @@ const GLubyte Indices[] = {
     return shaderHandle;
 }
 
-- (void)compileShaders {
-    
+- (void)compileShaders
+{
     GLuint vertexShader = [self compileShader:@"SimpleVertex"
                                      withType:GL_VERTEX_SHADER];
     GLuint fragmentShader = [self compileShader:@"SimpleFragment"
@@ -221,21 +211,19 @@ const GLubyte Indices[] = {
     
     glUseProgram(programHandle);
     
-    _positionSlot = glGetAttribLocation(programHandle, "Position");
-    _colorSlot = glGetAttribLocation(programHandle, "SourceColor");
-    glEnableVertexAttribArray(_positionSlot);
-    glEnableVertexAttribArray(_colorSlot);
+    positionSlot_ = glGetAttribLocation(programHandle, "Position");
+    glEnableVertexAttribArray(positionSlot_);
     
-    _projectionUniform = glGetUniformLocation(programHandle, "Projection");
-    _modelViewUniform = glGetUniformLocation(programHandle, "Modelview");
+    projectionUniform_ = glGetUniformLocation(programHandle, "Projection");
+    modelViewUniform_ = glGetUniformLocation(programHandle, "Modelview");
     
-    _texCoordSlot = glGetAttribLocation(programHandle, "TexCoordIn");
-    glEnableVertexAttribArray(_texCoordSlot);
-    _textureUniform = glGetUniformLocation(programHandle, "Texture");
+     texCoordSlot_ = glGetAttribLocation(programHandle, "TexCoordIn");
+    glEnableVertexAttribArray(texCoordSlot_);
+     textureUniform_ = glGetUniformLocation(programHandle, "Texture");
 }
 
-- (void)setupVBOs {
-    
+- (void)setupVBOs
+{
     GLuint vertexBuffer;
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
@@ -247,17 +235,9 @@ const GLubyte Indices[] = {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
 }
 
-- (GLuint)setupTexture {
-    
-    size_t width = _texture.width;
-    size_t height = _texture.height;
-    GLubyte * spriteData = (GLubyte *) malloc(width*height*4);
-    
-    memcpy(spriteData, _texture.data.data(), width*height*4);
-    
-    GLuint texName;
-    glGenTextures(1, &texName);
-    glBindTexture(GL_TEXTURE_2D, texName);
+- (void)setupTexture
+{
+    glBindTexture(GL_TEXTURE_2D, texture_);
     
     // use linear filetring
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -265,15 +245,17 @@ const GLubyte Indices[] = {
     // clamp to edge
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-    
-    free(spriteData);
-    
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-    
-    return texName;
 }
+
+- (void)updateTexture
+{
+    size_t width = ros_controller_->get_map_width();
+    size_t height = ros_controller_->get_map_height();
+    GLubyte * mapData = (GLubyte *) ros_controller_->get_map_data();
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, mapData);
+}
+
 
 - (void)setupGL
 {
@@ -282,29 +264,26 @@ const GLubyte Indices[] = {
     [self setupRenderBuffer];
     [self setupFrameBuffer];
     [self compileShaders];
+    [self setupTexture];
     [self setupVBOs];
     [self setupGeometry];
 }
 
 - (void)setupGeometry
 {
-    _transMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -3.0f);
-    _rotMatrix = GLKMatrix4Identity;
-    _quat = GLKQuaternionMake(0, 0, 0, 1);
-    _quatStart = GLKQuaternionMake(0, 0, 0, 1);
-    
+    transMatrix_ = GLKMatrix4MakeTranslation(0.0f, 0.0f, -3.0f);
+    rotMatrix_ = GLKMatrix4Identity;
+    quat_ = GLKQuaternionMake(0, 0, 0, 1);
+    quatStart_ = GLKQuaternionMake(0, 0, 0, 1);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
     
 }
 
-- (void)update {
-
-    if(!_texture.data.empty())
-    {
-        [self render];
-    }
+- (void)update
+{
+    [self render];
 }
 
 - (GLKVector3) projectOntoSurface:(GLKVector3) touchPoint
@@ -336,39 +315,33 @@ const GLubyte Indices[] = {
     return GLKVector3Normalize(P);
 }
 
-- (void)computeIncremental {
-    
-    GLKVector3 axis = GLKVector3CrossProduct(_anchor_position, _current_position);
-    float dot = GLKVector3DotProduct(_anchor_position, _current_position);
+- (void)computeIncremental
+{
+    GLKVector3 axis = GLKVector3CrossProduct(anchor_position_, current_position_);
+    float dot = GLKVector3DotProduct(anchor_position_, current_position_);
     float angle = acosf(dot);
     
     GLKQuaternion Q_rot = GLKQuaternionMakeWithAngleAndVector3Axis(angle * 2, axis);
     Q_rot = GLKQuaternionNormalize(Q_rot);
     
     // TODO: Do something with Q_rot...
-    _quat = GLKQuaternionMultiply(Q_rot, _quatStart);
+    quat_ = GLKQuaternionMultiply(Q_rot, quatStart_);
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-    //self.paused = !self.paused;
-    //NSLog(@"timeSinceLastUpdate: %f", self.timeSinceLastUpdate);
-    //NSLog(@"timeSinceLastDraw: %f", self.timeSinceLastDraw);
-    //NSLog(@"timeSinceFirstResume: %f", self.timeSinceFirstResume);
-    //NSLog(@"timeSinceLastResume: %f", self.timeSinceLastResume);
-    
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{    
     UITouch * touch = [touches anyObject];
     CGPoint location = [touch locationInView:self.view];
     
-    _anchor_position = GLKVector3Make(location.x, location.y, 0);
-    _anchor_position = [self projectOntoSurface:_anchor_position];
+    anchor_position_ = GLKVector3Make(location.x, location.y, 0);
+    anchor_position_ = [self projectOntoSurface:anchor_position_];
     
-    _current_position = _anchor_position;
-    _quatStart = _quat;
+    current_position_ = anchor_position_;
+    quatStart_ = quat_;
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
     UITouch * touch = [touches anyObject];
     CGPoint location = [touch locationInView:self.view];
     CGPoint lastLoc = [touch previousLocationInView:self.view];
@@ -378,19 +351,19 @@ const GLubyte Indices[] = {
     float rotY = -1 * GLKMathDegreesToRadians(diff.x / 2.0);
     
     bool isInvertible;
-    GLKVector3 xAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(_rotMatrix, &isInvertible), GLKVector3Make(1, 0, 0));
-    _rotMatrix = GLKMatrix4Rotate(_rotMatrix, rotX, xAxis.x, xAxis.y, xAxis.z);
-    GLKVector3 yAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(_rotMatrix, &isInvertible), GLKVector3Make(0, 1, 0));
-    _rotMatrix = GLKMatrix4Rotate(_rotMatrix, rotY, yAxis.x, yAxis.y, yAxis.z);
+    GLKVector3 xAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(rotMatrix_, &isInvertible), GLKVector3Make(1, 0, 0));
+    rotMatrix_ = GLKMatrix4Rotate(rotMatrix_, rotX, xAxis.x, xAxis.y, xAxis.z);
+    GLKVector3 yAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(rotMatrix_, &isInvertible), GLKVector3Make(0, 1, 0));
+    rotMatrix_ = GLKMatrix4Rotate(rotMatrix_, rotY, yAxis.x, yAxis.y, yAxis.z);
     
-    _current_position = GLKVector3Make(location.x, location.y, 0);
-    _current_position = [self projectOntoSurface:_current_position];
+    current_position_ = GLKVector3Make(location.x, location.y, 0);
+    current_position_ = [self projectOntoSurface:current_position_];
     
     [self computeIncremental];
 }
 
-- (IBAction)buttonGoPressed:(id)sender {
-    
+- (IBAction)buttonGoPressed:(id)sender
+{
     CGPoint goal;
     
     NSLog(@"%f %f", goal.x, goal.y);
@@ -406,12 +379,14 @@ const GLubyte Indices[] = {
     }
 }
 
-- (IBAction)tapDetected:(UITapGestureRecognizer *)sender {
+- (IBAction)tapDetected:(UITapGestureRecognizer *)sender
+{
     NSLog(@"Double tap!");
     [self setupGeometry];
 }
 
-- (IBAction)pinchDetected:(UIPinchGestureRecognizer *)sender {
+- (IBAction)pinchDetected:(UIPinchGestureRecognizer *)sender
+{
     static CGFloat lastScale;
     if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
         lastScale = 1.0;
@@ -423,7 +398,7 @@ const GLubyte Indices[] = {
     
     NSLog(@"Pinch - scale = %f, velocity = %f", scale, velocity);
     
-    _transMatrix = GLKMatrix4Multiply(_transMatrix,GLKMatrix4MakeScale(scale,scale,scale));
+    transMatrix_ = GLKMatrix4Multiply(transMatrix_,GLKMatrix4MakeScale(scale,scale,scale));
 	lastScale = [(UIPinchGestureRecognizer*)sender scale];
 }
 

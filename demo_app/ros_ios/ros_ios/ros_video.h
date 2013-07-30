@@ -10,12 +10,12 @@
 #define ros_video_h
 
 #import <ros/node_handle.h>
-#import <ros/subscriber.h>
 #import <sensor_msgs/Image.h>
 #import <boost/scoped_ptr.hpp>
 #import <boost/thread/thread.hpp>
 
 #import <image_transport/image_transport.h>
+#import <opencv2/core/core.hpp>
 #import <string>
 
 @class VideoViewController;
@@ -28,7 +28,8 @@ public:
     RosVideo();
     ~RosVideo();
     void ros_spin();
-    void subscribe_to(std::string name);
+    void subscribeTo(std::string name);
+    void sendImage(cv::Mat & image);
     
 private:
     ros::NodeHandle n_;
@@ -37,7 +38,7 @@ private:
     
     image_transport::ImageTransport * it;
     image_transport::Subscriber it_sub_;
-    
+    image_transport::Publisher it_pub_;
     void imageCB(const sensor_msgs::ImageConstPtr & msg);
 };
 

@@ -9,13 +9,15 @@
 #import "ros_video.h"
 #import "VideoViewController.h"
 #import <sensor_msgs/image_encodings.h>
-
+#import <cv_bridge/cv_bridge.h>
 
 RosVideo::RosVideo()
 {    
     ros_thread_ = new boost::thread(&RosVideo::ros_spin, this);
     it = new image_transport::ImageTransport(n_);
-    this->subscribe_to("RGB");
+    this->subscribeTo("RGB");
+    
+    it_pub_ = it->advertise("/iphone_camera", 1);
 }
 
 RosVideo::~RosVideo()
@@ -31,7 +33,7 @@ void RosVideo::ros_spin()
     ros::spin();
 }
 
-void RosVideo::subscribe_to(std::string name)
+void RosVideo::subscribeTo(std::string name)
 {
     image_transport::TransportHints hints("x264", ros::TransportHints());
     it_sub_.shutdown();
@@ -48,6 +50,17 @@ void RosVideo::subscribe_to(std::string name)
     {
         it_sub_ = it->subscribe("/openni/ir/image_raw", 1, &RosVideo::imageCB, this, hints);
     }
+}
+
+void RosVideo::sendImage(cv::Mat & image)
+{
+    cv_bridge::CvImage out_msg;
+    out_msg.header.stamp = ros::Time::now();
+    out_msg.header.frame_id = "iphone_camera_link";
+    out_msg.encoding = sensor_msgs::image_encodings::BGR8;
+    out_msg.image = image;
+        
+    it_pub_.publish(out_msg.toImageMsg());
 }
 
 void RosVideo::imageCB(const sensor_msgs::ImageConstPtr & msg)

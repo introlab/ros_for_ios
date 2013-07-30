@@ -11,8 +11,6 @@
 #import <ros/time.h>
 #import <nav_msgs/GetPlan.h>
 
-#import "MapImage.h"
-
 RosPlanner::RosPlanner()
 {
     pub_ = n_.advertise<geometry_msgs::PoseStamped>("/planner_goal", 1);
@@ -20,6 +18,8 @@ RosPlanner::RosPlanner()
     c_srv_plan_ = n_.serviceClient<nav_msgs::GetPlan>("make_plan");
     
     ros_thread_ = new boost::thread(&RosPlanner::ros_spin, this);
+    
+    new_map = false;
 }
 
 RosPlanner::~RosPlanner()
@@ -49,8 +49,6 @@ void RosPlanner::mapCB(const nav_msgs::OccupancyGridConstPtr & msg)
     size_t min_y = height;
     size_t max_x = 0;
     size_t max_y = 0;
-    size_t im_width;
-    size_t im_height;
     
     for (size_t y = 0; y < height; ++y)
     {
@@ -94,12 +92,7 @@ void RosPlanner::mapCB(const nav_msgs::OccupancyGridConstPtr & msg)
         }
     }
     
-    MapImage * map = [[MapImage alloc] init];;
-    map.width = im_width;
-    map.height = im_height;
-    
-    std::vector<unsigned char> image_data;
-    image_data.resize(map.width * map.height * 4);
+    image_data.resize(im_width*im_width*4);
     unsigned char * ptr = image_data.data();
     
     for(size_t y = min_y; y != max_y; ++y)
@@ -132,15 +125,30 @@ void RosPlanner::mapCB(const nav_msgs::OccupancyGridConstPtr & msg)
         }
     }
     
-    map.displayed = NO;
-    map.data = image_data;
+    new_map = true;
     
-    ROS_INFO("%ld %ld %ld",(unsigned long)map.width, (unsigned long)map.height, map.data.size());
-    
-    if(view_controller_ != nil)
-    {
-        [view_controller_ performSelectorOnMainThread:@selector(setTexture:) withObject:map waitUntilDone:YES];
-    }
+    ROS_INFO("%ld %ld %ld",(unsigned long)im_width, (unsigned long)im_height, image_data.size());
+}
+
+size_t RosPlanner::new_map_available()
+{
+    return new_map;
+}
+
+size_t RosPlanner::get_map_width()
+{
+    return im_width;
+}
+
+size_t RosPlanner::get_map_height()
+{
+    return im_height;
+}
+
+unsigned char * RosPlanner::get_map_data()
+{
+    new_map = false;
+    return &image_data[0];
 }
 
 std::vector<CGPoint> RosPlanner::getPlan(CGPoint goal)
@@ -205,5 +213,4 @@ void RosPlanner::sendGoal(CGPoint goal)
     pose.header.stamp = ros::Time::now();
     pose.header.frame_id = "/map";
     pose.header.seq = 0;
-    
 }

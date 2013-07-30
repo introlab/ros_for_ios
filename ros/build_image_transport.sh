@@ -46,7 +46,7 @@ rm -f $IT_SRC_DIR/republish.cpp
 cp -f $X264_IT_SRC_DIR/x264_publisher.cpp $IT_SRC_DIR
 cp -f $X264_IT_SRC_DIR/x264_subscriber.cpp $IT_SRC_DIR
 
-cp -rf $X264_IT_INC_DIR/x264_image_transport $IT_INC_DIR
+ln -s $X264_IT_INC_DIR/x264_image_transport $IT_INC_DIR/x264_image_transport
 
 #===============================================================================
 echo "Building the ffmpeg frameworks ..."

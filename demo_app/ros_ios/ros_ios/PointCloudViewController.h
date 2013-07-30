@@ -1,8 +1,8 @@
 //
-//  MapViewController.h
-//  ros_ios
+//  ViewController.h
+//  opengl_kinect
 //
-//  Created by Ronan Chauvin on 2013-02-13.
+//  Created by Ronan Chauvin on 2013-06-04.
 //  Copyright (c) 2013 Ronan Chauvin. All rights reserved.
 //
 
@@ -11,34 +11,35 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <QuartzCore/QuartzCore.h>
-#import "ros_planner.h"
+#include "ros_kinect.h"
 
-@interface MapViewController : GLKViewController
+@interface PointCloudViewController : GLKViewController
 {
-    RosPlanner * ros_controller_;
     EAGLContext * glContext_;
     CAEAGLLayer * glLayer_;
     GLuint colorRenderBuffer_;
+    GLuint depthRenderbuffer_;
     GLuint positionSlot_;
+    GLuint projectionRWUniform_;
     GLuint projectionUniform_;
     GLuint modelViewUniform_;
-    
-    GLKMatrix4 transMatrix_;
-    GLKMatrix4 rotMatrix_;
-    GLKVector3 anchor_position_;
-    GLKVector3 current_position_;
-    GLKQuaternion quatStart_;
-    GLKQuaternion quat_;
-    
     GLuint texture_;
+    
+    GLfloat camPos_[3];
+    
+    GLKMatrix4 projectionMatrix_;
+    GLKMatrix4 modelMatrix_;
+    GLKMatrix4 viewMatrix_;
+    GLKMatrix4 rotMatrix_;
+    
     GLuint texCoordSlot_;
     GLuint textureUniform_;
+    RosKinect * ros_controller_;
 }
 
 @property (nonatomic, strong) EAGLContext *glContext;
 @property (nonatomic, strong) CAEAGLLayer *glLayer;
 
-- (IBAction)buttonGoPressed:(id)sender;
 - (IBAction)tapDetected:(UITapGestureRecognizer *)sender;
 - (IBAction)pinchDetected:(UIPinchGestureRecognizer *)sender;
 

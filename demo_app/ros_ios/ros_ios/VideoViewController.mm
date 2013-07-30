@@ -14,7 +14,7 @@
 
 @implementation VideoViewController
 
-@synthesize pickerView;
+@synthesize pickerView, videoCamera;
 
 - (void)viewDidLoad
 {
@@ -23,12 +23,21 @@
     // Do any additional setup after loading the view, typically from a nib.
     ros_controller_ = new RosVideo();
     
-    imageTypes  = [[NSMutableArray alloc] init];
+    imageTypes = [[NSMutableArray alloc] init];
     [imageTypes addObject:@"RGB"];
     [imageTypes addObject:@"Depth"];
     [imageTypes addObject:@"IR"];
     
     [pickerView selectRow:0 inComponent:0 animated:NO];
+    
+    self.videoCamera = [[CvVideoCamera alloc] init];
+    self.videoCamera.delegate = self;
+    self.videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionBack;
+    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset640x480;
+    self.videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
+    self.videoCamera.defaultFPS = 15;
+    
+    [self.videoCamera start];
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,6 +56,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     NSLog(@"viewWillDisappear");
+    [self.videoCamera stop];
     delete ros_controller_;
 }
 
@@ -63,7 +73,7 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     std::string * type = new std::string([[imageTypes objectAtIndex:row] UTF8String]);
-    ros_controller_->subscribe_to(*type);
+    ros_controller_->subscribeTo(*type);
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
@@ -75,5 +85,14 @@
 {
     return [imageTypes objectAtIndex:row];
 }
+
+#ifdef __cplusplus
+- (void)processImage:(cv::Mat&)image;
+{
+    cv::Mat image_copy;
+    cv::cvtColor(image, image_copy, CV_BGRA2BGR);
+    ros_controller_->sendImage(image_copy);
+}
+#endif
 
 @end

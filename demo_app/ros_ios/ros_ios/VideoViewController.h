@@ -8,16 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "ros_video.h"
+#import <opencv2/highgui/cap_ios.h>
+#import <opencv2/imgproc/imgproc.hpp>
 
-@interface VideoViewController :UIViewController<UIPickerViewDelegate, UIPickerViewDataSource>
+@interface VideoViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource, CvVideoCameraDelegate>
 {
     UIPickerView * pickerView;
     NSMutableArray * imageTypes;
     NSTimer * timer;
+    CvVideoCamera* videoCamera;
     RosVideo * ros_controller_;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) IBOutlet UIPickerView *pickerView;
+@property (nonatomic, retain) CvVideoCamera* videoCamera;
 
 @end

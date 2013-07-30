@@ -9,7 +9,7 @@
             <objects>
                 <viewController id="2" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="introlab.png" translatesAutoresizingMaskIntoConstraints="NO" id="mt2-d8-skG">
@@ -80,7 +80,7 @@
             <objects>
                 <tableViewController id="epm-u6-A8m" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="0c6-9k-Sfp">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -213,7 +213,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="LeN-CD-4o6" style="IBUITableViewCellStyleDefault" id="slu-f4-qeD">
-                                        <rect key="frame" x="0.0" y="311" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="311" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -231,6 +231,27 @@
                                         </view>
                                         <connections>
                                             <segue destination="Fyg-FW-YpT" kind="push" id="u58-Ej-7eP"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="QKk-Rv-uGt" style="IBUITableViewCellStyleDefault" id="LYM-5y-C22">
+                                        <rect key="frame" x="0.0" y="355" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Point Cloud Visualizer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QKk-Rv-uGt">
+                                                    <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="j4g-M1-ovo" kind="push" id="azZ-oS-l5x"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -274,7 +295,7 @@
             <objects>
                 <viewController id="M0F-73-2iL" customClass="AccJoyViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aWl-zK-uPd">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4SU-2d-vVo">
@@ -310,14 +331,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vbt-yY-4n8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1738" y="-1761"/>
+            <point key="canvasLocation" x="1770" y="-2081"/>
         </scene>
         <!--GLKit View Controller-->
         <scene sceneID="GqO-6U-Pt9">
             <objects>
-                <glkViewController autoresizesArchivedViewToFullSize="NO" preferredFramesPerSecond="20" id="esZ-aX-AXp" customClass="MapViewController" sceneMemberID="viewController">
+                <glkViewController autoresizesArchivedViewToFullSize="NO" preferredFramesPerSecond="30" id="esZ-aX-AXp" customClass="MapViewController" sceneMemberID="viewController">
                     <glkView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="MCf-Ph-Qvy">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8nj-X7-rfr">
@@ -363,14 +384,14 @@
                     </connections>
                 </pinchGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1738" y="-1055"/>
+            <point key="canvasLocation" x="1770" y="-1375"/>
         </scene>
         <!--Logger Preferences View Controller - Preferences-->
         <scene sceneID="BH9-pH-H4s">
             <objects>
                 <tableViewController id="jcG-7M-slo" customClass="LoggerPreferencesViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="a3G-GI-PC9">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -566,8 +587,8 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="k26-be-NPC" firstAttribute="top" secondItem="hCM-Rh-A74" secondAttribute="top" constant="1" id="2M5-pI-2OD"/>
                                             <constraint firstItem="k26-be-NPC" firstAttribute="centerX" secondItem="hCM-Rh-A74" secondAttribute="centerX" type="default" id="7cw-O6-ChZ"/>
+                                            <constraint firstItem="k26-be-NPC" firstAttribute="top" secondItem="hCM-Rh-A74" secondAttribute="top" type="default" id="dSG-iu-OR4"/>
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Rkg-HP-ilc">
@@ -597,8 +618,8 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="YHa-ca-vwH" firstAttribute="top" secondItem="Rkg-HP-ilc" secondAttribute="top" constant="-1" id="HAO-JS-aX5"/>
                                             <constraint firstItem="YHa-ca-vwH" firstAttribute="centerX" secondItem="Rkg-HP-ilc" secondAttribute="centerX" type="default" id="l7C-hd-Kor"/>
-                                            <constraint firstItem="YHa-ca-vwH" firstAttribute="top" secondItem="Rkg-HP-ilc" secondAttribute="top" type="default" id="p7F-Yi-qCT"/>
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="eRV-xF-nJ6">
@@ -628,8 +649,8 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="5BP-J2-aNc" firstAttribute="top" secondItem="eRV-xF-nJ6" secondAttribute="top" constant="-1" id="Mok-eS-Lbc"/>
                                             <constraint firstItem="5BP-J2-aNc" firstAttribute="centerX" secondItem="eRV-xF-nJ6" secondAttribute="centerX" type="default" id="RXt-BQ-ACh"/>
-                                            <constraint firstItem="5BP-J2-aNc" firstAttribute="top" secondItem="eRV-xF-nJ6" secondAttribute="top" type="default" id="mo0-xj-gMm"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -653,7 +674,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wh6-ny-hrW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2372" y="-4"/>
+            <point key="canvasLocation" x="2404" y="-324"/>
         </scene>
         <!--Tab Bar Controller - ROS Logger-->
         <scene sceneID="dGl-va-mDG">
@@ -673,14 +694,14 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FhI-Rw-zhk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1741" y="-323"/>
+            <point key="canvasLocation" x="1773" y="-643"/>
         </scene>
         <!--Logger View Controller - Logger-->
         <scene sceneID="vh8-Km-VsT">
             <objects>
                 <tableViewController id="ABM-vz-Obb" customClass="LoggerViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="jSS-pZ-dXw">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="isb-ht-QIV">
@@ -727,14 +748,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NdV-gZ-xL0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2372" y="-650"/>
+            <point key="canvasLocation" x="2404" y="-970"/>
         </scene>
         <!--Joy View Controller - Touch Control-->
         <scene sceneID="Ydo-D7-o0g">
             <objects>
                 <viewController id="fOk-3Q-Ls9" customClass="JoyViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zQz-dv-GhM">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="zWi-yP-SW5">
@@ -756,14 +777,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UXf-6t-EPi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1738" y="-2494"/>
+            <point key="canvasLocation" x="1770" y="-2814"/>
         </scene>
         <!--Topics List View Controller - ROS Topics List-->
         <scene sceneID="URk-7N-g6T">
             <objects>
                 <tableViewController id="mqt-kR-IV0" customClass="TopicsListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dCt-pi-0Ug">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="Izp-Ue-ilD">
@@ -807,14 +828,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iz1-KF-HAf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1741" y="387"/>
+            <point key="canvasLocation" x="1773" y="67"/>
         </scene>
         <!--Video View Controller - Video Feeds-->
         <scene sceneID="UAq-7K-FxB">
             <objects>
                 <viewController id="CSh-UY-Y4g" customClass="VideoViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ytU-NO-l01">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kLa-bM-6GW">
@@ -850,14 +871,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dJo-KL-OLu" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1741" y="1128"/>
+            <point key="canvasLocation" x="1773" y="808"/>
         </scene>
         <!--Audio View Controller-->
         <scene sceneID="i33-fK-rK0">
             <objects>
                 <viewController id="Fyg-FW-YpT" customClass="AudioViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SXr-vc-apF">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0G0-d0-Qk1">
@@ -894,14 +915,43 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L0o-yT-DUk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1741" y="1879"/>
+            <point key="canvasLocation" x="1773" y="1559"/>
+        </scene>
+        <!--GLKit View Controller-->
+        <scene sceneID="wad-Pd-8Wb">
+            <objects>
+                <glkViewController autoresizesArchivedViewToFullSize="NO" wantsFullScreenLayout="YES" preferredFramesPerSecond="30" id="j4g-M1-ovo" customClass="PointCloudViewController" sceneMemberID="viewController">
+                    <glkView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Kag-9j-tto">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <connections>
+                            <outlet property="delegate" destination="j4g-M1-ovo" id="Wpz-oK-NGb"/>
+                            <outletCollection property="gestureRecognizers" destination="pMQ-6G-CWf" appends="YES" id="6oi-zS-ghw"/>
+                            <outletCollection property="gestureRecognizers" destination="Koh-xF-fSl" appends="YES" id="1t2-jV-TDO"/>
+                        </connections>
+                    </glkView>
+                    <navigationItem key="navigationItem" id="sc3-Qy-qcH"/>
+                </glkViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yNm-Gu-xvo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="pMQ-6G-CWf">
+                    <connections>
+                        <action selector="tapDetected:" destination="j4g-M1-ovo" id="lSn-l4-gN1"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <pinchGestureRecognizer id="Koh-xF-fSl">
+                    <connections>
+                        <action selector="pinchDetected:" destination="j4g-M1-ovo" id="fyL-cK-4cW"/>
+                    </connections>
+                </pinchGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1773" y="2308"/>
         </scene>
         <!--Logger Level Table View Controller - Logger-->
         <scene sceneID="5O5-Ur-PD5">
             <objects>
                 <tableViewController id="gmS-2K-qKF" customClass="LoggerLevelTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="AtB-0Q-Gfa">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="Oj4-8f-GwW">
@@ -950,14 +1000,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tlo-La-u2S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2866" y="-650"/>
+            <point key="canvasLocation" x="2898" y="-970"/>
         </scene>
         <!--Logger Detail Table View Controller-->
         <scene sceneID="Axv-hZ-i3V">
             <objects>
                 <tableViewController id="OT8-i2-6sA" customClass="LoggerDetailTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="dFt-rG-jgV">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -1068,14 +1118,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GAT-4R-6PW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3358" y="-650"/>
+            <point key="canvasLocation" x="3390" y="-970"/>
         </scene>
         <!--Table View Controller - Logger-->
         <scene sceneID="whL-Ns-eKl">
             <objects>
                 <tableViewController id="uR6-bc-X28" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Krc-vQ-CCD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -1195,7 +1245,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MoN-hK-zjn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2866" y="-4"/>
+            <point key="canvasLocation" x="2898" y="-324"/>
         </scene>
     </scenes>
     <resources>
@@ -1204,20 +1254,129 @@
         <image name="sound.png" width="640" height="514"/>
     </resources>
     <classes>
+        <class className="AccJoyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AccJoyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="pauseOrResume:"/>
+                <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="pause" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="AudioViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AudioViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="pauseOrResume:"/>
+                <relationship kind="outlet" name="pause" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="JoyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/JoyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="startTimer"/>
+                <relationship kind="action" name="stopTimer"/>
+                <relationship kind="outlet" name="ballView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="LoggerDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="level" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="message" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="node" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="time" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="LoggerLevelTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerLevelTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="message" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="node" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="LoggerLevelTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerLevelTableViewController.h"/>
+        </class>
         <class className="LoggerPreferencesViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerPreferencesViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="clearLogs:"/>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="action" name="sendMail:"/>
+                <relationship kind="action" name="switchDebugChanged:"/>
+                <relationship kind="action" name="switchErrorChanged:"/>
+                <relationship kind="action" name="switchFatalChanged:"/>
+                <relationship kind="action" name="switchInfoChanged:"/>
+                <relationship kind="action" name="switchWarnChanged:"/>
+                <relationship kind="outlet" name="messageNumber" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="switchDebug" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="switchError" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="switchFatal" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="switchInfo" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="switchWarn" candidateClass="UISwitch"/>
+            </relationships>
         </class>
-        <class className="VideoViewController">
+        <class className="LoggerTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="level" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="number" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="LoggerViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="openMail:"/>
+                <relationship kind="action" name="pauseOrResume:"/>
+                <relationship kind="outlet" name="pause" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="MapViewController" superclassName="GLKViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="buttonGoPressed:"/>
+                <relationship kind="action" name="pinchDetected:" candidateClass="UIPinchGestureRecognizer"/>
+                <relationship kind="action" name="tapDetected:" candidateClass="UITapGestureRecognizer"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PointCloudViewController" superclassName="GLKViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PointCloudViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="pinchDetected:" candidateClass="UIPinchGestureRecognizer"/>
+                <relationship kind="action" name="tapDetected:" candidateClass="UITapGestureRecognizer"/>
+            </relationships>
+        </class>
+        <class className="TopicTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopicTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="data_type" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="TopicsListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopicsListViewController.h"/>
+        </class>
+        <class className="VideoViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VideoViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="pickerView" candidateClass="UIPickerView"/>
             </relationships>
         </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="ip_edit_ended:"/>
+                <relationship kind="outlet" name="ip_text_field" candidateClass="UITextField"/>
+            </relationships>
+        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
 </document>

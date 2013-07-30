@@ -32,17 +32,26 @@
 		340DB90516F79D8C0021CE62 /* LoggerPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340DB90416F79D8C0021CE62 /* LoggerPreferencesViewController.m */; };
 		340E32F616D58D300094ABB7 /* JoyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F516D58D300094ABB7 /* JoyViewController.mm */; };
 		340E32F916D5DD130094ABB7 /* ros_joy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F816D5DD130094ABB7 /* ros_joy.mm */; };
+		340EF30217611115002DA5D8 /* cv_bridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340EF2FF17611115002DA5D8 /* cv_bridge.framework */; };
+		340EF30317611115002DA5D8 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340EF30017611115002DA5D8 /* opencv2.framework */; };
+		340EF306176111AE002DA5D8 /* PointCloudViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340EF305176111AE002DA5D8 /* PointCloudViewController.mm */; };
+		340EF30C1761133C002DA5D8 /* ros_kinect.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340EF30B1761133C002DA5D8 /* ros_kinect.mm */; };
 		340FA6881747FFA300A74CFD /* image_transport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340FA67F1747FFA200A74CFD /* image_transport.framework */; };
 		340FA68F1747FFA300A74CFD /* message_filters.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340FA6861747FFA300A74CFD /* message_filters.framework */; };
 		340FA6901747FFA300A74CFD /* x264_image_transport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340FA6871747FFA300A74CFD /* x264_image_transport.framework */; };
-		343F92EA173178DF00E147A9 /* MapImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 343F92E9173178DF00E147A9 /* MapImage.mm */; };
+		3420A3CF17A4200A00FF27AA /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3420A3C917A4200900FF27AA /* Accelerate.framework */; };
+		3420A3D017A4200A00FF27AA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3420A3CA17A4200900FF27AA /* AssetsLibrary.framework */; };
+		3420A3D117A4200A00FF27AA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3420A3CB17A4200900FF27AA /* AVFoundation.framework */; };
+		3420A3D217A4200A00FF27AA /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3420A3CC17A4200A00FF27AA /* CoreImage.framework */; };
+		3420A3D317A4200A00FF27AA /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3420A3CD17A4200A00FF27AA /* CoreMedia.framework */; };
+		3420A3D417A4200A00FF27AA /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3420A3CE17A4200A00FF27AA /* CoreVideo.framework */; };
 		3469F9F8171707A2001AAEA3 /* AudioViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3469F9F7171707A2001AAEA3 /* AudioViewController.mm */; };
 		346F2BD816CBEB1B0018FC3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BD716CBEB1B0018FC3B /* UIKit.framework */; };
 		346F2BDA16CBEB1B0018FC3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BD916CBEB1B0018FC3B /* Foundation.framework */; };
 		346F2BDC16CBEB1B0018FC3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BDB16CBEB1B0018FC3B /* CoreGraphics.framework */; };
 		346F2BE216CBEB1B0018FC3B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 346F2BE016CBEB1B0018FC3B /* InfoPlist.strings */; };
 		346F2BE416CBEB1B0018FC3B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 346F2BE316CBEB1B0018FC3B /* main.m */; };
-		346F2BE816CBEB1B0018FC3B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 346F2BE716CBEB1B0018FC3B /* AppDelegate.m */; };
+		346F2BE816CBEB1B0018FC3B /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346F2BE716CBEB1B0018FC3B /* AppDelegate.mm */; };
 		346F2BEA16CBEB1B0018FC3B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 346F2BE916CBEB1B0018FC3B /* Default.png */; };
 		346F2BEC16CBEB1B0018FC3B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 346F2BEB16CBEB1B0018FC3B /* Default@2x.png */; };
 		346F2BEE16CBEB1B0018FC3B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 346F2BED16CBEB1B0018FC3B /* Default-568h@2x.png */; };
@@ -113,12 +122,22 @@
 		340E32F416D58D300094ABB7 /* JoyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoyViewController.h; sourceTree = "<group>"; };
 		340E32F516D58D300094ABB7 /* JoyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JoyViewController.mm; sourceTree = "<group>"; };
 		340E32F816D5DD130094ABB7 /* ros_joy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_joy.mm; sourceTree = "<group>"; };
+		340EF2FF17611115002DA5D8 /* cv_bridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = cv_bridge.framework; path = ../../ros/frameworks/cv_bridge.framework; sourceTree = "<group>"; };
+		340EF30017611115002DA5D8 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../ros/frameworks/opencv2.framework; sourceTree = "<group>"; };
+		340EF304176111AE002DA5D8 /* PointCloudViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointCloudViewController.h; sourceTree = "<group>"; };
+		340EF305176111AE002DA5D8 /* PointCloudViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PointCloudViewController.mm; sourceTree = "<group>"; };
+		340EF30A1761133C002DA5D8 /* ros_kinect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ros_kinect.h; sourceTree = "<group>"; };
+		340EF30B1761133C002DA5D8 /* ros_kinect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_kinect.mm; sourceTree = "<group>"; };
 		340FA67F1747FFA200A74CFD /* image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = image_transport.framework; path = ../../ros/frameworks/image_transport.framework; sourceTree = "<group>"; };
 		340FA6861747FFA300A74CFD /* message_filters.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = message_filters.framework; path = ../../ros/frameworks/message_filters.framework; sourceTree = "<group>"; };
 		340FA6871747FFA300A74CFD /* x264_image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = x264_image_transport.framework; path = ../../ros/frameworks/x264_image_transport.framework; sourceTree = "<group>"; };
 		3413FA3816FA0CD4000FC5A7 /* LoggerLevelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerLevelTableViewCell.h; sourceTree = "<group>"; };
-		343F92E8173178DF00E147A9 /* MapImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapImage.h; sourceTree = "<group>"; };
-		343F92E9173178DF00E147A9 /* MapImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MapImage.mm; sourceTree = "<group>"; };
+		3420A3C917A4200900FF27AA /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		3420A3CA17A4200900FF27AA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		3420A3CB17A4200900FF27AA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3420A3CC17A4200A00FF27AA /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		3420A3CD17A4200A00FF27AA /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		3420A3CE17A4200A00FF27AA /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		3469F9F6171707A2001AAEA3 /* AudioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioViewController.h; sourceTree = "<group>"; };
 		3469F9F7171707A2001AAEA3 /* AudioViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioViewController.mm; sourceTree = "<group>"; };
 		346F2BD416CBEB1B0018FC3B /* ROS4iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ROS4iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,7 +149,7 @@
 		346F2BE316CBEB1B0018FC3B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		346F2BE516CBEB1B0018FC3B /* ros_ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ros_ios-Prefix.pch"; sourceTree = "<group>"; };
 		346F2BE616CBEB1B0018FC3B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		346F2BE716CBEB1B0018FC3B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		346F2BE716CBEB1B0018FC3B /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		346F2BE916CBEB1B0018FC3B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		346F2BEB16CBEB1B0018FC3B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		346F2BED16CBEB1B0018FC3B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -177,6 +196,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3420A3CF17A4200A00FF27AA /* Accelerate.framework in Frameworks */,
+				3420A3D017A4200A00FF27AA /* AssetsLibrary.framework in Frameworks */,
+				3420A3D117A4200A00FF27AA /* AVFoundation.framework in Frameworks */,
+				3420A3D217A4200A00FF27AA /* CoreImage.framework in Frameworks */,
+				3420A3D317A4200A00FF27AA /* CoreMedia.framework in Frameworks */,
+				3420A3D417A4200A00FF27AA /* CoreVideo.framework in Frameworks */,
+				346F2BDC16CBEB1B0018FC3B /* CoreGraphics.framework in Frameworks */,
+				340EF30217611115002DA5D8 /* cv_bridge.framework in Frameworks */,
+				340EF30317611115002DA5D8 /* opencv2.framework in Frameworks */,
 				34915046174E65F1002097E1 /* libx264.a in Frameworks */,
 				34A6FF68174D6305004F37D8 /* libz.1.2.5.dylib in Frameworks */,
 				34A6FF66174D6155004F37D8 /* libbz2.1.0.dylib in Frameworks */,
@@ -200,7 +228,6 @@
 				340C70E116F21BA1006DA856 /* AudioToolbox.framework in Frameworks */,
 				346F2BD816CBEB1B0018FC3B /* UIKit.framework in Frameworks */,
 				346F2BDA16CBEB1B0018FC3B /* Foundation.framework in Frameworks */,
-				346F2BDC16CBEB1B0018FC3B /* CoreGraphics.framework in Frameworks */,
 				340A923F174BBE2E00AE22E8 /* libavcodec.framework in Frameworks */,
 				340A9240174BBE2E00AE22E8 /* libavdevice.framework in Frameworks */,
 				340A9241174BBE2E00AE22E8 /* libavfilter.framework in Frameworks */,
@@ -255,6 +282,14 @@
 		346F2BCB16CBEB1B0018FC3B = {
 			isa = PBXGroup;
 			children = (
+				3420A3C917A4200900FF27AA /* Accelerate.framework */,
+				3420A3CA17A4200900FF27AA /* AssetsLibrary.framework */,
+				3420A3CB17A4200900FF27AA /* AVFoundation.framework */,
+				3420A3CC17A4200A00FF27AA /* CoreImage.framework */,
+				3420A3CD17A4200A00FF27AA /* CoreMedia.framework */,
+				3420A3CE17A4200A00FF27AA /* CoreVideo.framework */,
+				340EF2FF17611115002DA5D8 /* cv_bridge.framework */,
+				340EF30017611115002DA5D8 /* opencv2.framework */,
 				340A9245174BBE3200AE22E8 /* ffmpeg */,
 				340FA6921747FFEF00A74CFD /* rosmsgs */,
 				340FA6911747FFBB00A74CFD /* roscore */,
@@ -294,6 +329,10 @@
 		346F2BDD16CBEB1B0018FC3B /* ros_ios */ = {
 			isa = PBXGroup;
 			children = (
+				340EF30A1761133C002DA5D8 /* ros_kinect.h */,
+				340EF30B1761133C002DA5D8 /* ros_kinect.mm */,
+				340EF304176111AE002DA5D8 /* PointCloudViewController.h */,
+				340EF305176111AE002DA5D8 /* PointCloudViewController.mm */,
 				34BFC1D316F7BA1600B1FEC6 /* AccelerometerFilter.h */,
 				34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */,
 				34D49EAF16F6AAF70089D0AD /* AccJoyViewController.h */,
@@ -304,8 +343,6 @@
 				340E32F816D5DD130094ABB7 /* ros_joy.mm */,
 				3409421A17282960002143AC /* SimpleFragment.glsl */,
 				3409421B17282960002143AC /* SimpleVertex.glsl */,
-				343F92E8173178DF00E147A9 /* MapImage.h */,
-				343F92E9173178DF00E147A9 /* MapImage.mm */,
 				346F2C1016CBF3AE0018FC3B /* MapViewController.h */,
 				346F2C1116CBF3AE0018FC3B /* MapViewController.mm */,
 				346F2C0016CBF0F40018FC3B /* ros_planner.h */,
@@ -339,7 +376,7 @@
 				340A915D17173C9700D9D455 /* ros_audio.h */,
 				340A915E17173C9700D9D455 /* ros_audio.mm */,
 				346F2BE616CBEB1B0018FC3B /* AppDelegate.h */,
-				346F2BE716CBEB1B0018FC3B /* AppDelegate.m */,
+				346F2BE716CBEB1B0018FC3B /* AppDelegate.mm */,
 				346F2BEF16CBEB1B0018FC3B /* MainStoryboard_iPhone.storyboard */,
 				346F2BF216CBEB1B0018FC3B /* MainStoryboard_iPad.storyboard */,
 				346F2BF516CBEB1B0018FC3B /* ViewController.h */,
@@ -443,7 +480,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				346F2BE416CBEB1B0018FC3B /* main.m in Sources */,
-				346F2BE816CBEB1B0018FC3B /* AppDelegate.m in Sources */,
+				346F2BE816CBEB1B0018FC3B /* AppDelegate.mm in Sources */,
 				346F2BF716CBEB1B0018FC3B /* ViewController.mm in Sources */,
 				346F2C0116CBF0F40018FC3B /* ros_planner.mm in Sources */,
 				346F2C1216CBF3AE0018FC3B /* MapViewController.mm in Sources */,
@@ -465,7 +502,8 @@
 				340B14461713654C00DF6512 /* TopicTableViewCell.m in Sources */,
 				3469F9F8171707A2001AAEA3 /* AudioViewController.mm in Sources */,
 				340A915F17173C9700D9D455 /* ros_audio.mm in Sources */,
-				343F92EA173178DF00E147A9 /* MapImage.mm in Sources */,
+				340EF306176111AE002DA5D8 /* PointCloudViewController.mm in Sources */,
+				340EF30C1761133C002DA5D8 /* ros_kinect.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

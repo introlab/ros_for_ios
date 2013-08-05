@@ -13,15 +13,12 @@
 
 @interface VideoViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource, CvVideoCameraDelegate>
 {
-    UIPickerView * pickerView;
     NSMutableArray * imageTypes;
-    NSTimer * timer;
-    CvVideoCamera* videoCamera;
     RosVideo * ros_controller_;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) IBOutlet UIPickerView *pickerView;
-@property (nonatomic, retain) CvVideoCamera* videoCamera;
+@property (nonatomic, retain) CvVideoCamera *videoCamera;
 
 @end

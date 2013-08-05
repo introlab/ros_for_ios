@@ -12,7 +12,7 @@
 
 RosKinect::RosKinect()
 {    
-    ros_thread_ = new boost::thread(&RosKinect::ros_spin, this);
+    ros_thread_ = new boost::thread(&RosKinect::rosSpin, this);
     it_ = new image_transport::ImageTransport(n_);
     
     image_transport::TransportHints hints_1("x264", ros::TransportHints());
@@ -36,50 +36,50 @@ RosKinect::~RosKinect()
     delete it_;
 }
 
-void RosKinect::ros_spin()
+void RosKinect::rosSpin()
 {
     ros::spin();
 }
 
-void RosKinect::mutex_rgb_lock()
+void RosKinect::mtxRGBLock()
 {
-    mutex_rgb.lock();
+    mtx_rgb_.lock();
 }
 
-void RosKinect::mutex_rgb_unlock()
+void RosKinect::mtxRGBUnlock()
 {
-    mutex_rgb.unlock();
+    mtx_rgb_.unlock();
 }
 
-void RosKinect::mutex_depth_lock()
+void RosKinect::mtxDepthLock()
 {
-    mutex_depth.lock();
+    mtx_depth_.lock();
 }
 
-void RosKinect::mutex_depth_unlock()
+void RosKinect::mtxDepthUnlock()
 {
-    mutex_depth.unlock();
+    mtx_depth_.unlock();
 }
 
 void RosKinect::imageCB(const sensor_msgs::ImageConstPtr & msg)
 {
-    if(mutex_rgb.try_lock())
+    if(mtx_rgb_.try_lock())
     {
         //ROS_INFO("Image Received");
         rgb_image=*msg;
         new_rgb_data = true;
-        mutex_rgb.unlock();
+        mtx_rgb_.unlock();
     }
 }
 
 void RosKinect::depthCB(const sensor_msgs::ImageConstPtr & msg)
 {
-    if(mutex_depth.try_lock())
+    if(mtx_depth_.try_lock())
     {
         //ROS_INFO("Depth Received");
         depth_image=*msg;
         new_depth_data = true;
-        mutex_depth.unlock();
+        mtx_depth_.unlock();
     }
 }
 
@@ -96,33 +96,33 @@ void RosKinect::camInfoCB(const sensor_msgs::CameraInfoPtr & msg)
     cam_info_sub_.shutdown();
 }
 
-unsigned int RosKinect::get_width()
+unsigned int RosKinect::getWdth()
 {
     return rgb_image.width;
 }
 
-unsigned int RosKinect::get_height()
+unsigned int RosKinect::getHeight()
 {
     return rgb_image.height;
 }
 
-bool RosKinect::new_rgb_data_available()
+bool RosKinect::newRGBDataAvailable()
 {
     return new_rgb_data;
 }
 
-bool RosKinect::new_depth_data_available()
+bool RosKinect::newDepthDataAvailable()
 {
     return new_depth_data;
 }
 
-unsigned char * RosKinect::get_rgb()
+unsigned char * RosKinect::getRGB()
 {
     new_rgb_data = false;
     return &rgb_image.data[0];
 }
 
-unsigned char * RosKinect::get_depth()
+unsigned char * RosKinect::getDepth()
 {
     new_depth_data = false;
     return &depth_image.data[0];

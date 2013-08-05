@@ -13,11 +13,11 @@
 
 RosVideo::RosVideo()
 {    
-    ros_thread_ = new boost::thread(&RosVideo::ros_spin, this);
-    it = new image_transport::ImageTransport(n_);
+    ros_thread_ = new boost::thread(&RosVideo::rosSpin, this);
+    it_ = new image_transport::ImageTransport(n_);
     this->subscribeTo("RGB");
     
-    it_pub_ = it->advertise("/iphone_camera", 1);
+    it_pub_ = it_->advertise("/ios_camera", 1);
 }
 
 RosVideo::~RosVideo()
@@ -25,10 +25,10 @@ RosVideo::~RosVideo()
     ros::shutdown();
     ros_thread_->join();
     delete ros_thread_;
-    delete it;
+    delete it_;
 }
 
-void RosVideo::ros_spin()
+void RosVideo::rosSpin()
 {
     ros::spin();
 }
@@ -40,15 +40,15 @@ void RosVideo::subscribeTo(std::string name)
     
     if(name.compare("RGB") == 0)
     {
-        it_sub_ = it->subscribe("/openni/rgb/image_rect_color", 1, &RosVideo::imageCB, this, hints);
+        it_sub_ = it_->subscribe("/openni/rgb/image_rect_color", 1, &RosVideo::imageCB, this, hints);
     }
     else if(name.compare("Depth") == 0)
     {
-        it_sub_ = it->subscribe("/openni/depth/image_raw", 1, &RosVideo::imageCB, this, hints);
+        it_sub_ = it_->subscribe("/openni/depth/image_raw", 1, &RosVideo::imageCB, this, hints);
     }
     else if(name.compare("IR") == 0)
     {
-        it_sub_ = it->subscribe("/openni/ir/image_raw", 1, &RosVideo::imageCB, this, hints);
+        it_sub_ = it_->subscribe("/openni/ir/image_raw", 1, &RosVideo::imageCB, this, hints);
     }
 }
 
@@ -56,7 +56,7 @@ void RosVideo::sendImage(cv::Mat & image)
 {
     cv_bridge::CvImage out_msg;
     out_msg.header.stamp = ros::Time::now();
-    out_msg.header.frame_id = "iphone_camera_link";
+    out_msg.header.frame_id = "ios_camera_link";
     out_msg.encoding = sensor_msgs::image_encodings::BGR8;
     out_msg.image = image;
         

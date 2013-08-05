@@ -10,7 +10,6 @@
 
 typedef struct {
     float Position[3];
-    float Color[4];
     float TexCoord[2];
 } Vertex;
 
@@ -26,8 +25,12 @@ const GLubyte Indices[] = {
     2, 3, 0
 };
 
-@interface MapViewController () {
+@interface MapViewController () {    
+    BOOL initialized;
     
+    float rotX;
+    float rotY;
+    float zoom;
 }
 
 @end
@@ -131,21 +134,17 @@ const GLubyte Indices[] = {
         scale = [[UIScreen mainScreen] scale];
     }
     
-    float h = 1 * scale * self.view.bounds.size.height / self.view.bounds.size.width;
+    glUniformMatrix4fv(projectionUniform_, 1, 0, projectionMatrix_.m);
     
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakeFrustum(-1,1,-h/2,h/2,1,10);
-    glUniformMatrix4fv(projectionUniform_, 1, 0, projectionMatrix.m);
+    viewMatrix_ = GLKMatrix4MakeLookAt(camPos_[0], camPos_[1], camPos_[2], 0.0, 0.0, 0.0, 0.0, -1.0, 0.0);
     
-    GLKMatrix4 rotation = GLKMatrix4MakeWithQuaternion(quat_);
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Multiply(transMatrix_, rotation);
-    
-    glUniformMatrix4fv(modelViewUniform_, 1, 0, modelViewMatrix.m);
+    glUniformMatrix4fv(modelViewUniform_, 1, 0, viewMatrix_.m);
     
     glViewport(0, 0, self.view.bounds.size.width * scale, self.view.bounds.size.height * scale);
     
     glVertexAttribPointer(positionSlot_, 3, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), 0);
-    glVertexAttribPointer( texCoordSlot_, 2, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(texCoordSlot_, 2, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
     
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]),
@@ -269,12 +268,21 @@ const GLubyte Indices[] = {
     [self setupGeometry];
 }
 
+- (void)generateCamPos
+{
+    camPos_[0] = zoom * cosf(rotY)*cosf(rotX);
+    camPos_[1] = zoom * sinf(rotY);
+    camPos_[2] = zoom * cosf(rotY)*sinf(rotX);
+}
+
 - (void)setupGeometry
 {
-    transMatrix_ = GLKMatrix4MakeTranslation(0.0f, 0.0f, -3.0f);
-    rotMatrix_ = GLKMatrix4Identity;
-    quat_ = GLKQuaternionMake(0, 0, 0, 1);
-    quatStart_ = GLKQuaternionMake(0, 0, 0, 1);
+    rotX = M_PI/2;
+    rotY = 0.0;
+    zoom = -1.0;
+    [self generateCamPos];
+    
+    projectionMatrix_ = GLKMatrix4MakePerspective(M_PI/4, 1.0, 0, 6);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
@@ -284,82 +292,6 @@ const GLubyte Indices[] = {
 - (void)update
 {
     [self render];
-}
-
-- (GLKVector3) projectOntoSurface:(GLKVector3) touchPoint
-{
-    float radius = self.view.bounds.size.width/3;
-    GLKVector3 center = GLKVector3Make(self.view.bounds.size.width/2, self.view.bounds.size.height/2, 0);
-    GLKVector3 P = GLKVector3Subtract(touchPoint, center);
-    
-    // Flip the y-axis because pixel coords increase toward the bottom.
-    P = GLKVector3Make(P.x, P.y * -1, P.z);
-    
-    float radius2 = radius * radius;
-    float length2 = P.x*P.x + P.y*P.y;
-    
-    if (length2 <= radius2)
-        P.z = sqrt(radius2 - length2);
-    else
-    {
-        /*
-         P.x *= radius / sqrt(length2);
-         P.y *= radius / sqrt(length2);
-         P.z = 0;
-         */
-        P.z = radius2 / (2.0 * sqrt(length2));
-        float length = sqrt(length2 + P.z * P.z);
-        P = GLKVector3DivideScalar(P, length);
-    }
-    
-    return GLKVector3Normalize(P);
-}
-
-- (void)computeIncremental
-{
-    GLKVector3 axis = GLKVector3CrossProduct(anchor_position_, current_position_);
-    float dot = GLKVector3DotProduct(anchor_position_, current_position_);
-    float angle = acosf(dot);
-    
-    GLKQuaternion Q_rot = GLKQuaternionMakeWithAngleAndVector3Axis(angle * 2, axis);
-    Q_rot = GLKQuaternionNormalize(Q_rot);
-    
-    // TODO: Do something with Q_rot...
-    quat_ = GLKQuaternionMultiply(Q_rot, quatStart_);
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{    
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInView:self.view];
-    
-    anchor_position_ = GLKVector3Make(location.x, location.y, 0);
-    anchor_position_ = [self projectOntoSurface:anchor_position_];
-    
-    current_position_ = anchor_position_;
-    quatStart_ = quat_;
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    UITouch * touch = [touches anyObject];
-    CGPoint location = [touch locationInView:self.view];
-    CGPoint lastLoc = [touch previousLocationInView:self.view];
-    CGPoint diff = CGPointMake(lastLoc.x - location.x, lastLoc.y - location.y);
-    
-    float rotX = -1 * GLKMathDegreesToRadians(diff.y / 2.0);
-    float rotY = -1 * GLKMathDegreesToRadians(diff.x / 2.0);
-    
-    bool isInvertible;
-    GLKVector3 xAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(rotMatrix_, &isInvertible), GLKVector3Make(1, 0, 0));
-    rotMatrix_ = GLKMatrix4Rotate(rotMatrix_, rotX, xAxis.x, xAxis.y, xAxis.z);
-    GLKVector3 yAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(rotMatrix_, &isInvertible), GLKVector3Make(0, 1, 0));
-    rotMatrix_ = GLKMatrix4Rotate(rotMatrix_, rotY, yAxis.x, yAxis.y, yAxis.z);
-    
-    current_position_ = GLKVector3Make(location.x, location.y, 0);
-    current_position_ = [self projectOntoSurface:current_position_];
-    
-    [self computeIncremental];
 }
 
 - (IBAction)buttonGoPressed:(id)sender
@@ -379,6 +311,34 @@ const GLubyte Indices[] = {
     }
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch * touch = [touches anyObject];
+    CGPoint location = [touch locationInView:self.view];
+    CGPoint lastLoc = [touch previousLocationInView:self.view];
+    CGPoint diff = CGPointMake(lastLoc.x - location.x, lastLoc.y - location.y);
+    
+    rotX += -1 * GLKMathDegreesToRadians(diff.x / 2.0);
+    rotY += -1 * GLKMathDegreesToRadians(diff.y / 2.0);
+    
+    if(rotX > 2*M_PI)
+        rotX = -2*M_PI;
+    else if (rotX < -2*M_PI)
+        rotX = 2*M_PI;
+    
+    if(rotY > 2*M_PI)
+        rotY = -2*M_PI;
+    else if (rotY < -2*M_PI)
+        rotY = 2*M_PI;
+    
+    [self generateCamPos];
+}
+
 - (IBAction)tapDetected:(UITapGestureRecognizer *)sender
 {
     NSLog(@"Double tap!");
@@ -388,9 +348,11 @@ const GLubyte Indices[] = {
 - (IBAction)pinchDetected:(UIPinchGestureRecognizer *)sender
 {
     static CGFloat lastScale;
-    if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded) {
+    
+    if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded)
+    {
         lastScale = 1.0;
-         return;
+        return;
 	}
     
     CGFloat scale = 1.0 - (lastScale - [(UIPinchGestureRecognizer*)sender scale]);
@@ -398,7 +360,9 @@ const GLubyte Indices[] = {
     
     NSLog(@"Pinch - scale = %f, velocity = %f", scale, velocity);
     
-    transMatrix_ = GLKMatrix4Multiply(transMatrix_,GLKMatrix4MakeScale(scale,scale,scale));
+    zoom *= scale;
+    [self generateCamPos];
+    
 	lastScale = [(UIPinchGestureRecognizer*)sender scale];
 }
 

@@ -27,7 +27,7 @@ public:
     
     RosVideo();
     ~RosVideo();
-    void ros_spin();
+    void rosSpin();
     void subscribeTo(std::string name);
     void sendImage(cv::Mat & image);
     
@@ -36,7 +36,7 @@ private:
     
     boost::thread * ros_thread_;
     
-    image_transport::ImageTransport * it;
+    image_transport::ImageTransport * it_;
     image_transport::Subscriber it_sub_;
     image_transport::Publisher it_pub_;
     void imageCB(const sensor_msgs::ImageConstPtr & msg);

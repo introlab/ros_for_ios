@@ -93,14 +93,12 @@ enum {
 
 - (void)setupLayer
 {
-    
     self.glLayer = (CAEAGLLayer*) self.view.layer;
     self.glLayer.opaque = YES;
 }
 
 - (void)setupContext
 {
-    
     EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
     self.glContext = [[EAGLContext alloc] initWithAPI:api];
     if (!self.glContext) {
@@ -234,10 +232,10 @@ enum {
 {
     if(!initialized)
     {
-        ros_controller_->mutex_rgb_lock();
-        width_d = (GLfloat) (ros_controller_->get_width());
-        height_d = (GLfloat) (ros_controller_->get_height());
-        ros_controller_->mutex_rgb_unlock();
+        ros_controller_->mtxRGBLock();
+        width_d = (GLfloat) (ros_controller_->getWdth());
+        height_d = (GLfloat) (ros_controller_->getHeight());
+        ros_controller_->mtxRGBUnlock();
         
         width = width_d/RESAMPLING_FACTOR;
         height = height_d/RESAMPLING_FACTOR;
@@ -247,8 +245,8 @@ enum {
         initialized = YES;
     }
     
-    ros_controller_->mutex_depth_lock();
-    GLfloat * depth_data = (GLfloat *) ros_controller_->get_depth();
+    ros_controller_->mtxDepthLock();
+    GLfloat * depth_data = (GLfloat *) ros_controller_->getDepth();
     
     if(indices==nil)
         indices = (GLuint *) malloc(sizeof(GLuint[6])*width*height);
@@ -287,13 +285,13 @@ enum {
     }
     
     [self updateVBOs];
-    ros_controller_->mutex_depth_unlock();
+    ros_controller_->mtxDepthUnlock();
     
-    ros_controller_->mutex_rgb_lock();
-    GLubyte * rgb_data = (GLubyte *) ros_controller_->get_rgb();
+    ros_controller_->mtxRGBLock();
+    GLubyte * rgb_data = (GLubyte *) ros_controller_->getRGB();
     
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width_d, height_d, 0, GL_RGB, GL_UNSIGNED_BYTE, rgb_data);
-    ros_controller_->mutex_rgb_unlock();
+    ros_controller_->mtxRGBUnlock();
 }
 
 - (void)updateVBOs
@@ -317,7 +315,6 @@ enum {
     [self generateCamPos];
     
     projectionMatrix_ = GLKMatrix4MakePerspective(M_PI/4, 1.0, 0, 6);
-    rotMatrix_ = GLKMatrix4Identity;
 }
 
 - (void)setupGL
@@ -355,9 +352,7 @@ enum {
     
     viewMatrix_ = GLKMatrix4MakeLookAt(camPos_[0], camPos_[1], camPos_[2], 0.0, 0.0, 0.0, 0.0, -1.0, 0.0);
     
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Multiply(viewMatrix_, rotMatrix_);
-    
-    glUniformMatrix4fv(modelViewUniform_, 1, 0, modelViewMatrix.m);
+    glUniformMatrix4fv(modelViewUniform_, 1, 0, viewMatrix_.m);
     
     glViewport(0, 0, self.view.bounds.size.width * scale, self.view.bounds.size.height * scale);
     
@@ -378,7 +373,7 @@ enum {
 
 - (void)update
 {
-    if(ros_controller_->new_rgb_data_available() && ros_controller_->new_depth_data_available())
+    if(ros_controller_->newRGBDataAvailable() && ros_controller_->newDepthDataAvailable())
     {
         [self updatePointCloud];
     }
@@ -396,8 +391,6 @@ enum {
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-
-    
     UITouch * touch = [touches anyObject];
     CGPoint location = [touch locationInView:self.view];
     CGPoint lastLoc = [touch previousLocationInView:self.view];
@@ -415,12 +408,6 @@ enum {
         rotY = -2*M_PI;
     else if (rotY < -2*M_PI)
         rotY = 2*M_PI;
-    
-    //bool isInvertible;
-    //GLKVector3 xAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(rotMatrix_, &isInvertible), GLKVector3Make(1, 0, 0));
-    //rotMatrix_ = GLKMatrix4Rotate(rotMatrix_, rotX, xAxis.x, xAxis.y, xAxis.z);
-    //GLKVector3 yAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(rotMatrix_, &isInvertible), GLKVector3Make(0, 1, 0));
-    //rotMatrix_ = GLKMatrix4Rotate(rotMatrix_, rotY, yAxis.x, yAxis.y, yAxis.z);
     
     [self generateCamPos];
 }

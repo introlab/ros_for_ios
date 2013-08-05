@@ -18,7 +18,7 @@ class RosJoy
 public:
     RosJoy();
     ~RosJoy();
-    void ros_spin();
+    void rosSpin();
     void sendCmds(double lin_x, double lin_y, double ang_z);
     
 private:

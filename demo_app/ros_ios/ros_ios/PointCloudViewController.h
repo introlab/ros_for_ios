@@ -30,7 +30,6 @@
     GLKMatrix4 projectionMatrix_;
     GLKMatrix4 modelMatrix_;
     GLKMatrix4 viewMatrix_;
-    GLKMatrix4 rotMatrix_;
     
     GLuint texCoordSlot_;
     GLuint textureUniform_;

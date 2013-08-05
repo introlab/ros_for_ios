@@ -15,7 +15,7 @@ RosLogger::RosLogger()
 {
     sub_ = n_.subscribe("/rosout_agg", 5, &RosLogger::loggerCB, this);
     
-    ros_thread_ = new boost::thread(&RosLogger::ros_spin, this);
+    ros_thread_ = new boost::thread(&RosLogger::rosSpin, this);
 }
 
 RosLogger::~RosLogger()
@@ -25,7 +25,7 @@ RosLogger::~RosLogger()
     delete ros_thread_;
 }
 
-void RosLogger::ros_spin()
+void RosLogger::rosSpin()
 {
     ros::spin();
 }

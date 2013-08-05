@@ -14,7 +14,7 @@ RosJoy::RosJoy()
 {
     pub_ = n_.advertise<geometry_msgs::Twist>("/az3/base_controller/cmd_vel", 1);
     
-    ros_thread_ = new boost::thread(&RosJoy::ros_spin, this);
+    ros_thread_ = new boost::thread(&RosJoy::rosSpin, this);
 }
 
 RosJoy::~RosJoy()
@@ -24,7 +24,7 @@ RosJoy::~RosJoy()
     delete ros_thread_;
 }
 
-void RosJoy::ros_spin()
+void RosJoy::rosSpin()
 {
     ros::spin();
 }

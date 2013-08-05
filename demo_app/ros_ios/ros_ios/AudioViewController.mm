@@ -71,32 +71,30 @@ static OSStatus playbackCallback(void *inRefCon,
         
         // NSLog(@"  Buffer %d has %d channels and wants %d bytes of data.", i, buffer.mNumberChannels, buffer.mDataByteSize);
         
-        @synchronized([iosAudio inputBuffer])
+        iosAudio->ros_controller_->lockAudioBuffer();
+        
+        std::vector<unsigned char> input_buffer = iosAudio->ros_controller_->getAudioBuffer();
+        UInt8 * data = (UInt8 *)buffer.mData;
+        NSUInteger count = input_buffer.size();
+        
+        // NSLog(@"%d %d", count, (unsigned int)buffer.mDataByteSize);
+        
+        if(count)
         {
+            UInt32 size = MIN(buffer.mDataByteSize, count);
             
-            UInt8 * data = (UInt8 *)buffer.mData;
-            NSUInteger count = [[iosAudio inputBuffer] count];
+            memcpy(data, input_buffer.data(), size);
             
-            // NSLog(@"%d %d", count, (unsigned int)buffer.mDataByteSize);
+            buffer.mDataByteSize = size;
             
-            if(count)
-            {
-                UInt32 size = MIN(buffer.mDataByteSize, count);
-                
-                for (int i = 0; i < size; ++i)
-                {
-                    data[i] = [[[iosAudio inputBuffer] objectAtIndex:i] intValue];
-                }
-                
-                buffer.mDataByteSize = size;
-                
-                [[iosAudio inputBuffer] removeObjectsInRange:NSMakeRange(0,size)];
-            }
-            else
-            {
-                *ioActionFlags = kAudioUnitRenderAction_OutputIsSilence;
-            }
+            input_buffer.erase(input_buffer.begin(), input_buffer.begin()+(size-1));
         }
+        else
+        {
+            *ioActionFlags = kAudioUnitRenderAction_OutputIsSilence;
+        }
+        
+        iosAudio->ros_controller_->unlockAudioBuffer();
     }
     
     return noErr;
@@ -104,7 +102,7 @@ static OSStatus playbackCallback(void *inRefCon,
 
 @implementation AudioViewController
 
-@synthesize isPaused, audioUnit, inputBuffer, pause;
+@synthesize isPaused, audioUnit, pause;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -120,8 +118,6 @@ static OSStatus playbackCallback(void *inRefCon,
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     ros_controller_ = new RosAudio();
-    
-    inputBuffer = [[NSMutableArray alloc] init];
     
     if([self initAudio])
     {
@@ -146,15 +142,15 @@ static OSStatus playbackCallback(void *inRefCon,
 {
     NSLog(@"viewWillDisappear");
     [self stop];
-    OSStatus result = AudioUnitUninitialize(audioUnit);
-    if(result == noErr)
-        NSLog(@"AudioUnitUninitialize");
-    delete ros_controller_;
 }
 
 -(void)dealloc
 {
     NSLog(@"dealloc");
+    OSStatus result = AudioUnitUninitialize(audioUnit);
+    if(result == noErr)
+        NSLog(@"AudioUnitUninitialize");
+    delete ros_controller_;
 }
 
 - (BOOL)initAudio
@@ -192,14 +188,14 @@ static OSStatus playbackCallback(void *inRefCon,
     
     // Describe format
     AudioStreamBasicDescription audioFormat;
-    audioFormat.mSampleRate = 44100.00;
+    audioFormat.mSampleRate = RosAudio::SAMPLE_RATE;
     
     audioFormat.mFormatID = kAudioFormatLinearPCM;
     
     //*
     audioFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked | kAudioFormatFlagIsNonInterleaved;
     audioFormat.mFramesPerPacket = 1;
-    audioFormat.mChannelsPerFrame = 1;
+    audioFormat.mChannelsPerFrame = RosAudio::CHANNELS_NUMBER;
     audioFormat.mBitsPerChannel = 16;
     audioFormat.mBytesPerPacket = 2;
     audioFormat.mBytesPerFrame = 2;
@@ -263,28 +259,16 @@ static OSStatus playbackCallback(void *inRefCon,
     outputBuffer.insert(outputBuffer.begin(), (UInt8 *)sourceBuffer.mData, (UInt8 *)sourceBuffer.mData + sourceBuffer.mDataByteSize);
     
     ros_controller_->sendAudio(outputBuffer);
-    
-    /*
-     for(int i = 0; i < sourceBuffer.mDataByteSize; i++)
-     {
-         [inputBuffer addObject:[NSNumber numberWithInt:outputBuffer[i]]];
-     }
-     //*/
 }
 
 - (IBAction)pauseOrResume:(id)sender
 {
     if(isPaused)
     {
-        isPaused = NO;
         pause.title = @"Pause";
-        [self start];
-        
     }
     else
     {
-        isPaused = YES;
-        pause.title = @"Resume";
         [self stop];
     }
 }
@@ -297,6 +281,8 @@ static OSStatus playbackCallback(void *inRefCon,
         NSLog(@"AudioOutputUnitStart Error !");
         exit(1);
     }
+    [self start];
+    isPaused = NO;
 }
 
 - (void) stop
@@ -307,5 +293,7 @@ static OSStatus playbackCallback(void *inRefCon,
         NSLog(@"AudioOutputUnitStop Error !");
         exit(1);
     }
+    pause.title = @"Resume";
+    isPaused = YES;
 }
 @end

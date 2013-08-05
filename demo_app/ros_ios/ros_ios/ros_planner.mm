@@ -17,7 +17,7 @@ RosPlanner::RosPlanner()
     sub_ = n_.subscribe("/map", 10, &RosPlanner::mapCB, this);
     c_srv_plan_ = n_.serviceClient<nav_msgs::GetPlan>("make_plan");
     
-    ros_thread_ = new boost::thread(&RosPlanner::ros_spin, this);
+    ros_thread_ = new boost::thread(&RosPlanner::rosSpin, this);
     
     new_map = false;
 }
@@ -29,7 +29,7 @@ RosPlanner::~RosPlanner()
     delete ros_thread_;
 }
 
-void RosPlanner::ros_spin()
+void RosPlanner::rosSpin()
 {
     ros::spin();
 }

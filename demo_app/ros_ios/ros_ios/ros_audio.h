@@ -12,8 +12,9 @@
 #import <ros/node_handle.h>
 #import <ros/publisher.h>
 #import <ros/subscriber.h>
-#import <gstreamer_plugins/AudioStream.h>
+#import <rt_audio_ros/AudioStream.h>
 #import <boost/thread/thread.hpp>
+#import <boost/thread/mutex.hpp>
 
 #import <vector>
 
@@ -22,12 +23,18 @@
 class RosAudio
 {
 public:
+    static const int SAMPLE_RATE = 44100;
+    static const int CHANNELS_NUMBER = 1;
+    
     AudioViewController __weak * view_controller_;
     
     RosAudio();
     ~RosAudio();
-    void ros_spin();
+    void rosSpin();
     
+    void lockAudioBuffer();
+    void unlockAudioBuffer();
+    std::vector<unsigned char> getAudioBuffer();
     void sendAudio(std::vector<unsigned char> data);
     
 private:
@@ -36,10 +43,10 @@ private:
     ros::Subscriber sub_;
     
     boost::thread * ros_thread_;
+    boost::mutex mtx_;
+    std::vector<unsigned char> buffer_;
     
-    NSMutableArray * buffer;
-    
-    void audioCB(const gstreamer_plugins::AudioStreamConstPtr & msg);
+    void audioCB(const rt_audio_ros::AudioStreamConstPtr & msg);
 };
 
 #endif

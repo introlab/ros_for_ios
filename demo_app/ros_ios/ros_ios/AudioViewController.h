@@ -12,15 +12,14 @@
 
 @interface AudioViewController : UIViewController
 {
-    AudioComponentInstance audioUnit;
-    NSMutableArray * inputBuffer;
-    BOOL isPaused;
+    @public
     RosAudio * ros_controller_;
+    @private
+    BOOL isPaused;
 }
 
 @property (readonly) BOOL isPaused;
 @property (readonly) AudioComponentInstance audioUnit;
-@property (nonatomic, strong) NSMutableArray * inputBuffer;
 @property(nonatomic, retain) IBOutlet UIBarButtonItem *pause;
 
 - (BOOL)initAudio;

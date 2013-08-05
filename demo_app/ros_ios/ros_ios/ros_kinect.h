@@ -15,7 +15,7 @@
 #import <sensor_msgs/CameraInfo.h>
 #import <boost/scoped_ptr.hpp>
 #import <boost/thread/thread.hpp>
-#import <boost/interprocess/sync/interprocess_mutex.hpp>
+#import <boost/thread/mutex.hpp>
 
 #import <image_transport/image_transport.h>
 
@@ -28,26 +28,26 @@ public:
     
     RosKinect();
     ~RosKinect();
-    void ros_spin();
-    void mutex_rgb_lock();
-    void mutex_rgb_unlock();
-    void mutex_depth_lock();
-    void mutex_depth_unlock();
+    void rosSpin();
+    void mtxRGBLock();
+    void mtxRGBUnlock();
+    void mtxDepthLock();
+    void mtxDepthUnlock();
     
-    unsigned int get_width();
-    unsigned int get_height();
-    bool new_rgb_data_available();
-    bool new_depth_data_available();
-    unsigned char * get_rgb();
-    unsigned char * get_depth();
+    unsigned int getWdth();
+    unsigned int getHeight();
+    bool newRGBDataAvailable();
+    bool newDepthDataAvailable();
+    unsigned char * getRGB();
+    unsigned char * getDepth();
     float * get_P();
     
 private:
     ros::NodeHandle n_;
     
     boost::thread * ros_thread_;
-    boost::interprocess::interprocess_mutex mutex_rgb;
-    boost::interprocess::interprocess_mutex mutex_depth;
+    boost::mutex mtx_rgb_;
+    boost::mutex mtx_depth_;
     
     image_transport::ImageTransport * it_;
     image_transport::Subscriber it_sub_video_;

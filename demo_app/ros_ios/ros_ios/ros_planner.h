@@ -27,7 +27,7 @@ public:
     
     RosPlanner();
     ~RosPlanner();
-    void ros_spin();
+    void rosSpin();
     std::vector<CGPoint> getPlan(CGPoint goal);
     bool checkGoal(CGPoint goal);
     void sendGoal(CGPoint goal);

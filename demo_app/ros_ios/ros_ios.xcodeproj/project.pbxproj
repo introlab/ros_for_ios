@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		34073B2C1720734B00CDA05E /* gstreamer_plugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34073B2B1720734B00CDA05E /* gstreamer_plugins.framework */; };
 		3408E75E172471F7000B201E /* sound.png in Resources */ = {isa = PBXBuildFile; fileRef = 3408E75D172471F7000B201E /* sound.png */; };
 		3408E76017249676000B201E /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3408E75F17249676000B201E /* GLKit.framework */; };
 		3409421C17282960002143AC /* SimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 3409421A17282960002143AC /* SimpleFragment.glsl */; };
@@ -77,7 +76,6 @@
 		34BFC1D716F7BA1600B1FEC6 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */; };
 		34BFC1DA16F7BFF800B1FEC6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */; };
 		34BFC1DC16F7C2DD00B1FEC6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1DB16F7C2DD00B1FEC6 /* MessageUI.framework */; };
-		34CF3FCF16D82AD300FD4758 /* ros_ios-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF3FCE16D82AD300FD4758 /* ros_ios-Info.plist */; };
 		34D49EAE16F65DE60089D0AD /* ros_enabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 34D49EAD16F65DE60089D0AD /* ros_enabled.png */; };
 		34D49EB116F6AAF70089D0AD /* AccJoyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 34D49EB016F6AAF70089D0AD /* AccJoyViewController.mm */; };
 		34FC89A516F9099E007AA9EC /* LoggerLevelTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.m */; };
@@ -86,7 +84,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		34073B2B1720734B00CDA05E /* gstreamer_plugins.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = gstreamer_plugins.framework; path = ../../ros/frameworks/gstreamer_plugins.framework; sourceTree = "<group>"; };
 		3408E75D172471F7000B201E /* sound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sound.png; sourceTree = "<group>"; };
 		3408E75F17249676000B201E /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		3409421A17282960002143AC /* SimpleFragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleFragment.glsl; sourceTree = "<group>"; };
@@ -212,7 +209,6 @@
 				340FA68F1747FFA300A74CFD /* message_filters.framework in Frameworks */,
 				340FA6901747FFA300A74CFD /* x264_image_transport.framework in Frameworks */,
 				3408E76017249676000B201E /* GLKit.framework in Frameworks */,
-				34073B2C1720734B00CDA05E /* gstreamer_plugins.framework in Frameworks */,
 				340A5E88171E3BCC0094B990 /* OpenGLES.framework in Frameworks */,
 				34A2B5C3170493BD00C53723 /* rosgraph_msgs.framework in Frameworks */,
 				34782C27170385B5001D271F /* boost.framework in Frameworks */,
@@ -279,24 +275,28 @@
 			name = rosmsgs;
 			sourceTree = "<group>";
 		};
+		345A6DC317AEC2740075A52F /* ros_controllers */ = {
+			isa = PBXGroup;
+			children = (
+				340EF30A1761133C002DA5D8 /* ros_kinect.h */,
+				340EF30B1761133C002DA5D8 /* ros_kinect.mm */,
+				340A2F2216D809AC00722520 /* ros_joy.h */,
+				340E32F816D5DD130094ABB7 /* ros_joy.mm */,
+				346F2C0016CBF0F40018FC3B /* ros_planner.h */,
+				346F2BFF16CBF0F40018FC3B /* ros_planner.mm */,
+				340C70E816F24C54006DA856 /* ros_logger.h */,
+				340C70E916F24C54006DA856 /* ros_logger.mm */,
+				340C70E216F24BE8006DA856 /* ros_video.h */,
+				340C70E316F24BE8006DA856 /* ros_video.mm */,
+				340A915D17173C9700D9D455 /* ros_audio.h */,
+				340A915E17173C9700D9D455 /* ros_audio.mm */,
+			);
+			name = ros_controllers;
+			sourceTree = "<group>";
+		};
 		346F2BCB16CBEB1B0018FC3B = {
 			isa = PBXGroup;
 			children = (
-				3420A3C917A4200900FF27AA /* Accelerate.framework */,
-				3420A3CA17A4200900FF27AA /* AssetsLibrary.framework */,
-				3420A3CB17A4200900FF27AA /* AVFoundation.framework */,
-				3420A3CC17A4200A00FF27AA /* CoreImage.framework */,
-				3420A3CD17A4200A00FF27AA /* CoreMedia.framework */,
-				3420A3CE17A4200A00FF27AA /* CoreVideo.framework */,
-				340EF2FF17611115002DA5D8 /* cv_bridge.framework */,
-				340EF30017611115002DA5D8 /* opencv2.framework */,
-				340A9245174BBE3200AE22E8 /* ffmpeg */,
-				340FA6921747FFEF00A74CFD /* rosmsgs */,
-				340FA6911747FFBB00A74CFD /* roscore */,
-				340FA67F1747FFA200A74CFD /* image_transport.framework */,
-				340FA6861747FFA300A74CFD /* message_filters.framework */,
-				340FA6871747FFA300A74CFD /* x264_image_transport.framework */,
-				34073B2B1720734B00CDA05E /* gstreamer_plugins.framework */,
 				346F2BDD16CBEB1B0018FC3B /* ros_ios */,
 				346F2BD616CBEB1B0018FC3B /* Frameworks */,
 				346F2BD516CBEB1B0018FC3B /* Products */,
@@ -314,6 +314,20 @@
 		346F2BD616CBEB1B0018FC3B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3420A3C917A4200900FF27AA /* Accelerate.framework */,
+				3420A3CA17A4200900FF27AA /* AssetsLibrary.framework */,
+				3420A3CB17A4200900FF27AA /* AVFoundation.framework */,
+				3420A3CC17A4200A00FF27AA /* CoreImage.framework */,
+				3420A3CD17A4200A00FF27AA /* CoreMedia.framework */,
+				3420A3CE17A4200A00FF27AA /* CoreVideo.framework */,
+				340EF2FF17611115002DA5D8 /* cv_bridge.framework */,
+				340EF30017611115002DA5D8 /* opencv2.framework */,
+				340A9245174BBE3200AE22E8 /* ffmpeg */,
+				340FA6921747FFEF00A74CFD /* rosmsgs */,
+				340FA6911747FFBB00A74CFD /* roscore */,
+				340FA67F1747FFA200A74CFD /* image_transport.framework */,
+				340FA6861747FFA300A74CFD /* message_filters.framework */,
+				340FA6871747FFA300A74CFD /* x264_image_transport.framework */,
 				340C70E016F21BA1006DA856 /* AudioToolbox.framework */,
 				3408E75F17249676000B201E /* GLKit.framework */,
 				340A5E86171E3BCC0094B990 /* OpenGLES.framework */,
@@ -329,8 +343,7 @@
 		346F2BDD16CBEB1B0018FC3B /* ros_ios */ = {
 			isa = PBXGroup;
 			children = (
-				340EF30A1761133C002DA5D8 /* ros_kinect.h */,
-				340EF30B1761133C002DA5D8 /* ros_kinect.mm */,
+				345A6DC317AEC2740075A52F /* ros_controllers */,
 				340EF304176111AE002DA5D8 /* PointCloudViewController.h */,
 				340EF305176111AE002DA5D8 /* PointCloudViewController.mm */,
 				34BFC1D316F7BA1600B1FEC6 /* AccelerometerFilter.h */,
@@ -339,14 +352,10 @@
 				34D49EB016F6AAF70089D0AD /* AccJoyViewController.mm */,
 				340E32F416D58D300094ABB7 /* JoyViewController.h */,
 				340E32F516D58D300094ABB7 /* JoyViewController.mm */,
-				340A2F2216D809AC00722520 /* ros_joy.h */,
-				340E32F816D5DD130094ABB7 /* ros_joy.mm */,
 				3409421A17282960002143AC /* SimpleFragment.glsl */,
 				3409421B17282960002143AC /* SimpleVertex.glsl */,
 				346F2C1016CBF3AE0018FC3B /* MapViewController.h */,
 				346F2C1116CBF3AE0018FC3B /* MapViewController.mm */,
-				346F2C0016CBF0F40018FC3B /* ros_planner.h */,
-				346F2BFF16CBF0F40018FC3B /* ros_planner.mm */,
 				340C70EB16F24F44006DA856 /* LoggerViewController.h */,
 				340C70EC16F24F44006DA856 /* LoggerViewController.mm */,
 				340DB90016F762850021CE62 /* LoggerTableViewCell.h */,
@@ -361,20 +370,14 @@
 				340DB90416F79D8C0021CE62 /* LoggerPreferencesViewController.m */,
 				34FC89AF16F910E7007AA9EC /* Log.h */,
 				34FC89B016F910E7007AA9EC /* Log.m */,
-				340C70E816F24C54006DA856 /* ros_logger.h */,
-				340C70E916F24C54006DA856 /* ros_logger.mm */,
 				340B14441713654C00DF6512 /* TopicTableViewCell.h */,
 				340B14451713654C00DF6512 /* TopicTableViewCell.m */,
 				340B14411713609F00DF6512 /* TopicsListViewController.h */,
 				340B14421713609F00DF6512 /* TopicsListViewController.mm */,
 				340C70E416F24BE8006DA856 /* VideoViewController.h */,
 				340C70E516F24BE8006DA856 /* VideoViewController.mm */,
-				340C70E216F24BE8006DA856 /* ros_video.h */,
-				340C70E316F24BE8006DA856 /* ros_video.mm */,
 				3469F9F6171707A2001AAEA3 /* AudioViewController.h */,
 				3469F9F7171707A2001AAEA3 /* AudioViewController.mm */,
-				340A915D17173C9700D9D455 /* ros_audio.h */,
-				340A915E17173C9700D9D455 /* ros_audio.mm */,
 				346F2BE616CBEB1B0018FC3B /* AppDelegate.h */,
 				346F2BE716CBEB1B0018FC3B /* AppDelegate.mm */,
 				346F2BEF16CBEB1B0018FC3B /* MainStoryboard_iPhone.storyboard */,
@@ -464,7 +467,6 @@
 				346F2BF416CBEB1B0018FC3B /* MainStoryboard_iPad.storyboard in Resources */,
 				346F2BFE16CBEC090018FC3B /* introlab.png in Resources */,
 				340A2F2116D7F75500722520 /* Icon.png in Resources */,
-				34CF3FCF16D82AD300FD4758 /* ros_ios-Info.plist in Resources */,
 				34D49EAE16F65DE60089D0AD /* ros_enabled.png in Resources */,
 				3408E75E172471F7000B201E /* sound.png in Resources */,
 				3409421C17282960002143AC /* SimpleFragment.glsl in Resources */,
@@ -605,7 +607,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../ros/frameworks\"",
+					"\"$(SRCROOT)/../../frameworks\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -630,7 +632,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../ros/frameworks\"",
+					"\"$(SRCROOT)/../../frameworks\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

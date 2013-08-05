@@ -28,7 +28,7 @@ public:
     
     RosLogger();
     ~RosLogger();
-    void ros_spin();
+    void rosSpin();
     
 private:
     ros::NodeHandle n_;

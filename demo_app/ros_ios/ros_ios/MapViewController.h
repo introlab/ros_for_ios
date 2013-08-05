@@ -23,12 +23,11 @@
     GLuint projectionUniform_;
     GLuint modelViewUniform_;
     
-    GLKMatrix4 transMatrix_;
-    GLKMatrix4 rotMatrix_;
-    GLKVector3 anchor_position_;
-    GLKVector3 current_position_;
-    GLKQuaternion quatStart_;
-    GLKQuaternion quat_;
+    GLfloat camPos_[3];
+    
+    GLKMatrix4 projectionMatrix_;
+    GLKMatrix4 modelMatrix_;
+    GLKMatrix4 viewMatrix_;
     
     GLuint texture_;
     GLuint texCoordSlot_;

@@ -62,6 +62,10 @@ for f in $SRCDIR/ffmpegc/ffmpeg*/build/*.a
         mv -f $SRCDIR/$LIB_NAME.framework $SRCDIR/frameworks/
 done
 
+sh framework_gen.sh libx264 $SRCDIR/ffmpegc/ffmpeg*/x264/build/armv7/lib $SRCDIR/ffmpegc/ffmpeg*/x264/build/i386/lib $SRCDIR/ffmpegc/ffmpeg*/x264/build/armv7/include
+rm -rf $SRCDIR/frameworks/libx264.framework
+mv -f $SRCDIR/libx264.framework $SRCDIR/frameworks/
+
 #===============================================================================
 echo "Generating ROS packages ..."
 

@@ -79,16 +79,16 @@ echo "Generating ROS messages ..."
 
 echo "- rosgraph_msgs -"
 
-(cd $SRCDIR/ros_msgs; sh messages_gen.sh -f $SRCDIR/ros_comm/messages/rosgraph_msgs $SRCDIR/ros_msgs/std_msgs);
-mv $SRCDIR/ros_msgs/rosgraph_msgs.framework $SRCDIR/frameworks/
+sh messages_gen.sh -f $SRCDIR/ros_comm/messages/rosgraph_msgs $SRCDIR/std_msgs
+mv $SRCDIR/rosgraph_msgs.framework $SRCDIR/frameworks/
 
 echo "- std_srvs -"
 
-(cd $SRCDIR/ros_msgs; sh messages_gen.sh -d $SRCDIR/ros_comm/messages/std_srvs $SRCDIR/ros_msgs/std_msgs);
+sh messages_gen.sh -d $SRCDIR/ros_comm/messages/std_srvs $SRCDIR/std_msgs
 
 echo "- roscpp -"
 
-(cd $SRCDIR/ros_msgs; sh messages_gen.sh -d $SRCDIR/ros_comm/clients/roscpp);
+sh messages_gen.sh -d $SRCDIR/ros_comm/clients/roscpp
 
 #===============================================================================
 echo "Generating CMakeLists.txt ..."
@@ -105,7 +105,7 @@ include(CheckFunctionExists)
 include(CheckCXXSourceCompiles)
 
 # for the ros messages
-include_directories(\${CMAKE_CURRENT_SOURCE_DIR}/ros_msgs)
+include_directories(\${CMAKE_CURRENT_SOURCE_DIR})
 
 # cpp_common
 # execinfo.h is needed for backtrace on glibc systems
@@ -262,9 +262,9 @@ rm -r $FRAMEWORK_BUNDLE/Headers/ros/
 
 # ros core messages
 mkdir $FRAMEWORK_BUNDLE/Headers/std_srvs
-find $SRCDIR/ros_msgs/std_srvs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/std_srvs \;
+find $SRCDIR/std_srvs -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/std_srvs \;
 mkdir $FRAMEWORK_BUNDLE/Headers/roscpp
-find $SRCDIR/ros_msgs/roscpp -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/roscpp \;
+find $SRCDIR/roscpp -name \*.h -exec cp {} $FRAMEWORK_BUNDLE/Headers/roscpp \;
 
 echo "Framework: Creating plist..."
 

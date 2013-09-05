@@ -158,6 +158,7 @@ echo "Cleaning"
 mv -f $SRCDIR/ros/frameworks $SRCDIR/frameworks
 git clean -df $SRCDIR/ros
 git clean -df $SRCDIR/log4cxx
+mv -f $SRCDIR/frameworks $SRCDIR/ros/frameworks
 ) >> $LOGFILE 2>&1
 
 echo "Finished !"

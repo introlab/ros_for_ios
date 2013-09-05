@@ -13,7 +13,7 @@ echo "Checking for messages or services ..."
 #TODO: parse the manifest to get messages dependencies
 if [ -d $1/msg ] || [ -d $1/srv ];
     then
-        sh $SRCDIR/messages_gen.sh -d $1 $SRCDIR/std_msgs
+        sh $SRCDIR/messages_gen.sh -d $1 $SRCDIR/std_msgs $SRCDIR/common_msgs/geometry_msgs $SRCDIR/common_msgs/sensor_msgs $SRCDIR/common_msgs/nav_msgs
         mv $SRCDIR/$PACKAGE_NAME/*.h $1/include/$PACKAGE_NAME/
         rm -r $SRCDIR/$PACKAGE_NAME/
 fi

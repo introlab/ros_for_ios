@@ -16,29 +16,41 @@
 @interface MapViewController : GLKViewController
 {
     RosPlanner * ros_controller_;
-    EAGLContext * glContext_;
-    CAEAGLLayer * glLayer_;
+    GLuint framebuffer_;
     GLuint colorRenderBuffer_;
-    GLuint positionSlot_;
-    GLuint projectionUniform_;
-    GLuint modelViewUniform_;
+    GLuint depthRenderBuffer_;
+    GLuint vao1_;
+    GLuint vao2_;
+    GLuint vertexBufferMap_;
+    GLuint indexBufferMap_;
+    GLuint vertexBufferRobot_;
+    GLuint indexBufferRobot_;
+    GLuint programHandleMap_;
+    GLuint programHandleRobot_;
+    GLuint positionMapSlot_;
+    GLuint sourceMapSlot_;
+    GLuint positionRobotSlot_;
+    GLuint sourceRobotSlot_;
+    GLuint projectionMaptUniform_;
+    GLuint modelViewMapUniform_;
+    GLuint projectionRobotUniform_;
+    GLuint modelViewRobotUniform_;
     
-    GLfloat camPos_[3];
+    GLKVector3 camPos_, center_;
     
     GLKMatrix4 projectionMatrix_;
     GLKMatrix4 modelMatrix_;
     GLKMatrix4 viewMatrix_;
-    
-    GLuint texture_;
-    GLuint texCoordSlot_;
-    GLuint textureUniform_;
 }
 
 @property (nonatomic, strong) EAGLContext *glContext;
 @property (nonatomic, strong) CAEAGLLayer *glLayer;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *viewTypeSelector;
 
 - (IBAction)buttonGoPressed:(id)sender;
+- (IBAction)viewTypeChanged:(id)sender;
 - (IBAction)tapDetected:(UITapGestureRecognizer *)sender;
 - (IBAction)pinchDetected:(UIPinchGestureRecognizer *)sender;
+- (IBAction)panDetected:(UIPanGestureRecognizer *)sender;
 
 @end

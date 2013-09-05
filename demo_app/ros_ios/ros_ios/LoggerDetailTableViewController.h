@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "Log.h"
 
+#import "ros_logger.h"
+
 @interface LoggerDetailTableViewController : UITableViewController
 
-@property (nonatomic, strong) Log * log;
+@property RosLogger * ros_controller_;
+@property NSInteger index;
+@property NSInteger lvl;
 @property (strong, nonatomic) IBOutlet UILabel *level;
 @property (strong, nonatomic) IBOutlet UILabel *time;
 @property (strong, nonatomic) IBOutlet UILabel *node;

@@ -34,7 +34,7 @@ public:
     
     void lockAudioBuffer();
     void unlockAudioBuffer();
-    std::vector<unsigned char> getAudioBuffer();
+    std::vector<unsigned char> * getAudioBuffer();
     void sendAudio(std::vector<unsigned char> data);
     
 private:

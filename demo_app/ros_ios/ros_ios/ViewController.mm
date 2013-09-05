@@ -1,6 +1,6 @@
 //
 //  ViewController.mm
-//  ros_ios
+//  robot_help_me
 //
 //  Created by Ronan Chauvin on 2013-02-13.
 //  Copyright (c) 2013 Ronan Chauvin. All rights reserved.
@@ -22,10 +22,14 @@
 
 @implementation ViewController
 
+@synthesize defaults, ip_text_field;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    defaults = [NSUserDefaults standardUserDefaults];
+    [ip_text_field setText:[defaults objectForKey:@"master_uri"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,9 +45,12 @@
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-    if([ViewController isValidIp:[_ip_text_field.attributedText string]])
+    if([ViewController isValidIp:[ip_text_field.attributedText string]])
     {
-        NSString * master_uri = [@"ROS_MASTER_URI=http://" stringByAppendingString:[[_ip_text_field.attributedText string] stringByAppendingString:@":11311/"]];
+        [defaults setObject:[ip_text_field.attributedText string] forKey:@"master_uri"];
+        [defaults synchronize];
+        
+        NSString * master_uri = [@"ROS_MASTER_URI=http://" stringByAppendingString:[[ip_text_field.attributedText string] stringByAppendingString:@":11311/"]];
         NSLog(@"%@",master_uri);
         
         NSString * ip = [ViewController getIPAddress];
@@ -109,7 +116,7 @@
                 NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)]; // pdp_ip0
                 NSLog(@"NAME: \"%@\" addr: %@", name, addr); // see for yourself
                 
-                if([name isEqualToString:@"en0"]) {
+                if([name isEqualToString:@"en1"]) {
                     // Interface is the wifi connection on the iPhone
                     wifiAddress = addr;
                 } else
@@ -131,8 +138,8 @@
 {
     struct in_addr pin;
     int success = inet_pton(AF_INET,[string UTF8String],&pin);
-    if (success == 1) return TRUE;
-    return FALSE;
+    if(success == 1) return YES;
+    return NO;
 }
 
 @end

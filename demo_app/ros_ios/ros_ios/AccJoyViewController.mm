@@ -24,6 +24,8 @@
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
     // Do any additional setup after loading the view, typically from a nib.
+    NSLog(@"AccJoyViewController : viewDidLoad");
+    
     ros_controller_ = new RosJoy();
     
     isPaused = NO;
@@ -42,21 +44,21 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"viewWillAppear");
+    NSLog(@"AccJoyViewController : viewWillAppear");
     center.x = self.view.frame.size.width/2;
     center.y = self.view.frame.size.height/2-22;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"viewWillDisappear");
+    NSLog(@"AccJoyViewController : viewWillDisappear");
     [[UIAccelerometer sharedAccelerometer] setDelegate:nil];
     delete ros_controller_;
 }
 
 -(void)dealloc
 {
-    NSLog(@"dealloc");
+    NSLog(@"AccJoyViewController : dealloc");
 }
 
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration

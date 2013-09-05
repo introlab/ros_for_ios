@@ -17,7 +17,7 @@ RosVideo::RosVideo()
     it_ = new image_transport::ImageTransport(n_);
     this->subscribeTo("RGB");
     
-    it_pub_ = it_->advertise("/ios_camera", 1);
+    it_pub_ = it_->advertise("ios_camera", 1);
 }
 
 RosVideo::~RosVideo()

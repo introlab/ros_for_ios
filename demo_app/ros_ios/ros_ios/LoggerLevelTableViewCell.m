@@ -10,8 +10,8 @@
 
 @implementation LoggerLevelTableViewCell
 
-@synthesize node = _node;
-@synthesize message = _message;
+@synthesize node;
+@synthesize message;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

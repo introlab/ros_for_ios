@@ -9,13 +9,13 @@
 #import "ros_logger.h"
 #import "LoggerViewController.h"
 
-#import "Log.h"
-
 RosLogger::RosLogger()
 {
-    sub_ = n_.subscribe("/rosout_agg", 5, &RosLogger::loggerCB, this);
+    sub_ = n_.subscribe("/rosout", 1, &RosLogger::loggerCB, this);
     
     ros_thread_ = new boost::thread(&RosLogger::rosSpin, this);
+    
+    new_log_received_ = false;
 }
 
 RosLogger::~RosLogger()
@@ -30,36 +30,73 @@ void RosLogger::rosSpin()
     ros::spin();
 }
 
+void RosLogger::lockLogs()
+{
+    mtx_.lock();
+}
+
+void RosLogger::unlockLogs()
+{
+    mtx_.unlock();
+}
+
+bool RosLogger::newLogReceived()
+{
+    return new_log_received_;
+}
+
+void RosLogger::newLogReceived(bool v)
+{
+    new_log_received_ = v;
+}
+
+size_t RosLogger::getNumberOfLogs(LogLevel level)
+{
+    return logs[level].size();
+}
+
+int RosLogger::getLogStamp(LogLevel level, int index)
+{
+    return logs[level][index].header.stamp.sec;
+}
+
+const char * RosLogger::getLogName(LogLevel level, int index)
+{
+    return logs[level][index].name.c_str();
+}
+
+const char * RosLogger::getLogMsg(LogLevel level, int index)
+{
+    return logs[level][index].msg.c_str();
+}
+
+void RosLogger::clearLogs()
+{
+    new_log_received_ = false;
+    for (LogLevel lvl = DEBUG; lvl < NB_LEVELS; lvl++)
+    {
+        logs[lvl].clear();
+    }
+}
+
 void RosLogger::loggerCB(const rosgraph_msgs::LogConstPtr & msg)
 {
-    logs.push_back(*msg);
+    ROS_INFO("New Log Received");
     
-    Log * log = [[Log alloc] init];
+    //unsigned int seconds = msg->header.stamp.sec%60;
+    //unsigned int minutes = (msg->header.stamp.sec/60)%60;
+    //unsigned int hours = (msg->header.stamp.sec/60/60)%24;
     
     if (msg->level == msg->DEBUG)
-        log.level = DEBUG;
+        logs[DEBUG].push_back(*msg);
     else if (msg->level == msg->INFO)
-        log.level = INFO;
+        logs[INFO].push_back(*msg);
     else if (msg->level == msg->WARN)
-        log.level = WARN;
+        logs[WARN].push_back(*msg);
     else if (msg->level == msg->ERROR)
-        log.level = ERROR;
+        logs[ERROR].push_back(*msg);
     else if (msg->level == msg->FATAL)
-        log.level = FATAL;
+        logs[FATAL].push_back(*msg);
     
-    unsigned int seconds = msg->header.stamp.sec%60;
-    unsigned int minutes = (msg->header.stamp.sec/60)%60;
-    unsigned int hours = (msg->header.stamp.sec/60/60)%24;
-    
-    log.stamp = [NSString stringWithFormat:@"%d:%d:%d", hours, minutes, seconds];
-    log.message = [NSString stringWithUTF8String:msg->msg.c_str()];
-    log.node = [NSString stringWithUTF8String:msg->name.c_str()];
-    
-    @autoreleasepool
-    {
-        if(view_controller_ != nil)
-        {
-            [view_controller_ performSelectorOnMainThread:@selector(newLogReceived:) withObject:log waitUntilDone:YES];
-        }
-    }
+    newLogReceived(true);
 }

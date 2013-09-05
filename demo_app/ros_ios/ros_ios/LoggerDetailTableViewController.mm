@@ -14,10 +14,14 @@
 
 @implementation LoggerDetailTableViewController
 
+@synthesize ros_controller_;
+@synthesize index;
+@synthesize lvl;
 @synthesize level;
 @synthesize time;
 @synthesize node;
 @synthesize message;
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -31,27 +35,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    NSLog(@"LoggerDetailTableViewController : viewDidLoad");
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    if(self.log.level == DEBUG)
+    if(lvl == DEBUG)
         level.text = @"[DEBUG]";
-    else if(self.log.level == INFO)
+    else if(lvl == INFO)
         level.text = @"[INFO]";
-    else if(self.log.level == WARN)
+    else if(lvl == WARN)
         level.text = @"[WARN]";
-    else if(self.log.level == ERROR)
+    else if(lvl == ERROR)
         level.text = @"[ERROR]";
-    else if(self.log.level == FATAL)
+    else if(lvl == FATAL)
         level.text = @"[FATAL]";
     
-    time.text = self.log.stamp;
-    node.text = self.log.node;
-    message.text = self.log.message;
+    time.text = [NSString stringWithFormat:@"%d",
+                 ros_controller_->getLogStamp(lvl, index)];
+    node.text = [NSString stringWithUTF8String:
+                 ros_controller_->getLogName(lvl,index)];
+    message.text = [NSString stringWithUTF8String:
+                    ros_controller_->getLogMsg(lvl,index)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,17 +65,17 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"viewWillAppear");
+    NSLog(@"LoggerDetailTableViewController : viewWillAppear");
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"viewWillDisappear");
+    NSLog(@"LoggerDetailTableViewController : viewWillDisappear");
 }
 
 -(void)dealloc
 {
-    NSLog(@"dealloc");
+    NSLog(@"LoggerDetailTableViewController : dealloc");
 }
 
 @end

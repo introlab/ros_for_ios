@@ -21,6 +21,8 @@
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
     // Do any additional setup after loading the view, typically from a nib.
+    NSLog(@"VideoViewController : viewDidLoad");
+    
     ros_controller_ = new RosVideo();
     
     imageTypes = [[NSMutableArray alloc] init];
@@ -49,20 +51,20 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"viewWillAppear");
+    NSLog(@"VideoViewController : viewWillAppear");
     ros_controller_->view_controller_ = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"viewWillDisappear");
+    NSLog(@"VideoViewController : viewWillDisappear");
     [self.videoCamera stop];
     delete ros_controller_;
 }
 
 -(void)dealloc
 {
-    NSLog(@"dealloc");
+    NSLog(@"VideoViewController : dealloc");
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;

@@ -8,7 +8,6 @@
 
 #import "LoggerLevelTableViewController.h"
 #import "LoggerLevelTableViewCell.h"
-#import "Log.h"
 
 #import "LoggerDetailTableViewController.h"
 
@@ -18,7 +17,9 @@
 
 @implementation LoggerLevelTableViewController
 
-@synthesize tableView = _tableView;
+@synthesize tableView;
+@synthesize ros_controller_;
+@synthesize lvl;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -32,12 +33,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,7 +64,9 @@
     {
         LoggerDetailTableViewController * detailViewController = [segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        detailViewController.log = [self.levelLogs objectAtIndex:[indexPath row]];
+        detailViewController.index = [indexPath row];
+        detailViewController.lvl = lvl;
+        detailViewController.ros_controller_ = ros_controller_;
     }
 }
 
@@ -84,14 +81,14 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.levelLogs count];
+    return ros_controller_->getNumberOfLogs(lvl);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"loggerLevelTableCell";
     
-    LoggerLevelTableViewCell *cell = [tableView
+    LoggerLevelTableViewCell *cell = [self.tableView
                                       dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[LoggerLevelTableViewCell alloc]
@@ -100,13 +97,12 @@
     }
     
     // Configure the cell...
+        
+    cell.node.text = [NSString stringWithUTF8String:
+                      ros_controller_->getLogName(lvl,[indexPath row])];
     
-    Log * log = self.levelLogs[[indexPath row]];
-    
-    cell.node.text = log.node;
-    
-    cell.message.text = log.message;
-    
+    cell.message.text = [NSString stringWithUTF8String:
+                         ros_controller_->getLogMsg(lvl,[indexPath row])];
     return cell;
     
 }
@@ -139,7 +135,11 @@
 
 - (void)timerCB
 {
-    [self.tableView reloadData];
+    if(ros_controller_->newLogReceived())
+    {
+        [self.tableView reloadData];
+        ros_controller_->newLogReceived(false);
+    }
 }
 
 - (IBAction)startTimer

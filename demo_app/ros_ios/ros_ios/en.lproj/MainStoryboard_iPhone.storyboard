@@ -18,8 +18,9 @@
                                     <constraint firstAttribute="height" constant="78" id="iNU-gy-1We"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fvh-j2-nx2">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fvh-j2-nx2">
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="WxB-6T-APO"/>
                                     <constraint firstAttribute="width" constant="130" id="XpC-mt-B2C"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -29,8 +30,12 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEf-Gs-yb6">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="164" id="OAZ-14-GbR"/>
+                                    <constraint firstAttribute="height" constant="26" id="Vvg-Gc-jGe"/>
+                                </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="ROS Master's IP">
+                                    <fragment content="Master's IP">
                                         <attributes>
                                             <color key="NSColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <font key="NSFont" size="21" name="Helvetica"/>
@@ -40,23 +45,38 @@
                                     </fragment>
                                 </attributedString>
                                 <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="2" height="-2"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="ros_enabled.png" translatesAutoresizingMaskIntoConstraints="NO" id="5zA-4r-jr7">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="goS-MD-SqJ">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="199" id="1Xh-bg-2H2"/>
-                                    <constraint firstAttribute="height" constant="67" id="EId-ZJ-oxI"/>
+                                    <constraint firstAttribute="width" constant="219" id="Ae2-q1-u3T"/>
+                                    <constraint firstAttribute="height" constant="75" id="nJb-7N-mgq"/>
                                 </constraints>
-                            </imageView>
+                                <attributedString key="attributedText">
+                                    <fragment content="ROS4iOS">
+                                        <attributes>
+                                            <color key="NSColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <font key="NSFont" size="48" name="Helvetica-Bold"/>
+                                            <font key="NSOriginalFont" size="21" name="Helvetica-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="4" height="-4"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mEf-Gs-yb6" firstAttribute="centerX" secondItem="Fvh-j2-nx2" secondAttribute="centerX" type="default" id="Dry-xd-X7U"/>
-                            <constraint firstItem="5zA-4r-jr7" firstAttribute="centerX" secondItem="Fvh-j2-nx2" secondAttribute="centerX" type="default" id="W7b-nP-nU4"/>
-                            <constraint firstItem="mEf-Gs-yb6" firstAttribute="centerX" secondItem="mt2-d8-skG" secondAttribute="centerX" type="default" id="Z9d-d1-DeT"/>
-                            <constraint firstItem="mt2-d8-skG" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="jPt-IA-Vtp"/>
-                            <constraint firstItem="mEf-Gs-yb6" firstAttribute="top" secondItem="3" secondAttribute="top" constant="173" id="pMG-tu-Jfx"/>
-                            <constraint firstItem="mEf-Gs-yb6" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="r1c-oA-yqF"/>
-                            <constraint firstAttribute="bottom" secondItem="5zA-4r-jr7" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="t9R-El-FS4"/>
+                            <constraint firstItem="mEf-Gs-yb6" firstAttribute="centerX" secondItem="Fvh-j2-nx2" secondAttribute="centerX" type="default" id="4Ny-WQ-Q2x"/>
+                            <constraint firstItem="goS-MD-SqJ" firstAttribute="centerX" secondItem="mEf-Gs-yb6" secondAttribute="centerX" type="default" id="4Rj-Ml-afB"/>
+                            <constraint firstItem="goS-MD-SqJ" firstAttribute="top" secondItem="3" secondAttribute="top" constant="60" id="Imb-S6-hv0"/>
+                            <constraint firstItem="mt2-d8-skG" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="LXt-gZ-QEk"/>
+                            <constraint firstItem="mt2-d8-skG" firstAttribute="centerX" secondItem="Fvh-j2-nx2" secondAttribute="centerX" type="default" id="NUO-ZR-o2F"/>
+                            <constraint firstItem="Fvh-j2-nx2" firstAttribute="top" secondItem="mEf-Gs-yb6" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Zae-pl-ocF"/>
+                            <constraint firstAttribute="bottom" secondItem="mt2-d8-skG" secondAttribute="bottom" constant="29" id="fJg-MU-isQ"/>
                             <constraint firstItem="Fvh-j2-nx2" firstAttribute="centerY" secondItem="3" secondAttribute="centerY" type="default" id="y8c-4o-eJ4"/>
                         </constraints>
                     </view>
@@ -353,17 +373,29 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Cig-jf-G67"/>
                                 </items>
                             </toolbar>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Mmb-Ra-1F1">
+                                <segments>
+                                    <segment title="Fixed"/>
+                                    <segment title="Follow"/>
+                                </segments>
+                                <connections>
+                                    <action selector="viewTypeChanged:" destination="esZ-aX-AXp" eventType="valueChanged" id="BLu-7D-wQd"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="8nj-X7-rfr" firstAttribute="leading" secondItem="MCf-Ph-Qvy" secondAttribute="leading" type="default" id="Ch1-XS-JZL"/>
+                            <constraint firstItem="Mmb-Ra-1F1" firstAttribute="centerX" secondItem="MCf-Ph-Qvy" secondAttribute="centerX" type="default" id="DFl-nx-AtX"/>
                             <constraint firstItem="8nj-X7-rfr" firstAttribute="bottom" secondItem="MCf-Ph-Qvy" secondAttribute="bottom" type="default" id="Hro-ch-DC8"/>
-                            <constraint firstItem="8nj-X7-rfr" firstAttribute="trailing" secondItem="MCf-Ph-Qvy" secondAttribute="trailing" type="default" id="fom-NV-jij"/>
+                            <constraint firstItem="Mmb-Ra-1F1" firstAttribute="centerX" secondItem="8nj-X7-rfr" secondAttribute="centerX" type="default" id="RgV-3y-PEF"/>
+                            <constraint firstItem="Mmb-Ra-1F1" firstAttribute="top" secondItem="MCf-Ph-Qvy" secondAttribute="top" constant="20" symbolic="YES" type="default" id="oB6-Xq-abS"/>
                         </constraints>
                         <connections>
                             <outlet property="delegate" destination="esZ-aX-AXp" id="Vop-M1-UQS"/>
                             <outletCollection property="gestureRecognizers" destination="Tnl-vf-1KD" appends="YES" id="uOI-Pv-vGA"/>
                             <outletCollection property="gestureRecognizers" destination="dji-sz-lue" appends="YES" id="zPh-YX-i8c"/>
+                            <outletCollection property="gestureRecognizers" destination="JWd-1u-dLn" appends="YES" id="Nte-aS-QMg"/>
                         </connections>
                     </glkView>
                     <toolbarItems>
@@ -372,6 +404,9 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="VGo-5a-SXA"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Planner Control" id="twi-hr-pla"/>
+                    <connections>
+                        <outlet property="viewTypeSelector" destination="Mmb-Ra-1F1" id="l4L-7B-5Pr"/>
+                    </connections>
                 </glkViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sGZ-VX-oIj" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer numberOfTapsRequired="2" id="dji-sz-lue">
@@ -381,9 +416,14 @@
                 </tapGestureRecognizer>
                 <pinchGestureRecognizer id="Tnl-vf-1KD">
                     <connections>
-                        <action selector="pinchDetected:" destination="esZ-aX-AXp" id="8ny-Vu-0Gx"/>
+                        <action selector="pinchDetected:" destination="esZ-aX-AXp" id="V9c-Fr-1Ax"/>
                     </connections>
                 </pinchGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="2" id="JWd-1u-dLn">
+                    <connections>
+                        <action selector="panDetected:" destination="esZ-aX-AXp" id="b2j-2O-aKL"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1770" y="-1375"/>
         </scene>
@@ -1251,130 +1291,8 @@
     </scenes>
     <resources>
         <image name="introlab.png" width="747" height="198"/>
-        <image name="ros_enabled.png" width="640" height="223"/>
         <image name="sound.png" width="640" height="514"/>
     </resources>
-    <classes>
-        <class className="AccJoyViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AccJoyViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="pauseOrResume:"/>
-                <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="pause" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="AudioViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AudioViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="pauseOrResume:"/>
-                <relationship kind="outlet" name="pause" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="JoyViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/JoyViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="startTimer"/>
-                <relationship kind="action" name="stopTimer"/>
-                <relationship kind="outlet" name="ballView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="LoggerDetailTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerDetailTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="level" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="message" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="node" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="time" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="LoggerLevelTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerLevelTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="message" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="node" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="LoggerLevelTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerLevelTableViewController.h"/>
-        </class>
-        <class className="LoggerPreferencesViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerPreferencesViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="clearLogs:"/>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="action" name="sendMail:"/>
-                <relationship kind="action" name="switchDebugChanged:"/>
-                <relationship kind="action" name="switchErrorChanged:"/>
-                <relationship kind="action" name="switchFatalChanged:"/>
-                <relationship kind="action" name="switchInfoChanged:"/>
-                <relationship kind="action" name="switchWarnChanged:"/>
-                <relationship kind="outlet" name="messageNumber" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="switchDebug" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="switchError" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="switchFatal" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="switchInfo" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="switchWarn" candidateClass="UISwitch"/>
-            </relationships>
-        </class>
-        <class className="LoggerTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="level" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="number" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="LoggerViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoggerViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="openMail:"/>
-                <relationship kind="action" name="pauseOrResume:"/>
-                <relationship kind="outlet" name="pause" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="MapViewController" superclassName="GLKViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="buttonGoPressed:"/>
-                <relationship kind="action" name="pinchDetected:" candidateClass="UIPinchGestureRecognizer"/>
-                <relationship kind="action" name="tapDetected:" candidateClass="UITapGestureRecognizer"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PointCloudViewController" superclassName="GLKViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PointCloudViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="pinchDetected:" candidateClass="UIPinchGestureRecognizer"/>
-                <relationship kind="action" name="tapDetected:" candidateClass="UITapGestureRecognizer"/>
-            </relationships>
-        </class>
-        <class className="TopicTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopicTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="data_type" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="TopicsListViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopicsListViewController.h"/>
-        </class>
-        <class className="VideoViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VideoViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="pickerView" candidateClass="UIPickerView"/>
-            </relationships>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="ip_edit_ended:"/>
-                <relationship kind="outlet" name="ip_text_field" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

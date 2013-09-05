@@ -1,44 +1,45 @@
 //
 //  MapViewController.mm
-//  ros_ios
+//  robot_help_me
 //
-//  Created by Ronan Chauvin on 2013-02-13.
+//  Created by Ronan Chauvin on 2013-08-04.
 //  Copyright (c) 2013 Ronan Chauvin. All rights reserved.
 //
 
 #import "MapViewController.h"
+#import "robot_geometry.h"
 
-typedef struct {
-    float Position[3];
-    float TexCoord[2];
-} Vertex;
+typedef struct _vertexStruct
+{
+    GLfloat position[3];
+    GLfloat color[3];
+} vertexStruct;
 
-const Vertex Vertices[] = {
-    {{1, -1, 0}, {1, 0}},
-    {{1, 1, 0}, {1, 1}},
-    {{-1, 1, 0}, {0, 1}},
-    {{-1, -1, 0}, {0, 0}}
-};
+typedef enum
+{
+    FIXED,
+    FOLLOW,
+    NB_VIEWS
+} viewType;
 
-const GLubyte Indices[] = {
-    0, 1, 2,
-    2, 3, 0
-};
-
-@interface MapViewController () {    
-    BOOL initialized;
+@interface MapViewController ()
+{
+    vertexStruct * vertices;
+    GLuint * indices;
     
-    float rotX;
-    float rotY;
+    float rot_alpha;
+    float rot_gamma;
     float zoom;
+    
+    int count;
+    viewType view_type;
 }
 
 @end
 
 @implementation MapViewController
 
-@synthesize glContext = glContext_;
-@synthesize glLayer = glLayer_;
+@synthesize viewTypeSelector, glContext, glLayer;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,20 +50,16 @@ const GLubyte Indices[] = {
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-    
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    
+    NSLog(@"MapViewController : viewDidLoad");
     
     ros_controller_ = new RosPlanner();
     ros_controller_->view_controller_ = self;
+
     
     [self setupGL];
     
@@ -70,16 +67,50 @@ const GLubyte Indices[] = {
     //view.context = self.glContext;
 }
 
-- (void)dealloc
+- (void)didReceiveMemoryWarning
 {
-    NSLog(@"dealloc");
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)dealloc
+{
+    NSLog(@"MapViewController : dealloc");
+    delete ros_controller_;
     
     if ([EAGLContext currentContext] == self.glContext) {
         [EAGLContext setCurrentContext:nil];
     }
     self.glContext = nil;
+}
+
+- (void)setupGL
+{
+    indices = nil;
+    vertices = nil;
+    count = 0;
     
-    delete ros_controller_;
+    [self setupLayer];
+    [self setupContext];
+    [self setupFrameBuffer];
+    [self setupRenderBuffer];
+    [self compileShaders];
+    [self setupVBOs];
+    [self setupVAOs];
+    [self setupGeometry];
+    
+    //General settings
+    //glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    
+    CGFloat scale = 1.0f;
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)])
+    {
+        scale = [[UIScreen mainScreen] scale];
+    }
+    glViewport(0, 0, self.view.bounds.size.width * scale, self.view.bounds.size.height * scale);
+    
+    view_type = FIXED;
 }
 
 - (void)setupLayer
@@ -108,49 +139,101 @@ const GLubyte Indices[] = {
     glGenRenderbuffers(1, &colorRenderBuffer_);
     glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer_);
     [self.glContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:self.glLayer];
+    
+    GLint width;
+    GLint height;
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
+    
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+                              GL_RENDERBUFFER, colorRenderBuffer_);
+    
+    glGenRenderbuffers(1, &depthRenderBuffer_);
+    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer_);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                              GL_RENDERBUFFER, depthRenderBuffer_);
+    
+    glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer_);
+    
+    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER) ;
+    if(status != GL_FRAMEBUFFER_COMPLETE) {
+        NSLog(@"failed to make complete framebuffer object %x", status);
+    }
 }
 
 - (void)setupFrameBuffer
 {
-    GLuint framebuffer;
-    glGenFramebuffers(1, &framebuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                              GL_RENDERBUFFER, colorRenderBuffer_);
+    glGenFramebuffers(1, &framebuffer_);
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_);
 }
 
-- (void)render
+- (void)setupVBOs
 {
-    if(ros_controller_->new_map_available())
-    {
-        [self updateTexture];
-    }
+    glGenBuffers(1, &vertexBufferMap_);
+    glGenBuffers(1, &indexBufferMap_);
+    glGenBuffers(1, &vertexBufferRobot_);
+    glGenBuffers(1, &indexBufferRobot_);
+}
+
+- (void)setupVAOs
+{
+    //Map
+    // Create and bind the vertex array object.
+    glGenVertexArraysOES(1,&vao1_);
+    glBindVertexArrayOES(vao1_);
+    // Configure the attributes in the VAO.
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferMap_);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexStruct[8]) * count, vertices, GL_STATIC_DRAW);
     
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glVertexAttribPointer(positionMapSlot_, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(vertexStruct),
+                          (void*)offsetof(vertexStruct,position));
+    glEnableVertexAttribArray(positionMapSlot_);
     
-    float scale = 1.0f;
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]) {
-        scale = [[UIScreen mainScreen] scale];
-    }
+    glVertexAttribPointer(sourceMapSlot_, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(vertexStruct),
+                          (void*)offsetof(vertexStruct,color));
+    glEnableVertexAttribArray(sourceMapSlot_);
     
-    glUniformMatrix4fv(projectionUniform_, 1, 0, projectionMatrix_.m);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferMap_);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint[35]) * count, indices, GL_STATIC_DRAW);
     
-    viewMatrix_ = GLKMatrix4MakeLookAt(camPos_[0], camPos_[1], camPos_[2], 0.0, 0.0, 0.0, 0.0, -1.0, 0.0);
+    //Robot
+    // Create and bind the vertex array object.
+    glGenVertexArraysOES(1,&vao2_);
+    glBindVertexArrayOES(vao2_);
+    // Configure the attributes in the VAO.
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferRobot_);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(struct vertex_struct)*VERTEX_COUNT, vertexs, GL_STATIC_DRAW);
+    glVertexAttribPointer(positionRobotSlot_, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(struct vertex_struct),
+                          (void*)offsetof(struct vertex_struct,x));
+    glEnableVertexAttribArray(positionRobotSlot_);
+    glVertexAttribPointer(sourceRobotSlot_, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(struct vertex_struct),
+                          (void*)offsetof(struct vertex_struct,nx));
+    glEnableVertexAttribArray(sourceRobotSlot_);
     
-    glUniformMatrix4fv(modelViewUniform_, 1, 0, viewMatrix_.m);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferRobot_);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexes[0])*FACES_COUNT*3, indexes, GL_STATIC_DRAW);
     
-    glViewport(0, 0, self.view.bounds.size.width * scale, self.view.bounds.size.height * scale);
+    // Bind back to the default state.
+    glBindVertexArrayOES(0);
+}
+
+- (void)setupGeometry
+{
+    rot_alpha = 0.0;
+    rot_gamma = M_PI/4.0;
+    zoom = -20.0;
+    [self generateCamPos];
     
-    glVertexAttribPointer(positionSlot_, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex), 0);
-    glVertexAttribPointer(texCoordSlot_, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
+    center_.x = 0.0;
+    center_.y = 0.0;
+    center_.z = 0.0;
     
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]),
-                   GL_UNSIGNED_BYTE, 0);
-    
-    [self.glContext presentRenderbuffer:GL_RENDERBUFFER];
+    projectionMatrix_ = GLKMatrix4MakePerspective(M_PI/2.0, 1.0, 1.0, 100.0);
 }
 
 - (GLuint)compileShader:(NSString*)shaderName withType:(GLenum)shaderType
@@ -188,105 +271,55 @@ const GLubyte Indices[] = {
 
 - (void)compileShaders
 {
-    GLuint vertexShader = [self compileShader:@"SimpleVertex"
+    GLuint vertexShader = [self compileShader:@"NavigationVertex"
                                      withType:GL_VERTEX_SHADER];
-    GLuint fragmentShader = [self compileShader:@"SimpleFragment"
-                                       withType:GL_FRAGMENT_SHADER];
+    GLuint mapFragmentShader = [self compileShader:@"MapFragment"
+                                          withType:GL_FRAGMENT_SHADER];
+    GLuint robotFragmentShader = [self compileShader:@"RobotFragment"
+                                            withType:GL_FRAGMENT_SHADER];
     
-    GLuint programHandle = glCreateProgram();
-    glAttachShader(programHandle, vertexShader);
-    glAttachShader(programHandle, fragmentShader);
-    glLinkProgram(programHandle);
+    //Map
+    programHandleMap_ = glCreateProgram();
+    glAttachShader(programHandleMap_, vertexShader);
+    glAttachShader(programHandleMap_, mapFragmentShader);
+    glLinkProgram(programHandleMap_);
     
     GLint linkSuccess;
-    glGetProgramiv(programHandle, GL_LINK_STATUS, &linkSuccess);
-    if (linkSuccess == GL_FALSE) {
+    glGetProgramiv(programHandleMap_, GL_LINK_STATUS, &linkSuccess);
+    if(linkSuccess == GL_FALSE)
+    {
         GLchar messages[256];
-        glGetProgramInfoLog(programHandle, sizeof(messages), 0, &messages[0]);
+        glGetProgramInfoLog(programHandleMap_, sizeof(messages), 0, &messages[0]);
         NSString *messageString = [NSString stringWithUTF8String:messages];
         NSLog(@"%@", messageString);
         exit(1);
     }
     
-    glUseProgram(programHandle);
+    positionMapSlot_ = glGetAttribLocation(programHandleMap_, "Position");
+    sourceMapSlot_ = glGetAttribLocation(programHandleMap_, "Source");
+    projectionMaptUniform_ = glGetUniformLocation(programHandleMap_, "Projection");
+    modelViewMapUniform_ = glGetUniformLocation(programHandleMap_, "Modelview");
     
-    positionSlot_ = glGetAttribLocation(programHandle, "Position");
-    glEnableVertexAttribArray(positionSlot_);
+    //Robot
+    programHandleRobot_ = glCreateProgram();
+    glAttachShader(programHandleRobot_, vertexShader);
+    glAttachShader(programHandleRobot_, robotFragmentShader);
+    glLinkProgram(programHandleRobot_);
     
-    projectionUniform_ = glGetUniformLocation(programHandle, "Projection");
-    modelViewUniform_ = glGetUniformLocation(programHandle, "Modelview");
+    glGetProgramiv(programHandleRobot_, GL_LINK_STATUS, &linkSuccess);
+    if(linkSuccess == GL_FALSE)
+    {
+        GLchar messages[256];
+        glGetProgramInfoLog(programHandleRobot_, sizeof(messages), 0, &messages[0]);
+        NSString *messageString = [NSString stringWithUTF8String:messages];
+        NSLog(@"%@", messageString);
+        exit(1);
+    }
     
-     texCoordSlot_ = glGetAttribLocation(programHandle, "TexCoordIn");
-    glEnableVertexAttribArray(texCoordSlot_);
-     textureUniform_ = glGetUniformLocation(programHandle, "Texture");
-}
-
-- (void)setupVBOs
-{
-    GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-    
-    GLuint indexBuffer;
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
-}
-
-- (void)setupTexture
-{
-    glBindTexture(GL_TEXTURE_2D, texture_);
-    
-    // use linear filetring
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    // clamp to edge
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-}
-
-- (void)updateTexture
-{
-    size_t width = ros_controller_->get_map_width();
-    size_t height = ros_controller_->get_map_height();
-    GLubyte * mapData = (GLubyte *) ros_controller_->get_map_data();
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, mapData);
-}
-
-
-- (void)setupGL
-{
-    [self setupLayer];
-    [self setupContext];
-    [self setupRenderBuffer];
-    [self setupFrameBuffer];
-    [self compileShaders];
-    [self setupTexture];
-    [self setupVBOs];
-    [self setupGeometry];
-}
-
-- (void)generateCamPos
-{
-    camPos_[0] = zoom * cosf(rotY)*cosf(rotX);
-    camPos_[1] = zoom * sinf(rotY);
-    camPos_[2] = zoom * cosf(rotY)*sinf(rotX);
-}
-
-- (void)setupGeometry
-{
-    rotX = M_PI/2;
-    rotY = 0.0;
-    zoom = -1.0;
-    [self generateCamPos];
-    
-    projectionMatrix_ = GLKMatrix4MakePerspective(M_PI/4, 1.0, 0, 6);
-}
-
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
-    
+    positionRobotSlot_ = glGetAttribLocation(programHandleRobot_, "Position");
+    sourceRobotSlot_ = glGetAttribLocation(programHandleRobot_, "Source");
+    projectionRobotUniform_ = glGetUniformLocation(programHandleRobot_, "Projection");
+    modelViewRobotUniform_ = glGetUniformLocation(programHandleRobot_, "Modelview");
 }
 
 - (void)update
@@ -294,21 +327,191 @@ const GLubyte Indices[] = {
     [self render];
 }
 
-- (IBAction)buttonGoPressed:(id)sender
+- (void)updateMap
 {
-    CGPoint goal;
+    ros_controller_->lockMap();
     
-    NSLog(@"%f %f", goal.x, goal.y);
+    unsigned int width = ros_controller_->getMapWidth();
+    unsigned int height = ros_controller_->getMapHeight();
+    signed char * map_data = ros_controller_->getMap();
+    float res = ros_controller_->getMapResolution();
+    float org_x = ros_controller_->getMapOriginX();
+    float org_y = ros_controller_->getMapOriginY();
+    float res_2 = res/2.0;
+    float real_w = width * res;
+    float real_h = width * res;
     
-    if(ros_controller_->checkGoal(goal))
+    //Generate the geometry
+    //Even if the size is divided by 16, there is plenty space...
+    if(vertices == nil)
+        vertices = (vertexStruct *) malloc(sizeof(vertexStruct[6])*width*height/16);
+    if(indices == nil)
+        indices = (GLuint *) malloc(sizeof(GLuint[36])*width*height/16);
+    
+    count = 0;
+    
+    for(size_t i = 0; i != height; ++i)
     {
-        ros_controller_->sendGoal(goal);
+        for(size_t j = 0; j != width; ++j)
+        {
+            int quad_index = 8 * count;
+            
+            GLfloat p = map_data[i*width+j];
+            
+            if(p > 0)
+            {
+                const vertexStruct quad[] =
+                {
+                    {   {-res_2-real_w/2.0+(j-org_x)*res,
+                        -res_2-real_h/2.0+(i-org_y)*res, 1.0},
+                        {0.5, 0.5, 0.5}
+                    },
+                    {   {res_2-real_w/2.0+(j-org_x)*res,
+                        -res_2-real_h/2.0+(i-org_y)*res, 1.0},
+                        {0.5, 0.5, 0.5}
+                    },
+                    {   {res_2-real_w/2.0+(j-org_x)*res,
+                        res_2-real_h/2.0+(i-org_y)*res,  1.0},
+                        {0.5, 0.5, 0.5}
+                    },
+                    {   {-res_2-real_w/2.0+(j-org_x)*res,
+                        res_2-real_h/2.0+(i-org_y)*res,  1.0},
+                        {0.5, 0.5, 0.5}
+                    },
+                    {   {-res_2-real_w/2.0+(j-org_x)*res,
+                        -res_2-real_h/2.0+(i-org_y)*res, 0.0},
+                        {0.5, 0.5, 0.5}
+                    },
+                    {   {res_2-real_w/2.0+(j-org_x)*res,
+                        -res_2-real_h/2.0+(i-org_y)*res, 0.0},
+                        {0.5, 0.5, 0.5}
+                    },
+                    {   {res_2-real_w/2.0+(j-org_x)*res,
+                        res_2-real_h/2.0+(i-org_y)*res,  0.0},
+                        {0.5, 0.5, 0.5}
+                    },
+                    {   {-res_2-real_w/2.0+(j-org_x)*res,
+                        res_2-real_h/2.0+(i-org_y)*res,  0.0},
+                        {0.5, 0.5, 0.5}
+                    }
+                };
+                
+                const GLuint quadIndices[] =
+                {
+                    // Top
+                    quad_index, quad_index+1, quad_index+2,
+                    quad_index, quad_index+2, quad_index+3,
+                    // Bottom
+                    quad_index+4, quad_index+5, quad_index+6,
+                    quad_index+4, quad_index+6, quad_index+7,
+                    // Back
+                    quad_index, quad_index+1, quad_index+5,
+                    quad_index, quad_index+5, quad_index+4,
+                    // Front
+                    quad_index+3, quad_index+2, quad_index+6,
+                    quad_index+3, quad_index+6, quad_index+7,
+                    // Left
+                    quad_index, quad_index+3, quad_index+7,
+                    quad_index, quad_index+7, quad_index+4,
+                    // Right
+                    quad_index+2, quad_index+1, quad_index+5,
+                    quad_index+2, quad_index+5, quad_index+6
+                };
+                
+                memcpy(&vertices[quad_index], quad, sizeof(quad));
+                memcpy(&indices[36*count], quadIndices, sizeof(quadIndices));
+                count++;
+            }
+        }
+    }
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferMap_);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexStruct[8])*count, vertices, GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferMap_);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint[35])*count, indices, GL_STATIC_DRAW);
+    
+    glVertexAttribPointer(positionMapSlot_, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(vertexStruct),
+                          (void*)offsetof(vertexStruct,position));
+    
+    glVertexAttribPointer(sourceMapSlot_, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(vertexStruct),
+                          (void*)offsetof(vertexStruct,color));
+    
+    ros_controller_->unlockMap();
+}
+
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
+    
+}
+
+- (void)render
+{
+    //glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    if(view_type == FIXED)
+    {
+        viewMatrix_ = GLKMatrix4MakeLookAt(camPos_.x, camPos_.y, camPos_.z,
+                                           center_.x, center_.y, center_.z, 0.0, 0.0, 1.0);
     }
     else
     {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Wrong Goal" message:@"Move the goal to a valid position" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alert show];
+        GLKVector3 robot_pose = ros_controller_->getRobotPose();
+        GLKVector3 offset_pose = GLKVector3Make(-2.5,0.0,2.5);
+        GLKVector3 camera_pose = GLKMatrix4MultiplyVector3WithTranslation(
+                                                                          ros_controller_->getRobotTransform(),
+                                                                          offset_pose);
+        viewMatrix_ = GLKMatrix4MakeLookAt(camera_pose.x,
+                                           camera_pose.y,
+                                           camera_pose.z,
+                                           robot_pose.x,
+                                           robot_pose.y,
+                                           robot_pose.z, 0.0, 0.0, 1.0);
     }
+    
+    modelMatrix_ = GLKMatrix4Multiply(ros_controller_->getRobotTransform(),GLKMatrix4MakeYRotation(-M_PI/2));
+    
+    //Map
+    glUseProgram(programHandleMap_);
+    glBindVertexArrayOES(vao1_);
+    
+    glUniformMatrix4fv(projectionMaptUniform_, 1, 0, projectionMatrix_.m);
+    glUniformMatrix4fv(modelViewMapUniform_, 1, 0, viewMatrix_.m);
+    
+    if(ros_controller_->newMapAvailable())
+    {
+        [self updateMap];
+    }
+    
+    if(count)
+    {
+        glDrawElements(GL_TRIANGLES, 35 * count, GL_UNSIGNED_INT, (void*)0);
+    }
+    
+    //Robot
+    glUseProgram(programHandleRobot_);
+    glBindVertexArrayOES(vao2_);
+    
+    glUniformMatrix4fv(projectionRobotUniform_, 1, 0, projectionMatrix_.m);
+    glUniformMatrix4fv(modelViewRobotUniform_, 1, 0, GLKMatrix4Multiply(viewMatrix_,modelMatrix_).m);
+    
+    if(count)
+    {
+        glDrawElements(GL_TRIANGLES, FACES_COUNT * 3, INX_TYPE, (void*)0);
+    }
+    
+    const GLenum discards[]  = {GL_DEPTH_ATTACHMENT};
+    glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, discards);
+    [self.glContext presentRenderbuffer:GL_RENDERBUFFER];
+}
+
+- (void)generateCamPos
+{
+    camPos_.x = zoom * cosf(rot_gamma) * cosf(rot_alpha);
+    camPos_.y = zoom * cosf(rot_gamma) * sinf(rot_alpha);
+    camPos_.z = -1.0 * zoom * sinf(rot_gamma);
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -318,52 +521,93 @@ const GLubyte Indices[] = {
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch * touch = [touches anyObject];
+    UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:self.view];
-    CGPoint lastLoc = [touch previousLocationInView:self.view];
-    CGPoint diff = CGPointMake(lastLoc.x - location.x, lastLoc.y - location.y);
+    CGPoint lastLocation = [touch previousLocationInView:self.view];
+    CGPoint diff = CGPointMake(location.x - lastLocation.x, location.y - lastLocation.y);
     
-    rotX += -1 * GLKMathDegreesToRadians(diff.x / 2.0);
-    rotY += -1 * GLKMathDegreesToRadians(diff.y / 2.0);
+    NSLog(@"TouchesMoved : %f ,%f.", location.x, location.y);
     
-    if(rotX > 2*M_PI)
-        rotX = -2*M_PI;
-    else if (rotX < -2*M_PI)
-        rotX = 2*M_PI;
-    
-    if(rotY > 2*M_PI)
-        rotY = -2*M_PI;
-    else if (rotY < -2*M_PI)
-        rotY = 2*M_PI;
-    
-    [self generateCamPos];
+    if(view_type == FIXED)
+    {
+        rot_alpha += -1 * GLKMathDegreesToRadians(diff.x / 2.0);
+        rot_gamma += -1 * GLKMathDegreesToRadians(diff.y / 2.0);
+        
+        if(rot_alpha > M_PI)
+            rot_alpha = M_PI;
+        else if (rot_alpha < -M_PI)
+            rot_alpha = -M_PI;
+        
+        if(rot_gamma > M_PI/3.0)
+            rot_gamma = M_PI/3.0;
+        else if (rot_gamma < -M_PI/3.0)
+            rot_gamma = -M_PI/3.0;
+        
+        [self generateCamPos];
+    }
 }
 
 - (IBAction)tapDetected:(UITapGestureRecognizer *)sender
 {
-    NSLog(@"Double tap!");
-    [self setupGeometry];
+    if(view_type == FIXED)
+    {
+        [self setupGeometry];
+    }
 }
 
 - (IBAction)pinchDetected:(UIPinchGestureRecognizer *)sender
 {
     static CGFloat lastScale;
     
-    if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded)
+    if(view_type == FIXED)
     {
-        lastScale = 1.0;
-        return;
-	}
+        if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded)
+        {
+            lastScale = 1.0;
+            return;
+        }
+        
+        CGFloat scale = 1.0 + (lastScale - [(UIPinchGestureRecognizer*)sender scale]);
+        CGFloat velocity = [(UIPinchGestureRecognizer *)sender velocity];
+        
+        NSLog(@"Pinch - scale = %f, velocity = %f", scale, velocity);
+        
+        zoom *= scale;
+        [self generateCamPos];
+        
+        lastScale = [(UIPinchGestureRecognizer*)sender scale];
+    }
+}
+
+- (IBAction)panDetected:(UIPanGestureRecognizer *)sender
+{
+    if(view_type == FIXED)
+    {
+        CGPoint translation = [(UIPanGestureRecognizer*)sender translationInView:self.view];
+        
+        NSLog(@"Pan - translation = %f, %f", translation.x, translation.y);
+        
+        //center_.x += translation.x;
+        //center_.y += translation.y;
+    }
+}
+
+- (IBAction)viewTypeChanged:(id)sender
+{
+    view_type = [viewTypeSelector selectedSegmentIndex]?FOLLOW:FIXED;
+}
+
+- (IBAction)buttonGoPressed:(id)sender
+{
+    CGPoint goal;
     
-    CGFloat scale = 1.0 - (lastScale - [(UIPinchGestureRecognizer*)sender scale]);
-    CGFloat velocity = [(UIPinchGestureRecognizer *)sender velocity];
+    NSLog(@"%f %f", goal.x, goal.y);
     
-    NSLog(@"Pinch - scale = %f, velocity = %f", scale, velocity);
-    
-    zoom *= scale;
-    [self generateCamPos];
-    
-	lastScale = [(UIPinchGestureRecognizer*)sender scale];
+    if(!ros_controller_->sendGoal(goal))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Wrong Goal" message:@"Move the goal to a valid position" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 @end

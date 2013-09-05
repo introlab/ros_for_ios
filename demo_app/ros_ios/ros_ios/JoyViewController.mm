@@ -26,6 +26,8 @@
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
 	// Do any additional setup after loading the view, typically from a nib.
+    NSLog(@"AccJoyViewController : viewDidLoad");
+    
     ros_controller_ = new RosJoy();
     
     ballView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
@@ -44,7 +46,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"viewWillAppear");
+    NSLog(@"AccJoyViewController : viewWillAppear");
     center.x = self.view.frame.size.width/2;
     center.y = self.view.frame.size.height/2-22;
     ballView.center = center;
@@ -54,14 +56,14 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"viewWillDisappear");
+    NSLog(@"AccJoyViewController : viewWillDisappear");
     [self stopTimer];
     delete ros_controller_;
 }
 
 -(void)dealloc
 {
-    NSLog(@"dealloc");
+    NSLog(@"AccJoyViewController : dealloc");
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

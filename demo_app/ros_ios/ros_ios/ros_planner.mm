@@ -19,7 +19,11 @@ RosPlanner::RosPlanner()
     
     ros_thread_ = new boost::thread(&RosPlanner::rosSpin, this);
     
-    new_map = false;
+    timer_ = n_.createTimer(ros::Duration(0.01), &RosPlanner::timerCB, this);
+    robot_frame_ = "base_footprint";
+    
+    last_map_.header.stamp = ros::Time(0);
+    new_map_available_ = false;
 }
 
 RosPlanner::~RosPlanner()
@@ -34,121 +38,115 @@ void RosPlanner::rosSpin()
     ros::spin();
 }
 
+void RosPlanner::lockMap()
+{
+    mtx_.lock();
+}
+
+void RosPlanner::unlockMap()
+{
+    mtx_.unlock();
+}
+
+void RosPlanner::timerCB(const ros::TimerEvent&)
+{
+    // A zeroed time in last_map_ indicates we didn't receive a valid map yet.
+    // Only warn when an image is requested.
+    if (last_map_.header.stamp.isZero())
+        return;
+    
+    tf::StampedTransform t;
+    try {
+        tf_.lookupTransform(
+                            last_map_.header.frame_id,
+                            robot_frame_,
+                            ros::Time(0),   // Get the latest available.
+                            t);
+    } catch (tf::TransformException e) {
+        ROS_WARN_THROTTLE(
+                          1.0,
+                          "Cannot get transform, the robot position will be wrong. "
+                          "Reason: %s.",
+                          e.what());
+        return;
+    }
+    
+    last_robot_pos_ = t.getOrigin();
+    last_robot_angle_ = t.getRotation();
+}
+
 void RosPlanner::mapCB(const nav_msgs::OccupancyGridConstPtr & msg)
 {
-    ros::WallTime start = ros::WallTime::now();
+    ROS_INFO("Map received");
     
+    lockMap();
     last_map_ = *msg;
-    
-    const unsigned int & width = last_map_.info.width;
-    const unsigned int & height = last_map_.info.height;
-    const std::vector<signed char> & map_data = last_map_.data;
-    
-    // Perform a first scan to find out bounds.
-    size_t min_x = width;
-    size_t min_y = height;
-    size_t max_x = 0;
-    size_t max_y = 0;
-    
-    for (size_t y = 0; y < height; ++y)
-    {
-        for (size_t x = 0; x < width; ++x)
-        {
-            const signed char c = map_data[y * width + x];
-            if (c >= 0)
-            {
-                if (x < min_x)
-                    min_x = x;
-                if (x > max_x)
-                    max_x = x;
-                if (y < min_y)
-                    min_y = y;
-                if (y > max_y)
-                    max_y = y;
-            }
-        }
-    }
-    
-    im_width = (max_x - min_x);
-    im_height = (max_y - min_y);
-   
-    //Produce a square
-    if(im_width != im_height)
-    {
-        int delta;
-        if(im_width > im_height)
-        {
-            delta = (im_width - im_height)/2;
-            min_y -= delta;
-            max_y += delta;
-            im_height = im_width;
-        }
-        else
-        {
-            delta = (im_height - im_width)/2;
-            min_x -= delta;
-            max_x += delta;
-            im_width = im_height;
-        }
-    }
-    
-    image_data.resize(im_width*im_width*4);
-    unsigned char * ptr = image_data.data();
-    
-    for(size_t y = min_y; y != max_y; ++y)
-    {
-        for(size_t x = min_x; x != max_x; ++x)
-        {
-            const signed char c = map_data[y * width + x];
-            
-            if(c == 0)
-            {
-                ptr[0] = 255;
-                ptr[1] = 255;
-                ptr[2] = 255;
-            }
-            else if(c > 0)
-            {
-                ptr[0] = 255;
-                ptr[1] = 0;
-                ptr[2] = 0;
-            }
-            else
-            {
-                ptr[0] = 0;
-                ptr[1] = 0;
-                ptr[2] = 0;
-            }
-            
-            ptr[4] = 255;
-            ptr += 4;
-        }
-    }
-    
-    new_map = true;
-    
-    ROS_INFO("%ld %ld %ld",(unsigned long)im_width, (unsigned long)im_height, image_data.size());
+    new_map_available_ = true;
+    unlockMap();
 }
 
-size_t RosPlanner::new_map_available()
+bool RosPlanner::newMapAvailable()
 {
-    return new_map;
+    return new_map_available_;
 }
 
-size_t RosPlanner::get_map_width()
+size_t RosPlanner::getMapWidth()
 {
-    return im_width;
+    return last_map_.info.width;
 }
 
-size_t RosPlanner::get_map_height()
+size_t RosPlanner::getMapHeight()
 {
-    return im_height;
+    return last_map_.info.height;
 }
 
-unsigned char * RosPlanner::get_map_data()
+signed char * RosPlanner::getMap()
 {
-    new_map = false;
-    return &image_data[0];
+    new_map_available_ = false;
+    return &(last_map_.data[0]);
+}
+
+float RosPlanner::getMapResolution()
+{
+    return last_map_.info.resolution;
+}
+
+float RosPlanner::getMapOriginX()
+{
+    return last_map_.info.origin.position.x;
+}
+
+float RosPlanner::getMapOriginY()
+{
+    return last_map_.info.origin.position.y;
+}
+
+GLKVector3 RosPlanner::getRobotPose()
+{
+    return GLKVector3Make(last_robot_pos_.x(),
+                          last_robot_pos_.y(),
+                          last_robot_pos_.z());
+}
+
+GLKQuaternion RosPlanner::getRobotAngle()
+{
+    return GLKQuaternionMake(last_robot_angle_.x(),
+                             last_robot_angle_.y(),
+                             last_robot_angle_.z(),
+                             last_robot_angle_.w());
+}
+
+GLKMatrix4 RosPlanner::getRobotTransform()
+{
+    GLKMatrix4 translation = GLKMatrix4MakeTranslation(last_robot_pos_.x(),
+                                                       last_robot_pos_.y(),
+                                                       last_robot_pos_.z());
+    
+    GLKQuaternion quaternion = getRobotAngle();
+    
+    GLKMatrix4 rotation = GLKMatrix4MakeWithQuaternion(quaternion);
+    
+    return GLKMatrix4Multiply(translation, rotation);
 }
 
 std::vector<CGPoint> RosPlanner::getPlan(CGPoint goal)
@@ -200,17 +198,48 @@ std::vector<CGPoint> RosPlanner::getPlan(CGPoint goal)
     return plan;
 }
 
-bool RosPlanner::checkGoal(CGPoint goal)
+bool RosPlanner::sendGoal(CGPoint goal)
 {
-    return true;
-}
-
-void RosPlanner::sendGoal(CGPoint goal)
-{
-    geometry_msgs::PoseStamped pose;
-    
-    //Target position
-    pose.header.stamp = ros::Time::now();
-    pose.header.frame_id = "/map";
-    pose.header.seq = 0;
+//    if (!last_map_.header.stamp.isZero())
+//    {
+//        if(last_map_.data[goal.y * last_map_.info.width + goal.x] == 0)
+//        {
+//            geometry_msgs::PoseStamped real_pose;
+//            
+//            //Target position
+//            real_pose.header.stamp = ros::Time::now();
+//            real_pose.header.frame_id = "/map";
+//            real_pose.header.seq = 0;
+//            
+//            const float& resolution = last_map_.info.resolution;
+//            
+//            tf::Pose pose;
+//            tf::Point map_org;
+//            tf::pointMsgToTF(last_map_.info.origin.position, map_org);
+//            
+//            double rx = (min_x + goal.x) * resolution + map_org.x();
+//            double ry = (min_y + goal.y) * resolution + map_org.y();
+//            
+//            ROS_INFO("%lf,%lf", rx, ry);
+//            
+//            pose.setOrigin(tf::Vector3(rx, ry, 0.0));
+//            
+//            pose.setRotation(tf::createQuaternionFromYaw(
+//                                                         atan2(ry-last_robot_pos_.y(),rx-last_robot_pos_.x())));
+//            
+//            tf::poseTFToMsg(pose,real_pose.pose);
+//            pub_.publish(real_pose);
+//            return true;
+//        }
+//        else
+//        {
+//            ROS_WARN("Wrong goal.");
+//            return false;
+//        }
+//    }
+//    else
+//    {
+//        ROS_WARN("Map not yet ready.");
+        return false;
+//    }
 }

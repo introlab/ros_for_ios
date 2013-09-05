@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Log.h"
+#import "ros_logger.h"
 
 @interface LoggerLevelTableViewController : UITableViewController
 {
     NSTimer * timer;
 }
 
-@property (nonatomic, strong) NSMutableArray * levelLogs;
+@property RosLogger * ros_controller_;
+@property NSInteger lvl;
 
 @end

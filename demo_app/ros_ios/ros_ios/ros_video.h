@@ -33,7 +33,6 @@ public:
     
 private:
     ros::NodeHandle n_;
-    
     boost::thread * ros_thread_;
     
     image_transport::ImageTransport * it_;

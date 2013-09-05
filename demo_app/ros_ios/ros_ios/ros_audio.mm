@@ -11,7 +11,7 @@
 
 RosAudio::RosAudio()
 {
-    pub_ = n_.advertise<rt_audio_ros::AudioStream>("/ios_audio", 1);
+    pub_ = n_.advertise<rt_audio_ros::AudioStream>("ios_audio", 1);
     sub_ = n_.subscribe("/audio", 1, &RosAudio::audioCB, this);
     
     ros_thread_ = new boost::thread(&RosAudio::rosSpin, this);
@@ -39,9 +39,9 @@ void RosAudio::unlockAudioBuffer()
     mtx_.unlock();
 }
 
-std::vector<unsigned char> RosAudio::getAudioBuffer()
+std::vector<unsigned char> * RosAudio::getAudioBuffer()
 {
-    return buffer_;
+    return &buffer_;
 }
 
 void RosAudio::sendAudio(std::vector<unsigned char> data)
@@ -58,12 +58,9 @@ void RosAudio::sendAudio(std::vector<unsigned char> data)
 
 void RosAudio::audioCB(const rt_audio_ros::AudioStreamConstPtr & msg)
 {
-    //NSLog(@"Audio received : encoding %d endianness %d channels %d sample_rate %d size %d", msg->encoding, msg->is_bigendian, msg->channels, msg->sample_rate, (unsigned int)msg->data.size());
+    //ROS_INFO("Audio received : encoding %d endianness %d channels %d sample_rate %d size %d", msg->encoding, msg->is_bigendian, msg->channels, msg->sample_rate, (unsigned int)msg->data.size());
     
-    if(mtx_.try_lock())
-    {
-        buffer_.clear();
-        buffer_ = msg->data;
-        unlockAudioBuffer();
-    }
+    lockAudioBuffer();
+    buffer_.insert(buffer_.end(),msg->data.begin(),msg->data.end());
+    unlockAudioBuffer();
 }

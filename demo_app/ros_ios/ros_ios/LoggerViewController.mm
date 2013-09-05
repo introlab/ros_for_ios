@@ -16,18 +16,14 @@
 
 @implementation LoggerViewController
 
-@synthesize pause;
-@synthesize logs;
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:NO];
     // Do any additional setup after loading the view, typically from a nib.
-    ros_controller_ = new RosLogger();
+    NSLog(@"LoggerViewController : viewDidLoad");
     
-    isPaused = NO;
-    newData = NO;
+    ros_controller_ = new RosLogger();
     
     LoggerPreferencesViewController *svc = [self.tabBarController.viewControllers objectAtIndex:1];
     svc.delegate = self;
@@ -37,23 +33,6 @@
     warnEnabled = YES;
     errorEnabled = YES;
     fatalEnabled = YES;
-    
-    logs  = [[NSMutableArray alloc] initWithCapacity:NB_LEVEL];
-    for(LogLevel i = 0; i < NB_LEVEL; i++)
-        [logs addObject:[[NSMutableArray alloc] init]];
-}
-
-- (void) newLogReceived:(Log*)log
-{
-    if((log.level == DEBUG && debugEnabled)
-       || (log.level == INFO && infoEnabled)
-       || (log.level == WARN && warnEnabled)
-       || (log.level == ERROR && errorEnabled)
-       || (log.level == FATAL && fatalEnabled))
-    {
-        [logs[log.level] addObject:log];
-        newData = YES;
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,21 +44,21 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"viewWillAppear");
+    NSLog(@"LoggerViewController : viewWillAppear");
     [self startTimer];
     ros_controller_->view_controller_ = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"viewWillDisappear");
+    NSLog(@"LoggerViewController : viewWillDisappear");
     [self stopTimer];
     delete ros_controller_;
 }
 
 -(void)dealloc
 {
-    NSLog(@"dealloc");
+    NSLog(@"LoggerViewController : dealloc");
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -88,25 +67,12 @@
     {
         LoggerLevelTableViewController * detailViewController = [segue destinationViewController];
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        detailViewController.levelLogs = [self.logs objectAtIndex:[indexPath row]];
+        detailViewController.lvl = [indexPath row];
+        detailViewController.ros_controller_ = ros_controller_;
     }
     else
     {
         ros_controller_->view_controller_ = nil;
-    }
-}
-
-- (IBAction)pauseOrResume:(id)sender
-{
-    if(isPaused)
-    {
-        isPaused = NO;
-        pause.title = @"Pause";
-    }
-    else
-    {
-        isPaused = YES;
-        pause.title = @"Resume";
     }
 }
 
@@ -121,7 +87,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.logs count];
+    return NB_LEVELS;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -152,7 +118,7 @@
     
     cell.level.text = level;
     
-    cell.number.text = [NSString stringWithFormat:@"%d", [self.logs[[indexPath row]] count]];
+    cell.number.text = [NSString stringWithFormat:@"%d", (int)ros_controller_->getNumberOfLogs([indexPath row])];
     return cell;
 }
 
@@ -190,7 +156,7 @@
 
 - (void) buttonClearLogsPushed:(LoggerPreferencesViewController *)controller
 {
-    [self.logs removeAllObjects];
+    ros_controller_->clearLogs();
     [self.tableView reloadData];
 }
 
@@ -208,33 +174,34 @@
         [mailer setSubject:@"ROS"];
         NSString * emailBody = [[NSString alloc] init];
         
-        for(int j = 0; j < logs.count; j++)
+        for(LogLevel lvl = DEBUG; lvl < NB_LEVELS; lvl++)
         {
-            NSMutableArray * levelLogs = logs[j];
-            
-            if(j == DEBUG)
+            if(lvl == DEBUG)
                 emailBody = [emailBody stringByAppendingString:@"[DEBUG]"];
-            else if(j == INFO)
+            else if(lvl == INFO)
                 emailBody = [emailBody stringByAppendingString:@"[INFO]"];
-            else if(j == WARN)
+            else if(lvl == WARN)
                 emailBody = [emailBody stringByAppendingString:@"[WARN]"];
-            else if(j == ERROR)
+            else if(lvl == ERROR)
                 emailBody = [emailBody stringByAppendingString:@"[ERROR]"];
-            else if(j == FATAL)
+            else if(lvl == FATAL)
                 emailBody = [emailBody stringByAppendingString:@"[FATAL]"];
             
             emailBody = [emailBody stringByAppendingString:@"\r\n"];
             
-            for(int i = 0; i < levelLogs.count; i++)
+            for(int i = 0; i < ros_controller_->getNumberOfLogs(lvl); i++)
             {
-                Log * log = levelLogs[i];
-                
+                emailBody = [emailBody stringByAppendingString:
+                                [NSString stringWithFormat:@"%d",
+                                    ros_controller_->getLogStamp(lvl, i)]];
                 emailBody = [emailBody stringByAppendingString:@" "];
-                emailBody = [emailBody stringByAppendingString:log.stamp];
+                emailBody = [emailBody stringByAppendingString:
+                                [NSString stringWithUTF8String:
+                                    ros_controller_->getLogName(lvl, i)]];
                 emailBody = [emailBody stringByAppendingString:@" "];
-                emailBody = [emailBody stringByAppendingString:log.node];
-                emailBody = [emailBody stringByAppendingString:@" "];
-                emailBody = [emailBody stringByAppendingString:log.message];
+                emailBody = [emailBody stringByAppendingString:
+                                [NSString stringWithUTF8String:
+                                    ros_controller_->getLogMsg(lvl, i)]];
                 emailBody = [emailBody stringByAppendingString:@"\r\n"];
             }
         }
@@ -277,10 +244,10 @@
 
 - (void)timerCB
 {
-    if(newData && !isPaused)
-    {
+    if(ros_controller_->newLogReceived())
+    {        
         [self.tableView reloadData];
-        newData = NO;
+        ros_controller_->newLogReceived(false);
     }
 }
 

@@ -73,21 +73,21 @@ static OSStatus playbackCallback(void *inRefCon,
         
         iosAudio->ros_controller_->lockAudioBuffer();
         
-        std::vector<unsigned char> input_buffer = iosAudio->ros_controller_->getAudioBuffer();
+        std::vector<unsigned char> * input_buffer = iosAudio->ros_controller_->getAudioBuffer();
         UInt8 * data = (UInt8 *)buffer.mData;
-        NSUInteger count = input_buffer.size();
+        NSUInteger count = input_buffer->size();
         
-        // NSLog(@"%d %d", count, (unsigned int)buffer.mDataByteSize);
+        //NSLog(@"%d %d", count, (unsigned int)buffer.mDataByteSize);
         
         if(count)
         {
             UInt32 size = MIN(buffer.mDataByteSize, count);
             
-            memcpy(data, input_buffer.data(), size);
+            memcpy(data, input_buffer->data(), size);
+            
+            input_buffer->erase(input_buffer->begin(), input_buffer->begin() + size);
             
             buffer.mDataByteSize = size;
-            
-            input_buffer.erase(input_buffer.begin(), input_buffer.begin()+(size-1));
         }
         else
         {
@@ -117,6 +117,8 @@ static OSStatus playbackCallback(void *inRefCon,
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"AudioViewController : viewDidLoad");
+    
     ros_controller_ = new RosAudio();
     
     if([self initAudio])
@@ -134,19 +136,19 @@ static OSStatus playbackCallback(void *inRefCon,
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"viewWillAppear");
+    NSLog(@"AudioViewController : viewWillAppear");
     ros_controller_->view_controller_ = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"viewWillDisappear");
+    NSLog(@"AudioViewController : viewWillDisappear");
     [self stop];
 }
 
 -(void)dealloc
 {
-    NSLog(@"dealloc");
+    NSLog(@"AudioViewController : dealloc");
     OSStatus result = AudioUnitUninitialize(audioUnit);
     if(result == noErr)
         NSLog(@"AudioUnitUninitialize");
@@ -250,7 +252,7 @@ static OSStatus playbackCallback(void *inRefCon,
         return NO;
 }
 
-- (void) processAudio: (AudioBufferList*) bufferList
+- (void)processAudio: (AudioBufferList*) bufferList
 {
     AudioBuffer sourceBuffer = bufferList->mBuffers[0];
     
@@ -273,7 +275,7 @@ static OSStatus playbackCallback(void *inRefCon,
     }
 }
 
-- (void) start
+- (void)start
 {
     OSStatus result = AudioOutputUnitStart(audioUnit);
     if(result != noErr)
@@ -285,7 +287,7 @@ static OSStatus playbackCallback(void *inRefCon,
     isPaused = NO;
 }
 
-- (void) stop
+- (void)stop
 {
     OSStatus result = AudioOutputUnitStop(audioUnit);
     if(result != noErr)

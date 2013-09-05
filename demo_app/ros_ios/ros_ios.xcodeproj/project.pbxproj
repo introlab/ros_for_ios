@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		3408E75E172471F7000B201E /* sound.png in Resources */ = {isa = PBXBuildFile; fileRef = 3408E75D172471F7000B201E /* sound.png */; };
 		3408E76017249676000B201E /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3408E75F17249676000B201E /* GLKit.framework */; };
-		3409421C17282960002143AC /* SimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 3409421A17282960002143AC /* SimpleFragment.glsl */; };
-		3409421D17282960002143AC /* SimpleVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 3409421B17282960002143AC /* SimpleVertex.glsl */; };
+		3409421C17282960002143AC /* TextureFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 3409421A17282960002143AC /* TextureFragment.glsl */; };
+		3409421D17282960002143AC /* PointCloudVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 3409421B17282960002143AC /* PointCloudVertex.glsl */; };
 		340A2F2116D7F75500722520 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 340A2F2016D7F75500722520 /* Icon.png */; };
 		340A5E88171E3BCC0094B990 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A5E86171E3BCC0094B990 /* OpenGLES.framework */; };
 		340A915F17173C9700D9D455 /* ros_audio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340A915E17173C9700D9D455 /* ros_audio.mm */; };
@@ -44,6 +44,8 @@
 		3420A3D217A4200A00FF27AA /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3420A3CC17A4200A00FF27AA /* CoreImage.framework */; };
 		3420A3D317A4200A00FF27AA /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3420A3CD17A4200A00FF27AA /* CoreMedia.framework */; };
 		3420A3D417A4200A00FF27AA /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3420A3CE17A4200A00FF27AA /* CoreVideo.framework */; };
+		3422A10B17B82231005D9EB4 /* MapFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 3422A10A17B82231005D9EB4 /* MapFragment.glsl */; };
+		343AFD2D17B971ED00D886B6 /* RobotFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 343AFD2C17B971ED00D886B6 /* RobotFragment.glsl */; };
 		3469F9F8171707A2001AAEA3 /* AudioViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3469F9F7171707A2001AAEA3 /* AudioViewController.mm */; };
 		346F2BD816CBEB1B0018FC3B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BD716CBEB1B0018FC3B /* UIKit.framework */; };
 		346F2BDA16CBEB1B0018FC3B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346F2BD916CBEB1B0018FC3B /* Foundation.framework */; };
@@ -76,18 +78,21 @@
 		34BFC1D716F7BA1600B1FEC6 /* AccelerometerFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */; };
 		34BFC1DA16F7BFF800B1FEC6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */; };
 		34BFC1DC16F7C2DD00B1FEC6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BFC1DB16F7C2DD00B1FEC6 /* MessageUI.framework */; };
-		34D49EAE16F65DE60089D0AD /* ros_enabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 34D49EAD16F65DE60089D0AD /* ros_enabled.png */; };
+		34C1E5C717B153AF007BEB70 /* angles.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C1E5C317B153AE007BEB70 /* angles.framework */; };
+		34C1E5C817B153AF007BEB70 /* tf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C1E5C417B153AE007BEB70 /* tf.framework */; };
+		34C1E5C917B153AF007BEB70 /* tf2_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C1E5C517B153AF007BEB70 /* tf2_msgs.framework */; };
+		34C1E5CA17B153AF007BEB70 /* tf2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C1E5C617B153AF007BEB70 /* tf2.framework */; };
 		34D49EB116F6AAF70089D0AD /* AccJoyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 34D49EB016F6AAF70089D0AD /* AccJoyViewController.mm */; };
-		34FC89A516F9099E007AA9EC /* LoggerLevelTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.m */; };
-		34FC89A816F909C4007AA9EC /* LoggerDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FC89A716F909C3007AA9EC /* LoggerDetailTableViewController.m */; };
-		34FC89B116F910E7007AA9EC /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FC89B016F910E7007AA9EC /* Log.m */; };
+		34EA80DC17B0969100A9590E /* NavigationVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 34EA80DB17B0969100A9590E /* NavigationVertex.glsl */; };
+		34FC89A516F9099E007AA9EC /* LoggerLevelTableViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.mm */; };
+		34FC89A816F909C4007AA9EC /* LoggerDetailTableViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 34FC89A716F909C3007AA9EC /* LoggerDetailTableViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3408E75D172471F7000B201E /* sound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sound.png; sourceTree = "<group>"; };
 		3408E75F17249676000B201E /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		3409421A17282960002143AC /* SimpleFragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleFragment.glsl; sourceTree = "<group>"; };
-		3409421B17282960002143AC /* SimpleVertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleVertex.glsl; sourceTree = "<group>"; };
+		3409421A17282960002143AC /* TextureFragment.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = TextureFragment.glsl; sourceTree = "<group>"; };
+		3409421B17282960002143AC /* PointCloudVertex.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = PointCloudVertex.glsl; sourceTree = "<group>"; };
 		340A2F2016D7F75500722520 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		340A2F2216D809AC00722520 /* ros_joy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ros_joy.h; sourceTree = "<group>"; };
 		340A5E86171E3BCC0094B990 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -135,6 +140,9 @@
 		3420A3CC17A4200A00FF27AA /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		3420A3CD17A4200A00FF27AA /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3420A3CE17A4200A00FF27AA /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		3422A10A17B82231005D9EB4 /* MapFragment.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = MapFragment.glsl; sourceTree = "<group>"; };
+		3437065717D80614008B3B16 /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		343AFD2C17B971ED00D886B6 /* RobotFragment.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = RobotFragment.glsl; sourceTree = "<group>"; };
 		3469F9F6171707A2001AAEA3 /* AudioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioViewController.h; sourceTree = "<group>"; };
 		3469F9F7171707A2001AAEA3 /* AudioViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioViewController.mm; sourceTree = "<group>"; };
 		346F2BD416CBEB1B0018FC3B /* ROS4iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ROS4iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,16 +184,18 @@
 		34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerFilter.m; sourceTree = "<group>"; };
 		34BFC1D916F7BFF800B1FEC6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		34BFC1DB16F7C2DD00B1FEC6 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		34C1E5C317B153AE007BEB70 /* angles.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = angles.framework; path = ../../ros/frameworks/angles.framework; sourceTree = "<group>"; };
+		34C1E5C417B153AE007BEB70 /* tf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = tf.framework; path = ../../ros/frameworks/tf.framework; sourceTree = "<group>"; };
+		34C1E5C517B153AF007BEB70 /* tf2_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = tf2_msgs.framework; path = ../../ros/frameworks/tf2_msgs.framework; sourceTree = "<group>"; };
+		34C1E5C617B153AF007BEB70 /* tf2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = tf2.framework; path = ../../ros/frameworks/tf2.framework; sourceTree = "<group>"; };
 		34CF3FCE16D82AD300FD4758 /* ros_ios-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ros_ios-Info.plist"; sourceTree = "<group>"; };
-		34D49EAD16F65DE60089D0AD /* ros_enabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ros_enabled.png; sourceTree = "<group>"; };
 		34D49EAF16F6AAF70089D0AD /* AccJoyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccJoyViewController.h; sourceTree = "<group>"; };
 		34D49EB016F6AAF70089D0AD /* AccJoyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AccJoyViewController.mm; sourceTree = "<group>"; };
+		34EA80DB17B0969100A9590E /* NavigationVertex.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = NavigationVertex.glsl; sourceTree = "<group>"; };
 		34FC89A316F9099E007AA9EC /* LoggerLevelTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerLevelTableViewController.h; sourceTree = "<group>"; };
-		34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerLevelTableViewController.m; sourceTree = "<group>"; };
+		34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoggerLevelTableViewController.mm; sourceTree = "<group>"; };
 		34FC89A616F909C3007AA9EC /* LoggerDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerDetailTableViewController.h; sourceTree = "<group>"; };
-		34FC89A716F909C3007AA9EC /* LoggerDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerDetailTableViewController.m; sourceTree = "<group>"; };
-		34FC89AF16F910E7007AA9EC /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
-		34FC89B016F910E7007AA9EC /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Log.m; sourceTree = "<group>"; };
+		34FC89A716F909C3007AA9EC /* LoggerDetailTableViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoggerDetailTableViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +203,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34C1E5C717B153AF007BEB70 /* angles.framework in Frameworks */,
+				34C1E5C817B153AF007BEB70 /* tf.framework in Frameworks */,
+				34C1E5C917B153AF007BEB70 /* tf2_msgs.framework in Frameworks */,
+				34C1E5CA17B153AF007BEB70 /* tf2.framework in Frameworks */,
 				3420A3CF17A4200A00FF27AA /* Accelerate.framework in Frameworks */,
 				3420A3D017A4200A00FF27AA /* AssetsLibrary.framework in Frameworks */,
 				3420A3D117A4200A00FF27AA /* AVFoundation.framework in Frameworks */,
@@ -250,6 +264,17 @@
 				340A923E174BBE2E00AE22E8 /* libswscale.framework */,
 			);
 			name = ffmpeg;
+			sourceTree = "<group>";
+		};
+		340CD94217D8BEF200202856 /* tf */ = {
+			isa = PBXGroup;
+			children = (
+				34C1E5C317B153AE007BEB70 /* angles.framework */,
+				34C1E5C417B153AE007BEB70 /* tf.framework */,
+				34C1E5C517B153AF007BEB70 /* tf2_msgs.framework */,
+				34C1E5C617B153AF007BEB70 /* tf2.framework */,
+			);
+			name = tf;
 			sourceTree = "<group>";
 		};
 		340FA6911747FFBB00A74CFD /* roscore */ = {
@@ -322,6 +347,7 @@
 				3420A3CE17A4200A00FF27AA /* CoreVideo.framework */,
 				340EF2FF17611115002DA5D8 /* cv_bridge.framework */,
 				340EF30017611115002DA5D8 /* opencv2.framework */,
+				340CD94217D8BEF200202856 /* tf */,
 				340A9245174BBE3200AE22E8 /* ffmpeg */,
 				340FA6921747FFEF00A74CFD /* rosmsgs */,
 				340FA6911747FFBB00A74CFD /* roscore */,
@@ -346,30 +372,32 @@
 				345A6DC317AEC2740075A52F /* ros_controllers */,
 				340EF304176111AE002DA5D8 /* PointCloudViewController.h */,
 				340EF305176111AE002DA5D8 /* PointCloudViewController.mm */,
+				3409421B17282960002143AC /* PointCloudVertex.glsl */,
+				3409421A17282960002143AC /* TextureFragment.glsl */,
 				34BFC1D316F7BA1600B1FEC6 /* AccelerometerFilter.h */,
 				34BFC1D416F7BA1600B1FEC6 /* AccelerometerFilter.m */,
 				34D49EAF16F6AAF70089D0AD /* AccJoyViewController.h */,
 				34D49EB016F6AAF70089D0AD /* AccJoyViewController.mm */,
 				340E32F416D58D300094ABB7 /* JoyViewController.h */,
 				340E32F516D58D300094ABB7 /* JoyViewController.mm */,
-				3409421A17282960002143AC /* SimpleFragment.glsl */,
-				3409421B17282960002143AC /* SimpleVertex.glsl */,
 				346F2C1016CBF3AE0018FC3B /* MapViewController.h */,
 				346F2C1116CBF3AE0018FC3B /* MapViewController.mm */,
+				34EA80DB17B0969100A9590E /* NavigationVertex.glsl */,
+				3422A10A17B82231005D9EB4 /* MapFragment.glsl */,
+				343AFD2C17B971ED00D886B6 /* RobotFragment.glsl */,
 				340C70EB16F24F44006DA856 /* LoggerViewController.h */,
 				340C70EC16F24F44006DA856 /* LoggerViewController.mm */,
 				340DB90016F762850021CE62 /* LoggerTableViewCell.h */,
 				340DB90116F762850021CE62 /* LoggerTableViewCell.m */,
 				34FC89A316F9099E007AA9EC /* LoggerLevelTableViewController.h */,
-				34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.m */,
+				34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.mm */,
 				3413FA3816FA0CD4000FC5A7 /* LoggerLevelTableViewCell.h */,
 				34782C1A170380A4001D271F /* LoggerLevelTableViewCell.m */,
 				34FC89A616F909C3007AA9EC /* LoggerDetailTableViewController.h */,
-				34FC89A716F909C3007AA9EC /* LoggerDetailTableViewController.m */,
+				34FC89A716F909C3007AA9EC /* LoggerDetailTableViewController.mm */,
+				3437065717D80614008B3B16 /* Log.h */,
 				340DB90316F79D8C0021CE62 /* LoggerPreferencesViewController.h */,
 				340DB90416F79D8C0021CE62 /* LoggerPreferencesViewController.m */,
-				34FC89AF16F910E7007AA9EC /* Log.h */,
-				34FC89B016F910E7007AA9EC /* Log.m */,
 				340B14441713654C00DF6512 /* TopicTableViewCell.h */,
 				340B14451713654C00DF6512 /* TopicTableViewCell.m */,
 				340B14411713609F00DF6512 /* TopicsListViewController.h */,
@@ -395,7 +423,6 @@
 				34CF3FCE16D82AD300FD4758 /* ros_ios-Info.plist */,
 				340A2F2016D7F75500722520 /* Icon.png */,
 				346F2BFD16CBEC090018FC3B /* introlab.png */,
-				34D49EAD16F65DE60089D0AD /* ros_enabled.png */,
 				3408E75D172471F7000B201E /* sound.png */,
 				346F2BDF16CBEB1B0018FC3B /* ros_ios-Prefix.pch */,
 				346F2BE016CBEB1B0018FC3B /* InfoPlist.strings */,
@@ -467,10 +494,12 @@
 				346F2BF416CBEB1B0018FC3B /* MainStoryboard_iPad.storyboard in Resources */,
 				346F2BFE16CBEC090018FC3B /* introlab.png in Resources */,
 				340A2F2116D7F75500722520 /* Icon.png in Resources */,
-				34D49EAE16F65DE60089D0AD /* ros_enabled.png in Resources */,
 				3408E75E172471F7000B201E /* sound.png in Resources */,
-				3409421C17282960002143AC /* SimpleFragment.glsl in Resources */,
-				3409421D17282960002143AC /* SimpleVertex.glsl in Resources */,
+				3409421C17282960002143AC /* TextureFragment.glsl in Resources */,
+				3409421D17282960002143AC /* PointCloudVertex.glsl in Resources */,
+				34EA80DC17B0969100A9590E /* NavigationVertex.glsl in Resources */,
+				3422A10B17B82231005D9EB4 /* MapFragment.glsl in Resources */,
+				343AFD2D17B971ED00D886B6 /* RobotFragment.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,9 +525,8 @@
 				340DB90216F762850021CE62 /* LoggerTableViewCell.m in Sources */,
 				340DB90516F79D8C0021CE62 /* LoggerPreferencesViewController.m in Sources */,
 				34BFC1D716F7BA1600B1FEC6 /* AccelerometerFilter.m in Sources */,
-				34FC89A516F9099E007AA9EC /* LoggerLevelTableViewController.m in Sources */,
-				34FC89A816F909C4007AA9EC /* LoggerDetailTableViewController.m in Sources */,
-				34FC89B116F910E7007AA9EC /* Log.m in Sources */,
+				34FC89A516F9099E007AA9EC /* LoggerLevelTableViewController.mm in Sources */,
+				34FC89A816F909C4007AA9EC /* LoggerDetailTableViewController.mm in Sources */,
 				34782C1B170380A4001D271F /* LoggerLevelTableViewCell.m in Sources */,
 				340B14431713609F00DF6512 /* TopicsListViewController.mm in Sources */,
 				340B14461713654C00DF6512 /* TopicTableViewCell.m in Sources */,
@@ -607,7 +635,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../frameworks\"",
+					"\"$(SRCROOT)/../../ros/frameworks\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -632,7 +660,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../frameworks\"",
+					"\"$(SRCROOT)/../../ros/frameworks\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

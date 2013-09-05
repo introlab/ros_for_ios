@@ -34,8 +34,8 @@ enum {
     
     BOOL initialized;
     
-    float rotX;
-    float rotY;
+    float rot_alpha;
+    float rot_gamma;
     float zoom;
 }
 
@@ -55,18 +55,11 @@ enum {
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-    
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    NSLog(@"PointCloudViewController : viewDidLoad");
     
     ros_controller_ = new RosKinect();
     
@@ -76,9 +69,17 @@ enum {
     //view.context = self.glContext;
 }
 
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    // Release any cached data, images, etc that aren't in use.
+    
+}
+
 - (void)dealloc
 {
-    NSLog(@"dealloc");
+    NSLog(@"PointCloudViewController : dealloc");
     
     if ([EAGLContext currentContext] == self.glContext) {
         [EAGLContext setCurrentContext:nil];
@@ -89,6 +90,23 @@ enum {
     free(vertices);
     
     delete ros_controller_;
+}
+
+
+- (void)setupGL
+{
+    indices = nil;
+    vertices = nil;
+    initialized = NO;
+    
+    [self setupLayer];
+    [self setupContext];
+    [self setupRenderBuffer];
+    [self setupFrameBuffer];
+    [self compileShaders];
+    [self setupTexture];
+    [self setupVBOs];
+    [self setupGeometry];
 }
 
 - (void)setupLayer
@@ -133,6 +151,42 @@ enum {
     }
 }
 
+- (void)setupTexture
+{
+    glGenTextures(1, &texture_);
+    glBindTexture(GL_TEXTURE_2D, texture_);
+    
+    // use linear filetring
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    // clamp to edge
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+}
+
+- (void)setupVBOs
+{
+    GLuint vertexBuffer;
+    
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    
+    GLuint indexBuffer;
+    
+    glGenBuffers(1, &indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+}
+
+- (void)setupGeometry
+{
+    rot_alpha = M_PI/2;
+    rot_gamma = 0.0;
+    zoom = -1.0;
+    [self generateCamPos];
+    
+    projectionMatrix_ = GLKMatrix4MakePerspective(M_PI/4, 1.0, 1.0, 100.0);
+}
+
 - (GLuint)compileShader:(NSString*)shaderName withType:(GLenum)shaderType
 {
     NSString* shaderPath = [[NSBundle mainBundle] pathForResource:shaderName
@@ -168,9 +222,9 @@ enum {
 
 - (void)compileShaders
 {
-    GLuint vertexShader = [self compileShader:@"SimpleVertex"
+    GLuint vertexShader = [self compileShader:@"PointCloudVertex"
                                      withType:GL_VERTEX_SHADER];
-    GLuint fragmentShader = [self compileShader:@"SimpleFragment"
+    GLuint fragmentShader = [self compileShader:@"TextureFragment"
                                        withType:GL_FRAGMENT_SHADER];
     
     GLuint programHandle = glCreateProgram();
@@ -202,30 +256,17 @@ enum {
     textureUniform_ = glGetUniformLocation(programHandle, "Texture");
 }
 
-- (void)setupTexture
+- (void)update
 {
-    glGenTextures(1, &texture_);
-    glBindTexture(GL_TEXTURE_2D, texture_);
-
-    // use linear filetring
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    // clamp to edge
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-}
-
-- (void)setupVBOs
-{
-    GLuint vertexBuffer;
+    if(ros_controller_->newRGBDataAvailable() && ros_controller_->newDepthDataAvailable())
+    {
+        [self updatePointCloud];
+    }
     
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    
-    GLuint indexBuffer;
-    
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+    if(initialized)
+    {
+        [self render];
+    }
 }
 
 - (void)updatePointCloud
@@ -240,18 +281,16 @@ enum {
         width = width_d/RESAMPLING_FACTOR;
         height = height_d/RESAMPLING_FACTOR;
         
-        [self setupGeometry];
-        
         initialized = YES;
     }
     
     ros_controller_->mtxDepthLock();
     GLfloat * depth_data = (GLfloat *) ros_controller_->getDepth();
     
-    if(indices==nil)
-        indices = (GLuint *) malloc(sizeof(GLuint[6])*width*height);
     if(vertices==nil)
         vertices = (vertexStruct *) malloc(sizeof(vertexStruct[6])*width*height);
+    if(indices==nil)
+        indices = (GLuint *) malloc(sizeof(GLuint[6])*width*height);
     
     for (int i = 0; i < height; i++)
     {
@@ -260,12 +299,6 @@ enum {
             int index = i*width+j;
             int quad_index = 4 * index;
             
-            const GLuint quadIndices[] =
-            {
-                quad_index, quad_index, quad_index+1,
-                quad_index+2, quad_index+3, quad_index+3
-            };
-            
             GLfloat depth = depth_data[i*RESAMPLING_FACTOR*(int)width_d+j*RESAMPLING_FACTOR];
             
             if(depth != depth)
@@ -273,18 +306,30 @@ enum {
             
             const vertexStruct quad[] =
             {
-                {{-0.5-width/2.0+j, -0.5-height/2.0+i, depth}, {j/width,i/height}},
-                {{0.5-width/2.0+j, -0.5-height/2.0+i, depth}, {(j+1)/width,i/height}},
-                {{-0.5-width/2.0+j, 0.5-height/2.0+i, depth}, {j/width,(i+1)/height}},
-                {{0.5-width/2.0+j, 0.5-height/2.0+i, depth}, {(j+1)/width,(i+1)/height}}
+                {{-0.5-width/2.0+j, -0.5-height/2.0+i, depth},
+                    {j/width,i/height}},
+                {{0.5-width/2.0+j, -0.5-height/2.0+i, depth},
+                    {(j+1)/width,i/height}},
+                {{-0.5-width/2.0+j, 0.5-height/2.0+i, depth},
+                    {j/width,(i+1)/height}},
+                {{0.5-width/2.0+j, 0.5-height/2.0+i, depth},
+                    {(j+1)/width,(i+1)/height}}
             };
             
-            memcpy(&indices[6*index], quadIndices, sizeof(quadIndices));
+            const GLuint quadIndices[] =
+            {
+                quad_index, quad_index, quad_index+1,
+                quad_index+2, quad_index+3, quad_index+3
+            };
+            
             memcpy(&vertices[quad_index], quad, sizeof(quad));
+            memcpy(&indices[6*index], quadIndices, sizeof(quadIndices));
         }
     }
     
-    [self updateVBOs];
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexStruct[4])*width*height, vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint[6])*width*height, indices, GL_STATIC_DRAW);
+    
     ros_controller_->mtxDepthUnlock();
     
     ros_controller_->mtxRGBLock();
@@ -294,42 +339,9 @@ enum {
     ros_controller_->mtxRGBUnlock();
 }
 
-- (void)updateVBOs
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexStruct[4])*width*height, vertices, GL_STATIC_DRAW);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint[6])*width*height, indices, GL_STATIC_DRAW);
-}
-
-- (void)generateCamPos
-{
-    camPos_[0] = zoom * cosf(rotY)*cosf(rotX);
-    camPos_[1] = zoom * sinf(rotY);
-    camPos_[2] = zoom * cosf(rotY)*sinf(rotX);
-}
-
-- (void)setupGeometry
-{
-    rotX = M_PI/2;
-    rotY = 0.0;
-    zoom = -1.0;
-    [self generateCamPos];
     
-    projectionMatrix_ = GLKMatrix4MakePerspective(M_PI/4, 1.0, 0, 6);
-}
-
-- (void)setupGL
-{
-    indices = nil;
-    vertices = nil;
-    initialized = NO;
-    
-    [self setupLayer];
-    [self setupContext];
-    [self setupRenderBuffer];
-    [self setupFrameBuffer];
-    [self compileShaders];
-    [self setupTexture];
-    [self setupVBOs];
 }
 
 - (void)render
@@ -366,24 +378,6 @@ enum {
     [self.glContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-    
-}
-
-- (void)update
-{
-    if(ros_controller_->newRGBDataAvailable() && ros_controller_->newDepthDataAvailable())
-    {
-        [self updatePointCloud];
-    }
-    
-    if(initialized)
-    {
-        [self render];
-    }
-}
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
@@ -396,18 +390,18 @@ enum {
     CGPoint lastLoc = [touch previousLocationInView:self.view];
     CGPoint diff = CGPointMake(lastLoc.x - location.x, lastLoc.y - location.y);
     
-    rotX += -1 * GLKMathDegreesToRadians(diff.x / 2.0);
-    rotY += -1 * GLKMathDegreesToRadians(diff.y / 2.0);
+    rot_alpha += -1 * GLKMathDegreesToRadians(diff.x / 2.0);
+    rot_gamma += -1 * GLKMathDegreesToRadians(diff.y / 2.0);
     
-    if(rotX > 2*M_PI)
-        rotX = -2*M_PI;
-    else if (rotX < -2*M_PI)
-        rotX = 2*M_PI;
+    if(rot_alpha > 2*M_PI)
+        rot_alpha = -2*M_PI;
+    else if (rot_alpha < -2*M_PI)
+        rot_alpha = 2*M_PI;
     
-    if(rotY > 2*M_PI)
-        rotY = -2*M_PI;
-    else if (rotY < -2*M_PI)
-        rotY = 2*M_PI;
+    if(rot_gamma > 2*M_PI)
+        rot_gamma = -2*M_PI;
+    else if (rot_gamma < -2*M_PI)
+        rot_gamma = 2*M_PI;
     
     [self generateCamPos];
 }
@@ -439,5 +433,11 @@ enum {
 	lastScale = [(UIPinchGestureRecognizer*)sender scale];
 }
 
-@end
+- (void)generateCamPos
+{
+    camPos_[0] = zoom * cosf(rot_gamma)*cosf(rot_alpha);
+    camPos_[1] = zoom * sinf(rot_gamma);
+    camPos_[2] = zoom * cosf(rot_gamma)*sinf(rot_alpha);
+}
 
+@end

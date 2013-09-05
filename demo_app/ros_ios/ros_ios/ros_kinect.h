@@ -44,7 +44,6 @@ public:
     
 private:
     ros::NodeHandle n_;
-    
     boost::thread * ros_thread_;
     boost::mutex mtx_rgb_;
     boost::mutex mtx_depth_;

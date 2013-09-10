@@ -12,7 +12,7 @@
 
 RosJoy::RosJoy()
 {
-    pub_ = n_.advertise<geometry_msgs::Twist>("/az3/base_controller/cmd_vel", 1);
+    pub_ = n_.advertise<geometry_msgs::Twist>("/tr/cmd_vel", 1);
     
     ros_thread_ = new boost::thread(&RosJoy::rosSpin, this);
 }

@@ -17,8 +17,11 @@
 {
     EAGLContext * glContext_;
     CAEAGLLayer * glLayer_;
+    GLuint frameBuffer_;
     GLuint colorRenderBuffer_;
-    GLuint depthRenderbuffer_;
+    GLuint depthRenderBuffer_;
+    GLuint vertexBuffer_;
+    GLuint indexBuffer_;
     GLuint positionSlot_;
     GLuint projectionRWUniform_;
     GLuint projectionUniform_;

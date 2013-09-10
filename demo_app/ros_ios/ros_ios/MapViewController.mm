@@ -60,7 +60,6 @@ typedef enum
     ros_controller_ = new RosPlanner();
     ros_controller_->view_controller_ = self;
 
-    
     [self setupGL];
     
     //GLKView *view = (GLKView *)self.view;
@@ -474,7 +473,6 @@ typedef enum
     modelMatrix_ = GLKMatrix4Multiply(ros_controller_->getRobotTransform(),GLKMatrix4MakeYRotation(-M_PI/2));
     
     //Map
-    glUseProgram(programHandleMap_);
     glBindVertexArrayOES(vao1_);
     
     glUniformMatrix4fv(projectionMaptUniform_, 1, 0, projectionMatrix_.m);

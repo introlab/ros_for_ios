@@ -427,10 +427,10 @@
             </objects>
             <point key="canvasLocation" x="1770" y="-1375"/>
         </scene>
-        <!--Logger Preferences View Controller - Preferences-->
+        <!--Table View Controller - Preferences-->
         <scene sceneID="BH9-pH-H4s">
             <objects>
-                <tableViewController id="jcG-7M-slo" customClass="LoggerPreferencesViewController" sceneMemberID="viewController">
+                <tableViewController id="jcG-7M-slo" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="a3G-GI-PC9">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -737,10 +737,10 @@
             </objects>
             <point key="canvasLocation" x="1773" y="-643"/>
         </scene>
-        <!--Logger View Controller - Logger-->
+        <!--Table View Controller - Logger-->
         <scene sceneID="vh8-Km-VsT">
             <objects>
-                <tableViewController id="ABM-vz-Obb" customClass="LoggerViewController" sceneMemberID="viewController">
+                <tableViewController id="ABM-vz-Obb" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="jSS-pZ-dXw">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -987,10 +987,10 @@
             </objects>
             <point key="canvasLocation" x="1773" y="2308"/>
         </scene>
-        <!--Logger Level Table View Controller - Logger-->
+        <!--Table View Controller - Logger-->
         <scene sceneID="5O5-Ur-PD5">
             <objects>
-                <tableViewController id="gmS-2K-qKF" customClass="LoggerLevelTableViewController" sceneMemberID="viewController">
+                <tableViewController id="gmS-2K-qKF" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="AtB-0Q-Gfa">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1043,10 +1043,10 @@
             </objects>
             <point key="canvasLocation" x="2898" y="-970"/>
         </scene>
-        <!--Logger Detail Table View Controller-->
+        <!--Table View Controller-->
         <scene sceneID="Axv-hZ-i3V">
             <objects>
-                <tableViewController id="OT8-i2-6sA" customClass="LoggerDetailTableViewController" sceneMemberID="viewController">
+                <tableViewController id="OT8-i2-6sA" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="dFt-rG-jgV">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

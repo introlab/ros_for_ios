@@ -101,12 +101,23 @@ enum {
     
     [self setupLayer];
     [self setupContext];
-    [self setupRenderBuffer];
     [self setupFrameBuffer];
+    [self setupRenderBuffer];
     [self compileShaders];
     [self setupTexture];
     [self setupVBOs];
     [self setupGeometry];
+    
+    //General settings
+    //glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    
+    CGFloat scale = 1.0f;
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)])
+    {
+        scale = [[UIScreen mainScreen] scale];
+    }
+    glViewport(0, 0, self.view.bounds.size.width * scale, self.view.bounds.size.height * scale);
 }
 
 - (void)setupLayer
@@ -135,20 +146,33 @@ enum {
     glGenRenderbuffers(1, &colorRenderBuffer_);
     glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer_);
     [self.glContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:self.glLayer];
-}
-
-- (void)setupFrameBuffer
-{
-    GLuint framebuffer;
-    glGenFramebuffers(1, &framebuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    
+    GLint depthBufferWidth;
+    GLint depthBufferHeight;
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &depthBufferWidth);
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &depthBufferHeight);
+    
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                               GL_RENDERBUFFER, colorRenderBuffer_);
+    
+    glGenRenderbuffers(1, &depthRenderBuffer_);
+    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer_);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, depthBufferWidth, depthBufferHeight);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                              GL_RENDERBUFFER, depthRenderBuffer_);
+    
+    glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer_);
     
     GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER) ;
     if(status != GL_FRAMEBUFFER_COMPLETE) {
         NSLog(@"failed to make complete framebuffer object %x", status);
     }
+}
+
+- (void)setupFrameBuffer
+{
+    glGenFramebuffers(1, &frameBuffer_);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer_);
 }
 
 - (void)setupTexture
@@ -181,7 +205,7 @@ enum {
 {
     rot_alpha = M_PI/2;
     rot_gamma = 0.0;
-    zoom = -1.0;
+    zoom = -5.0;
     [self generateCamPos];
     
     projectionMatrix_ = GLKMatrix4MakePerspective(M_PI/4, 1.0, 1.0, 100.0);
@@ -346,13 +370,8 @@ enum {
 
 - (void)render
 {
-    glClearColor(0.0, 0.0, 0.0, 1.0);
+    //glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    float scale = 1.0f;
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]) {
-        scale = [[UIScreen mainScreen] scale];
-    }
     
     float * P = ros_controller_->get_P();
     
@@ -366,8 +385,6 @@ enum {
     
     glUniformMatrix4fv(modelViewUniform_, 1, 0, viewMatrix_.m);
     
-    glViewport(0, 0, self.view.bounds.size.width * scale, self.view.bounds.size.height * scale);
-    
     glVertexAttribPointer(positionSlot_, 3, GL_FLOAT, GL_FALSE,
                           sizeof(vertexStruct), (void*)offsetof(vertexStruct,position));
     glVertexAttribPointer(texCoordSlot_, 2, GL_FLOAT, GL_FALSE,
@@ -375,6 +392,8 @@ enum {
     
     glDrawElements(GL_TRIANGLE_STRIP, 6*width*height, GL_UNSIGNED_INT, (void*)0);
     
+    const GLenum discards[]  = {GL_DEPTH_ATTACHMENT};
+    glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, discards);
     [self.glContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 

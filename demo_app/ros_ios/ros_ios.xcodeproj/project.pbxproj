@@ -25,10 +25,6 @@
 		340C70E116F21BA1006DA856 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C70E016F21BA1006DA856 /* AudioToolbox.framework */; };
 		340C70E616F24BE8006DA856 /* ros_video.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340C70E316F24BE8006DA856 /* ros_video.mm */; };
 		340C70E716F24BE8006DA856 /* VideoViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340C70E516F24BE8006DA856 /* VideoViewController.mm */; };
-		340C70EA16F24C54006DA856 /* ros_logger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340C70E916F24C54006DA856 /* ros_logger.mm */; };
-		340C70ED16F24F44006DA856 /* LoggerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340C70EC16F24F44006DA856 /* LoggerViewController.mm */; };
-		340DB90216F762850021CE62 /* LoggerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 340DB90116F762850021CE62 /* LoggerTableViewCell.m */; };
-		340DB90516F79D8C0021CE62 /* LoggerPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340DB90416F79D8C0021CE62 /* LoggerPreferencesViewController.m */; };
 		340E32F616D58D300094ABB7 /* JoyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F516D58D300094ABB7 /* JoyViewController.mm */; };
 		340E32F916D5DD130094ABB7 /* ros_joy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340E32F816D5DD130094ABB7 /* ros_joy.mm */; };
 		340EF30217611115002DA5D8 /* cv_bridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340EF2FF17611115002DA5D8 /* cv_bridge.framework */; };
@@ -63,7 +59,6 @@
 		346F2C0116CBF0F40018FC3B /* ros_planner.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346F2BFF16CBF0F40018FC3B /* ros_planner.mm */; };
 		346F2C1216CBF3AE0018FC3B /* MapViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346F2C1116CBF3AE0018FC3B /* MapViewController.mm */; };
 		34782BF317037DA7001D271F /* libiconv.2.4.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782BF217037DA7001D271F /* libiconv.2.4.0.dylib */; };
-		34782C1B170380A4001D271F /* LoggerLevelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34782C1A170380A4001D271F /* LoggerLevelTableViewCell.m */; };
 		34782C27170385B5001D271F /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C20170385B5001D271F /* boost.framework */; };
 		34782C28170385B5001D271F /* geometry_msgs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C21170385B5001D271F /* geometry_msgs.framework */; };
 		34782C29170385B5001D271F /* log4cxx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34782C22170385B5001D271F /* log4cxx.framework */; };
@@ -84,8 +79,6 @@
 		34C1E5CA17B153AF007BEB70 /* tf2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C1E5C617B153AF007BEB70 /* tf2.framework */; };
 		34D49EB116F6AAF70089D0AD /* AccJoyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 34D49EB016F6AAF70089D0AD /* AccJoyViewController.mm */; };
 		34EA80DC17B0969100A9590E /* NavigationVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 34EA80DB17B0969100A9590E /* NavigationVertex.glsl */; };
-		34FC89A516F9099E007AA9EC /* LoggerLevelTableViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.mm */; };
-		34FC89A816F909C4007AA9EC /* LoggerDetailTableViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 34FC89A716F909C3007AA9EC /* LoggerDetailTableViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,14 +106,6 @@
 		340C70E316F24BE8006DA856 /* ros_video.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_video.mm; sourceTree = "<group>"; };
 		340C70E416F24BE8006DA856 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
 		340C70E516F24BE8006DA856 /* VideoViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VideoViewController.mm; sourceTree = "<group>"; };
-		340C70E816F24C54006DA856 /* ros_logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ros_logger.h; sourceTree = "<group>"; };
-		340C70E916F24C54006DA856 /* ros_logger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_logger.mm; sourceTree = "<group>"; };
-		340C70EB16F24F44006DA856 /* LoggerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerViewController.h; sourceTree = "<group>"; };
-		340C70EC16F24F44006DA856 /* LoggerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoggerViewController.mm; sourceTree = "<group>"; };
-		340DB90016F762850021CE62 /* LoggerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerTableViewCell.h; sourceTree = "<group>"; };
-		340DB90116F762850021CE62 /* LoggerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerTableViewCell.m; sourceTree = "<group>"; };
-		340DB90316F79D8C0021CE62 /* LoggerPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerPreferencesViewController.h; sourceTree = "<group>"; };
-		340DB90416F79D8C0021CE62 /* LoggerPreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerPreferencesViewController.m; sourceTree = "<group>"; };
 		340E32F416D58D300094ABB7 /* JoyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoyViewController.h; sourceTree = "<group>"; };
 		340E32F516D58D300094ABB7 /* JoyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JoyViewController.mm; sourceTree = "<group>"; };
 		340E32F816D5DD130094ABB7 /* ros_joy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_joy.mm; sourceTree = "<group>"; };
@@ -133,7 +118,6 @@
 		340FA67F1747FFA200A74CFD /* image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = image_transport.framework; path = ../../ros/frameworks/image_transport.framework; sourceTree = "<group>"; };
 		340FA6861747FFA300A74CFD /* message_filters.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = message_filters.framework; path = ../../ros/frameworks/message_filters.framework; sourceTree = "<group>"; };
 		340FA6871747FFA300A74CFD /* x264_image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = x264_image_transport.framework; path = ../../ros/frameworks/x264_image_transport.framework; sourceTree = "<group>"; };
-		3413FA3816FA0CD4000FC5A7 /* LoggerLevelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerLevelTableViewCell.h; sourceTree = "<group>"; };
 		3420A3C917A4200900FF27AA /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		3420A3CA17A4200900FF27AA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		3420A3CB17A4200900FF27AA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -141,7 +125,6 @@
 		3420A3CD17A4200A00FF27AA /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3420A3CE17A4200A00FF27AA /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		3422A10A17B82231005D9EB4 /* MapFragment.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = MapFragment.glsl; sourceTree = "<group>"; };
-		3437065717D80614008B3B16 /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		343AFD2C17B971ED00D886B6 /* RobotFragment.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = RobotFragment.glsl; sourceTree = "<group>"; };
 		3469F9F6171707A2001AAEA3 /* AudioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioViewController.h; sourceTree = "<group>"; };
 		3469F9F7171707A2001AAEA3 /* AudioViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioViewController.mm; sourceTree = "<group>"; };
@@ -168,7 +151,6 @@
 		346F2C1016CBF3AE0018FC3B /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		346F2C1116CBF3AE0018FC3B /* MapViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MapViewController.mm; sourceTree = "<group>"; };
 		34782BF217037DA7001D271F /* libiconv.2.4.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.4.0.dylib; path = usr/lib/libiconv.2.4.0.dylib; sourceTree = SDKROOT; };
-		34782C1A170380A4001D271F /* LoggerLevelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerLevelTableViewCell.m; sourceTree = "<group>"; };
 		34782C20170385B5001D271F /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../ros/frameworks/boost.framework; sourceTree = "<group>"; };
 		34782C21170385B5001D271F /* geometry_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = geometry_msgs.framework; path = ../../ros/frameworks/geometry_msgs.framework; sourceTree = "<group>"; };
 		34782C22170385B5001D271F /* log4cxx.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = log4cxx.framework; path = ../../ros/frameworks/log4cxx.framework; sourceTree = "<group>"; };
@@ -192,10 +174,6 @@
 		34D49EAF16F6AAF70089D0AD /* AccJoyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccJoyViewController.h; sourceTree = "<group>"; };
 		34D49EB016F6AAF70089D0AD /* AccJoyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AccJoyViewController.mm; sourceTree = "<group>"; };
 		34EA80DB17B0969100A9590E /* NavigationVertex.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = NavigationVertex.glsl; sourceTree = "<group>"; };
-		34FC89A316F9099E007AA9EC /* LoggerLevelTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerLevelTableViewController.h; sourceTree = "<group>"; };
-		34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoggerLevelTableViewController.mm; sourceTree = "<group>"; };
-		34FC89A616F909C3007AA9EC /* LoggerDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerDetailTableViewController.h; sourceTree = "<group>"; };
-		34FC89A716F909C3007AA9EC /* LoggerDetailTableViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoggerDetailTableViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,8 +287,6 @@
 				340E32F816D5DD130094ABB7 /* ros_joy.mm */,
 				346F2C0016CBF0F40018FC3B /* ros_planner.h */,
 				346F2BFF16CBF0F40018FC3B /* ros_planner.mm */,
-				340C70E816F24C54006DA856 /* ros_logger.h */,
-				340C70E916F24C54006DA856 /* ros_logger.mm */,
 				340C70E216F24BE8006DA856 /* ros_video.h */,
 				340C70E316F24BE8006DA856 /* ros_video.mm */,
 				340A915D17173C9700D9D455 /* ros_audio.h */,
@@ -385,19 +361,6 @@
 				34EA80DB17B0969100A9590E /* NavigationVertex.glsl */,
 				3422A10A17B82231005D9EB4 /* MapFragment.glsl */,
 				343AFD2C17B971ED00D886B6 /* RobotFragment.glsl */,
-				340C70EB16F24F44006DA856 /* LoggerViewController.h */,
-				340C70EC16F24F44006DA856 /* LoggerViewController.mm */,
-				340DB90016F762850021CE62 /* LoggerTableViewCell.h */,
-				340DB90116F762850021CE62 /* LoggerTableViewCell.m */,
-				34FC89A316F9099E007AA9EC /* LoggerLevelTableViewController.h */,
-				34FC89A416F9099E007AA9EC /* LoggerLevelTableViewController.mm */,
-				3413FA3816FA0CD4000FC5A7 /* LoggerLevelTableViewCell.h */,
-				34782C1A170380A4001D271F /* LoggerLevelTableViewCell.m */,
-				34FC89A616F909C3007AA9EC /* LoggerDetailTableViewController.h */,
-				34FC89A716F909C3007AA9EC /* LoggerDetailTableViewController.mm */,
-				3437065717D80614008B3B16 /* Log.h */,
-				340DB90316F79D8C0021CE62 /* LoggerPreferencesViewController.h */,
-				340DB90416F79D8C0021CE62 /* LoggerPreferencesViewController.m */,
 				340B14441713654C00DF6512 /* TopicTableViewCell.h */,
 				340B14451713654C00DF6512 /* TopicTableViewCell.m */,
 				340B14411713609F00DF6512 /* TopicsListViewController.h */,
@@ -519,15 +482,8 @@
 				340E32F916D5DD130094ABB7 /* ros_joy.mm in Sources */,
 				340C70E616F24BE8006DA856 /* ros_video.mm in Sources */,
 				340C70E716F24BE8006DA856 /* VideoViewController.mm in Sources */,
-				340C70EA16F24C54006DA856 /* ros_logger.mm in Sources */,
-				340C70ED16F24F44006DA856 /* LoggerViewController.mm in Sources */,
 				34D49EB116F6AAF70089D0AD /* AccJoyViewController.mm in Sources */,
-				340DB90216F762850021CE62 /* LoggerTableViewCell.m in Sources */,
-				340DB90516F79D8C0021CE62 /* LoggerPreferencesViewController.m in Sources */,
 				34BFC1D716F7BA1600B1FEC6 /* AccelerometerFilter.m in Sources */,
-				34FC89A516F9099E007AA9EC /* LoggerLevelTableViewController.mm in Sources */,
-				34FC89A816F909C4007AA9EC /* LoggerDetailTableViewController.mm in Sources */,
-				34782C1B170380A4001D271F /* LoggerLevelTableViewCell.m in Sources */,
 				340B14431713609F00DF6512 /* TopicsListViewController.mm in Sources */,
 				340B14461713654C00DF6512 /* TopicTableViewCell.m in Sources */,
 				3469F9F8171707A2001AAEA3 /* AudioViewController.mm in Sources */,

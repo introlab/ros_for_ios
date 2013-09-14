@@ -17,7 +17,7 @@
 		340A923F174BBE2E00AE22E8 /* libavcodec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A9239174BBE2E00AE22E8 /* libavcodec.framework */; };
 		340A9240174BBE2E00AE22E8 /* libavdevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923A174BBE2E00AE22E8 /* libavdevice.framework */; };
 		340A9241174BBE2E00AE22E8 /* libavfilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923B174BBE2E00AE22E8 /* libavfilter.framework */; };
-		340A9242174BBE2E00AE22E8 /* libavformat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923C174BBE2E00AE22E8 /* libavformat.framework */; };
+		340A9242174BBE2E00AE22E8 /* libavfilter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923C174BBE2E00AE22E8 /* libavfilter.framework */; };
 		340A9243174BBE2E00AE22E8 /* libavutil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923D174BBE2E00AE22E8 /* libavutil.framework */; };
 		340A9244174BBE2E00AE22E8 /* libswscale.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340A923E174BBE2E00AE22E8 /* libswscale.framework */; };
 		340B14431713609F00DF6512 /* TopicsListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 340B14421713609F00DF6512 /* TopicsListViewController.mm */; };
@@ -91,12 +91,12 @@
 		340A5E86171E3BCC0094B990 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		340A915D17173C9700D9D455 /* ros_audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ros_audio.h; sourceTree = "<group>"; };
 		340A915E17173C9700D9D455 /* ros_audio.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_audio.mm; sourceTree = "<group>"; };
-		340A9239174BBE2E00AE22E8 /* libavcodec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavcodec.framework; path = ../../ros/frameworks/libavcodec.framework; sourceTree = "<group>"; };
-		340A923A174BBE2E00AE22E8 /* libavdevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavdevice.framework; path = ../../ros/frameworks/libavdevice.framework; sourceTree = "<group>"; };
-		340A923B174BBE2E00AE22E8 /* libavfilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavfilter.framework; path = ../../ros/frameworks/libavfilter.framework; sourceTree = "<group>"; };
-		340A923C174BBE2E00AE22E8 /* libavformat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavformat.framework; path = ../../ros/frameworks/libavformat.framework; sourceTree = "<group>"; };
-		340A923D174BBE2E00AE22E8 /* libavutil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavutil.framework; path = ../../ros/frameworks/libavutil.framework; sourceTree = "<group>"; };
-		340A923E174BBE2E00AE22E8 /* libswscale.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswscale.framework; path = ../../ros/frameworks/libswscale.framework; sourceTree = "<group>"; };
+		340A9239174BBE2E00AE22E8 /* libavcodec.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavcodec.framework; path = ../ros/frameworks/libavcodec.framework; sourceTree = "<group>"; };
+		340A923A174BBE2E00AE22E8 /* libavdevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavdevice.framework; path = ../ros/frameworks/libavdevice.framework; sourceTree = "<group>"; };
+		340A923B174BBE2E00AE22E8 /* libavfilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavfilter.framework; path = ../ros/frameworks/libavfilter.framework; sourceTree = "<group>"; };
+		340A923C174BBE2E00AE22E8 /* libavfilter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavfilter.framework; path = ../ros/frameworks/libavfilter.framework; sourceTree = "<group>"; };
+		340A923D174BBE2E00AE22E8 /* libavutil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libavutil.framework; path = ../ros/frameworks/libavutil.framework; sourceTree = "<group>"; };
+		340A923E174BBE2E00AE22E8 /* libswscale.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libswscale.framework; path = ../ros/frameworks/libswscale.framework; sourceTree = "<group>"; };
 		340B14411713609F00DF6512 /* TopicsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicsListViewController.h; sourceTree = "<group>"; };
 		340B14421713609F00DF6512 /* TopicsListViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TopicsListViewController.mm; sourceTree = "<group>"; };
 		340B14441713654C00DF6512 /* TopicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicTableViewCell.h; sourceTree = "<group>"; };
@@ -109,15 +109,15 @@
 		340E32F416D58D300094ABB7 /* JoyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoyViewController.h; sourceTree = "<group>"; };
 		340E32F516D58D300094ABB7 /* JoyViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JoyViewController.mm; sourceTree = "<group>"; };
 		340E32F816D5DD130094ABB7 /* ros_joy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_joy.mm; sourceTree = "<group>"; };
-		340EF2FF17611115002DA5D8 /* cv_bridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = cv_bridge.framework; path = ../../ros/frameworks/cv_bridge.framework; sourceTree = "<group>"; };
-		340EF30017611115002DA5D8 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../ros/frameworks/opencv2.framework; sourceTree = "<group>"; };
+		340EF2FF17611115002DA5D8 /* cv_bridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = cv_bridge.framework; path = ../ros/frameworks/cv_bridge.framework; sourceTree = "<group>"; };
+		340EF30017611115002DA5D8 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../ros/frameworks/opencv2.framework; sourceTree = "<group>"; };
 		340EF304176111AE002DA5D8 /* PointCloudViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointCloudViewController.h; sourceTree = "<group>"; };
 		340EF305176111AE002DA5D8 /* PointCloudViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PointCloudViewController.mm; sourceTree = "<group>"; };
 		340EF30A1761133C002DA5D8 /* ros_kinect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ros_kinect.h; sourceTree = "<group>"; };
 		340EF30B1761133C002DA5D8 /* ros_kinect.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ros_kinect.mm; sourceTree = "<group>"; };
-		340FA67F1747FFA200A74CFD /* image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = image_transport.framework; path = ../../ros/frameworks/image_transport.framework; sourceTree = "<group>"; };
-		340FA6861747FFA300A74CFD /* message_filters.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = message_filters.framework; path = ../../ros/frameworks/message_filters.framework; sourceTree = "<group>"; };
-		340FA6871747FFA300A74CFD /* x264_image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = x264_image_transport.framework; path = ../../ros/frameworks/x264_image_transport.framework; sourceTree = "<group>"; };
+		340FA67F1747FFA200A74CFD /* image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = image_transport.framework; path = ../ros/frameworks/image_transport.framework; sourceTree = "<group>"; };
+		340FA6861747FFA300A74CFD /* message_filters.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = message_filters.framework; path = ../ros/frameworks/message_filters.framework; sourceTree = "<group>"; };
+		340FA6871747FFA300A74CFD /* x264_image_transport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = x264_image_transport.framework; path = ../ros/frameworks/x264_image_transport.framework; sourceTree = "<group>"; };
 		3420A3C917A4200900FF27AA /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		3420A3CA17A4200900FF27AA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		3420A3CB17A4200900FF27AA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -151,15 +151,15 @@
 		346F2C1016CBF3AE0018FC3B /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		346F2C1116CBF3AE0018FC3B /* MapViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MapViewController.mm; sourceTree = "<group>"; };
 		34782BF217037DA7001D271F /* libiconv.2.4.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.4.0.dylib; path = usr/lib/libiconv.2.4.0.dylib; sourceTree = SDKROOT; };
-		34782C20170385B5001D271F /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../ros/frameworks/boost.framework; sourceTree = "<group>"; };
-		34782C21170385B5001D271F /* geometry_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = geometry_msgs.framework; path = ../../ros/frameworks/geometry_msgs.framework; sourceTree = "<group>"; };
-		34782C22170385B5001D271F /* log4cxx.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = log4cxx.framework; path = ../../ros/frameworks/log4cxx.framework; sourceTree = "<group>"; };
-		34782C23170385B5001D271F /* nav_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nav_msgs.framework; path = ../../ros/frameworks/nav_msgs.framework; sourceTree = "<group>"; };
-		34782C24170385B5001D271F /* ros.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ros.framework; path = ../../ros/frameworks/ros.framework; sourceTree = "<group>"; };
-		34782C25170385B5001D271F /* sensor_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sensor_msgs.framework; path = ../../ros/frameworks/sensor_msgs.framework; sourceTree = "<group>"; };
-		34782C26170385B5001D271F /* std_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = std_msgs.framework; path = ../../ros/frameworks/std_msgs.framework; sourceTree = "<group>"; };
-		34915045174E65F1002097E1 /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "../../ros/ffmpegc/ffmpeg-1.2.1/x264/build/libx264.a"; sourceTree = "<group>"; };
-		34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rosgraph_msgs.framework; path = ../../ros/frameworks/rosgraph_msgs.framework; sourceTree = "<group>"; };
+		34782C20170385B5001D271F /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../ros/frameworks/boost.framework; sourceTree = "<group>"; };
+		34782C21170385B5001D271F /* geometry_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = geometry_msgs.framework; path = ../ros/frameworks/geometry_msgs.framework; sourceTree = "<group>"; };
+		34782C22170385B5001D271F /* log4cxx.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = log4cxx.framework; path = ../ros/frameworks/log4cxx.framework; sourceTree = "<group>"; };
+		34782C23170385B5001D271F /* nav_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nav_msgs.framework; path = ../ros/frameworks/nav_msgs.framework; sourceTree = "<group>"; };
+		34782C24170385B5001D271F /* ros.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ros.framework; path = ../ros/frameworks/ros.framework; sourceTree = "<group>"; };
+		34782C25170385B5001D271F /* sensor_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sensor_msgs.framework; path = ../ros/frameworks/sensor_msgs.framework; sourceTree = "<group>"; };
+		34782C26170385B5001D271F /* std_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = std_msgs.framework; path = ../ros/frameworks/std_msgs.framework; sourceTree = "<group>"; };
+		34915045174E65F1002097E1 /* libx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libx264.a; path = "../ros/ffmpegc/ffmpeg-1.2.1/x264/libx264.a"; sourceTree = "<group>"; };
+		34A2B5C2170493BD00C53723 /* rosgraph_msgs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = rosgraph_msgs.framework; path = ../ros/frameworks/rosgraph_msgs.framework; sourceTree = "<group>"; };
 		34A6FF65174D6155004F37D8 /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = usr/lib/libbz2.1.0.dylib; sourceTree = SDKROOT; };
 		34A6FF67174D6305004F37D8 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		34BFC1D316F7BA1600B1FEC6 /* AccelerometerFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerFilter.h; sourceTree = "<group>"; };
@@ -219,7 +219,7 @@
 				340A923F174BBE2E00AE22E8 /* libavcodec.framework in Frameworks */,
 				340A9240174BBE2E00AE22E8 /* libavdevice.framework in Frameworks */,
 				340A9241174BBE2E00AE22E8 /* libavfilter.framework in Frameworks */,
-				340A9242174BBE2E00AE22E8 /* libavformat.framework in Frameworks */,
+				340A9242174BBE2E00AE22E8 /* libavfilter.framework in Frameworks */,
 				340A9243174BBE2E00AE22E8 /* libavutil.framework in Frameworks */,
 				340A9244174BBE2E00AE22E8 /* libswscale.framework in Frameworks */,
 			);
@@ -237,7 +237,7 @@
 				340A9239174BBE2E00AE22E8 /* libavcodec.framework */,
 				340A923A174BBE2E00AE22E8 /* libavdevice.framework */,
 				340A923B174BBE2E00AE22E8 /* libavfilter.framework */,
-				340A923C174BBE2E00AE22E8 /* libavformat.framework */,
+				340A923C174BBE2E00AE22E8 /* libavfilter.framework */,
 				340A923D174BBE2E00AE22E8 /* libavutil.framework */,
 				340A923E174BBE2E00AE22E8 /* libswscale.framework */,
 			);

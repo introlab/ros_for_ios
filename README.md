@@ -98,16 +98,9 @@ possible to generate a simple folder with the -d option instead of the -f).
 iOS demo applications
 ---------------------
 
-It's an Xcode project which can be found in the demo_app directory.
+It's an Xcode project which can be found in the xcode_project directory.
 
 Some iOS demonstration apps were realized.
-
-- Touch Control
-- Accelerometer Control
-- Planner Control
-- ROS Logger
-- ROS Topics List
-- Video Feeds
 
 It is needed to export the ROS_HOSTNAME of the computer running the ros master.
 `export ROS_HOSTNAME=IP_COMPUTER`

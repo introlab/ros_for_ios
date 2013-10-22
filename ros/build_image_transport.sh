@@ -75,7 +75,7 @@ PACKAGES=("ros_comm/utilities/message_filters"
 
 sh $SRCDIR/build_ros_package.sh $SRCDIR/${PACKAGES[0]} boost ros
 mv -f *.framework $SRCDIR/frameworks/
-sh $SRCDIR/ros_msgs/messages_gen.sh -f $SRCDIR/${PACKAGES[1]} $SRCDIR/ros_msgs/std_msgs
+sh $SRCDIR/messages_gen.sh -f $SRCDIR/${PACKAGES[1]} $SRCDIR/std_msgs
 mv -f $SRCDIR/*.framework $SRCDIR/frameworks/
 sh $SRCDIR/build_ros_package.sh $SRCDIR/${PACKAGES[2]} boost ros message_filters libavcodec libavformat libswscale libavutil sensor_msgs x264_image_transport
 mv -f *.framework $SRCDIR/frameworks/

@@ -1,6 +1,8 @@
 ros_for_ios
 ===========
 
+Pre-compiled frameworks are available at : https://sourceforge.net/projects/ros4ios/
+
 How to build the Robot Operating System for the iOS platform.
 
 First of all, you need to be on a MacOSX system with the Xcode and the iOS toolchain

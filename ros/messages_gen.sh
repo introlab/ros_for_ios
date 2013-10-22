@@ -162,6 +162,7 @@ xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
 cd $SRCDIR
 FRAMEWORK_NAME=$PACKAGE_NAME
 
+mv $2/include/$PACKAGE_NAME/*.h $2
 sh framework_gen.sh $FRAMEWORK_NAME $OS_BUILDDIR/Release-iphoneos $SIMULATOR_BUILDDIR/Release-iphonesimulator $2
 
 else

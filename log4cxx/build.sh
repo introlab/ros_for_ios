@@ -13,9 +13,9 @@
 : ${SIMULATOR_BUILDDIR=`pwd`/iPhoneSimulator_build}
 
 #===============================================================================
-curl http://mirror.csclub.uwaterloo.ca/apache/apr/$APR.tar.gz -o ./$APR.tar.gz
-curl http://mirror.csclub.uwaterloo.ca/apache/apr/$APR_UTIL.tar.gz -o ./$APR_UTIL.tar.gz
-curl http://mirror.csclub.uwaterloo.ca/apache/logging/log4cxx/0.10.0/$LOG4CXX.tar.gz -o ./$LOG4CXX.tar.gz
+curl http://archive.apache.org/dist/apr/$APR.tar.gz -o ./$APR.tar.gz
+curl http://archive.apache.org/dist/apr/$APR_UTIL.tar.gz -o ./$APR_UTIL.tar.gz
+curl http://archive.apache.org/dist/logging/log4cxx/0.10.0/$LOG4CXX.tar.gz -o ./$LOG4CXX.tar.gz
 
 echo "Extracting ..."
 

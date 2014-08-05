@@ -13,6 +13,14 @@
 : ${SIMULATOR_BUILDDIR=`pwd`/iPhoneSimulator_build}
 
 #===============================================================================
+
+if [ ! -d ios-cmake ]
+    then
+    curl https://ios-cmake.googlecode.com/files/ios-cmake.tar.gz -o ./ios-cmake.tar.gz
+    tar xvzf ios-cmake.tar.gz
+fi
+
+#===============================================================================
 curl http://archive.apache.org/dist/apr/$APR.tar.gz -o ./$APR.tar.gz
 curl http://archive.apache.org/dist/apr/$APR_UTIL.tar.gz -o ./$APR_UTIL.tar.gz
 curl http://archive.apache.org/dist/logging/log4cxx/0.10.0/$LOG4CXX.tar.gz -o ./$LOG4CXX.tar.gz
@@ -96,17 +104,17 @@ mkdir $SIMULATOR_BUILDDIR
 
 cd $OS_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoneOS -GXcode ..
+cmake -DCMAKE_TOOLCHAIN_FILE=./ios-cmake/toolchain/iOS.cmake -GXcode ..
 
-if (! xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD)
+if (! xcodebuild -configuration Release -target ALL_BUILD)
     then
         exit 1
 fi
 cd $SIMULATOR_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoneSimulator -GXcode ..
+cmake -DCMAKE_TOOLCHAIN_FILE=./ios-cmake/toolchain/iOS.cmake -DIOS_PLATFORM=SIMULATOR -GXcode ..
 
-if (! xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD)
+if (! xcodebuild -configuration Release -target ALL_BUILD)
     then
         exit 1
 fi

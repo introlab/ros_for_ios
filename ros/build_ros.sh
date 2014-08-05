@@ -9,6 +9,14 @@ SIMULATOR_BUILDDIR=$SRCDIR/iPhoneSimulator_build
 ROS_BRANCH=groovy-devel
 
 #===============================================================================
+echo "Installing CMake iOS toolchain ..."
+if [ ! -d ios-cmake ]
+    then
+    curl https://ios-cmake.googlecode.com/files/ios-cmake.tar.gz -o ./ios-cmake.tar.gz
+    tar xvzf ios-cmake.tar.gz
+fi
+
+#===============================================================================
 echo "Cloning git repositories ..."
 
 if [ -d roscpp_core ]
@@ -166,18 +174,18 @@ mkdir $SIMULATOR_BUILDDIR
 
 cd $OS_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenOS -GXcode ..
+cmake -DCMAKE_TOOLCHAIN_FILE=./ios-cmake/toolchain/iOS.cmake -GXcode ..
 
-if (! xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD)
+if (! xcodebuild -configuration Release -target ALL_BUILD)
     then
         exit 1
 fi
 
 cd $SIMULATOR_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=ros_iPhoenSimulator -GXcode ..
+cmake -DCMAKE_TOOLCHAIN_FILE=./ios-cmake/toolchain/iOS.cmake -DIOS_PLATFORM=SIMULATOR -GXcode ..
 
-if (! xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD)
+if (! xcodebuild -configuration Release -target ALL_BUILD)
     then
         exit 1
 fi

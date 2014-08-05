@@ -32,7 +32,12 @@ FRAMEWORK_INSTALL_NAME=$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_
 echo "Lipoing library into $FRAMEWORK_INSTALL_NAME..."
 
 FRAMEWORK_NAME=${FRAMEWORK_NAME#lib}
-lipo -create $2/lib$FRAMEWORK_NAME.a $3/lib$FRAMEWORK_NAME.a -o $FRAMEWORK_INSTALL_NAME
+
+if [ $2 != $3 ] ; then
+	lipo -create $2/lib$FRAMEWORK_NAME.a $3/lib$FRAMEWORK_NAME.a -o $FRAMEWORK_INSTALL_NAME
+else
+	cp $2/lib$FRAMEWORK_NAME.a $FRAMEWORK_INSTALL_NAME
+fi
 
 echo "Framework: Copying includes..."
 

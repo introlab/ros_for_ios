@@ -15,6 +15,15 @@ if [ $1 == "-f" ]
         generate_framework=true
 fi
 
+
+#===============================================================================
+echo "Installing CMake iOS toolchain ..."
+if [ ! -d ios-cmake ]
+    then
+    curl https://ios-cmake.googlecode.com/files/ios-cmake.tar.gz -o ./ios-cmake.tar.gz
+    tar xvzf ios-cmake.tar.gz
+fi
+
 #===============================================================================
 if [ -d genmsg ]
     then
@@ -148,13 +157,13 @@ mkdir $SIMULATOR_BUILDDIR
 
 cd $OS_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneOS_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoneOS -GXcode ..
+cmake -DCMAKE_TOOLCHAIN_FILE=./ios-cmake/toolchain/iOS.cmake -GXcode ..
 
 xcodebuild -sdk iphoneos -configuration Release -target ALL_BUILD
 
 cd $SIMULATOR_BUILDDIR
 
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$SRCDIR/ios_cmake/Toolchains/Toolchain-iPhoneSimulator_Xcode.cmake -DCMAKE_INSTALL_PREFIX=$LOG4CXX_iPhoneSimulator -GXcode ..
+cmake -DCMAKE_TOOLCHAIN_FILE=./ios-cmake/toolchain/iOS.cmake -DIOS_PLATFORM=SIMULATOR -GXcode ..
 
 xcodebuild -sdk iphonesimulator -configuration Release -target ALL_BUILD
 

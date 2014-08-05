@@ -19,16 +19,6 @@ LOGFILE=$SRCDIR/log.txt
 echo "It will take few minutes. Grab a glass of your favorite drink ..."
 
 #===============================================================================
-#CMake Toolchain
-
-echo "Copying the cmake ios toolchain"
-
-(
-[ ! -d $SRCDIR/log4cxx/ios_cmake ] && cp -r $SRCDIR/ios_cmake $SRCDIR/log4cxx/
-[ ! -d $SRCDIR/ros/ios_cmake ] && cp -r $SRCDIR/ios_cmake $SRCDIR/ros/
-) > $LOGFILE 2>&1
-
-#===============================================================================
 #BOOST
 
 echo "Building Boost :"
